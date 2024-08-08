@@ -237,8 +237,34 @@ export const tabs = [
           EternityChallenges.all.some(ec => ec.completions > 0),
         id: 2,
         hidable: true
-      }
+      },
+      {
+        key: "space",
+        name: "Space Challenges",
+        symbol: "∮",
+        component: "SpaceChallengesTab",
+        id: 3,
+        hidable: true
+      },
     ],
+  },
+  {
+    key: "space",
+    name: "Space",
+    hideAt: 3,
+    id: 6,
+    hidable: true,
+    UIClass: "o-tab-btn--space",
+    subtabs: [
+      {
+        key: "research",
+        name: "Space Research",
+        symbol: "∑",
+        component: "SpaceResearchTab",
+        id: 0,
+        hidable: true,
+      },
+    ]
   },
   {
     key: "infinity",
@@ -246,7 +272,7 @@ export const tabs = [
     hideAt: 2.2,
     UIClass: "o-tab-btn--infinity",
     before: "InfinityPointsHeader",
-    id: 6,
+    id: 7,
     condition: () => PlayerProgress.infinityUnlocked(),
     hidable: true,
     subtabs: [
@@ -297,7 +323,7 @@ export const tabs = [
       PlayerProgress.realityUnlocked() ||
       PlayerProgress.eternityUnlocked(),
     before: "EternityPointsHeader",
-    id: 7,
+    id: 8,
     hidable: true,
     subtabs: [
       {
@@ -341,7 +367,7 @@ export const tabs = [
     hideAt: 2.3,
     UIClass: "o-tab-btn--reality",
     condition: () => PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought,
-    id: 8,
+    id: 9,
     hidable: true,
     subtabs: [
       {
@@ -403,7 +429,7 @@ export const tabs = [
     hideAt: 2.4,
     UIClass: "o-tab-btn--celestial",
     condition: () => Teresa.isUnlocked,
-    id: 9,
+    id: 10,
     hidable: true,
     subtabs: [
       {
@@ -484,7 +510,7 @@ export const tabs = [
     newUIClass: "shop",
     hideAt: 1.5,
     condition: () => false,
-    id: 10,
+    id: 11,
     hidable: true,
     subtabs: [
       {
@@ -495,23 +521,6 @@ export const tabs = [
         id: 0,
         hidable: true
       }
-    ]
-  },
-  {
-    key: "space",
-    name: "Space",
-    hideAt: 3,
-    id: 11,
-    hidable: true,
-    subtabs: [
-      {
-        key: "research",
-        name: "Space Research",
-        symbol: "R",
-        component: "SpaceResearchTab",
-        id: 0,
-        hidable: true,
-      },
     ]
   },
 ];

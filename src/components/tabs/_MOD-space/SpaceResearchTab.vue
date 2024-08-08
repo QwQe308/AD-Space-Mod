@@ -1,19 +1,20 @@
 <script>
-  
 import SpaceResearchBarPanel from "./SpaceResearchBarPanel.vue";
 import PrimaryButton from "@/components/PrimaryButton";
-  
+
 export default {
   name: "entropy",
   components: {
     SpaceResearchBarPanel,
     PrimaryButton,
   },
-  data(){
+  data() {
     return {
       t1QuickResetAvailable: false,
+      dimensionBoostUnlocked: false,
       t2QuickResetAvailable: false,
-    }
+      galaxyUnlocked: false,
+    };
   },
   computed: {
     rifts() {
@@ -25,33 +26,42 @@ export default {
       return SpaceResearchRifts.all.length;
     },
     update() {
-      this.t1QuickResetAvailable = SpaceResearchTierDetail[1].filter(x => SpaceResearchRifts[x].pendingLevel.neq(SpaceResearchRifts[x].level)).length > 0
-      this.t2QuickResetAvailable = SpaceResearchTierDetail[2].filter(x => SpaceResearchRifts[x].pendingLevel.neq(SpaceResearchRifts[x].level)).length > 0
-    }
+      this.t1QuickResetAvailable = isSpaceResearchQuickResetAvailable(1);
+      this.t2QuickResetAvailable = isSpaceResearchQuickResetAvailable(2);
+
+      this.dimensionBoostUnlocked = PlayerProgress.dimensionBoostUnlocked()
+      this.galaxyUnlocked = PlayerProgress.galaxyUnlocked()
+    },
   },
 };
 </script>
 
 <template>
-
-    <div class="l-pelle-celestial-tab">
-        <SpaceResearchBarPanel />
-        <PrimaryButton
-        v-if="t1QuickResetAvailable"
-        class="o-primary-btn--quick-reset"
-        onclick="softReset(0, true, true)"
+  <div class="l-pelle-celestial-tab">
+    <SpaceResearchBarPanel />
+    <div class="c-pelle-row">
+      <PrimaryButton
+        v-if="dimensionBoostUnlocked"
+        :class="{
+          'o-primary-btn--disabled': !t1QuickResetAvailable,
+          'o-primary-btn--quick-reset': true
+        }"
+        onclick="if(isSpaceResearchQuickResetAvailable(1)){requestDimensionBoost(true);softReset(0, true, true)}"
       >
-        Perform a Dimension Boost reset (for nothing) to upgrade T1 researches immediately
-        </PrimaryButton>
-        <PrimaryButton
-        v-if="t2QuickResetAvailable"
-        class="o-primary-btn--quick-reset"
-        onclick="forceGalaxyReset()"
+        Force perform a DB reset to upgrade T1 researches immediately
+      </PrimaryButton>
+      <PrimaryButton
+        v-if="galaxyUnlocked"
+        :class="{
+          'o-primary-btn--disabled': !t2QuickResetAvailable,
+          'o-primary-btn--quick-reset': true
+        }"
+        onclick="if(isSpaceResearchQuickResetAvailable(2)){requestGalaxyReset(true);forceGalaxyReset()}"
       >
-        Perform a Galaxy reset (for nothing) to upgrade T2 researches immediately
-        </PrimaryButton>
+        Force perform a Galaxy reset to upgrade T2 researches immediately
+      </PrimaryButton>
     </div>
-
+  </div>
 </template>
 
 <style scoped>
@@ -61,4 +71,9 @@ export default {
   align-items: center;
 }
 
+.c-pelle-row {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0.6rem;
+}
 </style>

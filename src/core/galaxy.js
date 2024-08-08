@@ -1,3 +1,5 @@
+import { isSCRunningOnTier } from "./globals";
+
 export const GALAXY_TYPE = {
   NORMAL: 0,
   DISTANT: 1,
@@ -75,6 +77,8 @@ export class Galaxy {
   }
 
   static get requiredTier() {
+    if(isSCRunningOnTier(2,2)) return 3
+    if(isSCRunningOnTier(2,1)) return 4
     return NormalChallenge(10).isRunning ? 6 : 8;
   }
 
@@ -88,6 +92,7 @@ export class Galaxy {
 
   static get lockText() {
     if (this.canBeBought) return null;
+    if (isSCRunningOnTier(3, 2)) return "Locked (Space Challenge 3-2)";
     if (EternityChallenge(6).isRunning) return "Locked (Eternity Challenge 6)";
     if (InfinityChallenge(7).isRunning) return "Locked (Infinity Challenge 7)";
     if (InfinityChallenge(1).isRunning) return "Locked (Infinity Challenge 1)";

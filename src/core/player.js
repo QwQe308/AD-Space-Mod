@@ -12,6 +12,7 @@ window.player = {
   //MOD
   space: DC.D0,
   amProc: DC.D0,
+  spaceChalls: {1:0,2:0,3:0},
   spaceResearches: {
     r11: {
       progress: DC.D0,
@@ -92,7 +93,11 @@ window.player = {
       current: 0,
       unlocked: 0,
       requirementBits: 0,
-    }
+    },
+    space: {
+      current: 0,
+      unlocked: 0,
+    },
   },
   infinity: {
     upgradeBits: 0
@@ -986,11 +991,11 @@ export const Player = {
   },
 
   get isInAnyChallenge() {
-    return this.isInAntimatterChallenge || EternityChallenge.isRunning;
+    return this.isInAntimatterChallenge || EternityChallenge.isRunning || SpaceChallenge.isRunning;
   },
 
   get anyChallenge() {
-    return this.antimatterChallenge || EternityChallenge.current;
+    return this.antimatterChallenge || EternityChallenge.current || SpaceChallenge.current;
   },
 
   get canCrunch() {

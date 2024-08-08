@@ -1,5 +1,6 @@
 import { DC } from "./constants";
 import FullScreenAnimationHandler from "./full-screen-animation-handler";
+import { SpaceChallenge } from "./globals";
 
 export function bigCrunchAnimation() {
   FullScreenAnimationHandler.display("a-implode", 2);
@@ -7,6 +8,12 @@ export function bigCrunchAnimation() {
 
 function handleChallengeCompletion() {
   const challenge = Player.antimatterChallenge;
+  const spaceChall = SpaceChallenge.current;
+
+  if(spaceChall) if(spaceChall.goal === `Big Crunch`){
+    spaceChall.complete()
+  }
+
   if (!challenge && !NormalChallenge(1).isCompleted) {
     NormalChallenge(1).complete();
   }
@@ -173,7 +180,7 @@ export function secondSoftReset(enteringAntimatterChallenge) {
 
 export function preProductionGenerateIP(diff) {
   if (InfinityUpgrade.ipGen.isBought) {
-    const genPeriod = Time.bestInfinity.totalMilliseconds * 10;
+    const genPeriod = Time.bestInfinity.totalMilliseconds * 4;
     let genCount;
     if (diff >= 1e300 * genPeriod) {
       genCount = Decimal.div(diff, genPeriod);

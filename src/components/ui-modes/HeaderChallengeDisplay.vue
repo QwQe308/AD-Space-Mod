@@ -38,6 +38,11 @@ export default {
         celestialReality(Ra, "Ra's", "ra"),
         celestialReality(Laitela, "Lai'tela's", "laitela"),
         {
+          name: token => `Space Challenge ${token}`,
+          isActive: token => token > 0,
+          activityToken: () => player.challenge.space.current
+        },
+        {
           name: () => "Time Dilation",
           isActive: token => token,
           activityToken: () => player.dilation.active
@@ -65,7 +70,18 @@ export default {
         const token = this.activityTokens[i];
         const part = this.parts[i];
         if (!part.isActive(token)) continue;
-        if (part.name(token).includes("Eternity Challenge")) {
+        if (part.name(token).includes("Space Challenge")) {
+          const currSC = player.challenge.space.current;
+          const nextCompletion = SpaceChallenge(currSC).completions + 1;
+          const maxCompletions = SpaceChallenge(currSC).maxCompletions
+          let completionText = "";
+          if (nextCompletion > maxCompletions) {
+            completionText = `(already completed for now)`;
+          } else {
+            completionText = `(${formatInt(nextCompletion)}/${formatInt(maxCompletions)})`;
+          }
+          names.push(`${part.name(token)} ${completionText}`);
+        } else if (part.name(token).includes("Eternity Challenge")) {
           const currEC = player.challenge.eternity.current;
           const nextCompletion = EternityChallenge(currEC).completions + 1;
           let completionText = "";
@@ -117,6 +133,7 @@ export default {
     exitButtonClicked() {
       let names, clickFn;
       const isEC = Player.anyChallenge instanceof EternityChallengeState;
+      const isSC = Player.anyChallenge instanceof SpaceChallengeState;
 
       // Dilation and ECs can't be exited independently and we have a special dilation-exit modal, so we have
       // to treat that particular case differently. The dilation modal itself will account for EC state
@@ -130,7 +147,7 @@ export default {
         // Regex replacement is used to remove the "(X/Y)" which appears after ECs. The ternary statement is there
         // because this path gets called for NCs, ICs, and ECs
         const toExit = this.activeChallengeNames[this.activeChallengeNames.length - 1].replace(/\W+\(.*\)/u, "");
-        names = { chall: toExit, normal: isEC ? "Eternity" : "Infinity" };
+        names = { chall: toExit, normal: isEC ? "Eternity": (isSC ? "Game" : "Infinity") };
         clickFn = () => {
           const oldChall = Player.anyChallenge;
           Player.anyChallenge.exit();
@@ -173,6 +190,7 @@ export default {
       if (fullName.match(" Challenge$")) Tab.challenges.normal.show(true);
       else if (fullName.match("Infinity Challenge")) Tab.challenges.infinity.show(true);
       else if (fullName.match("Eternity Challenge")) Tab.challenges.eternity.show(true);
+      else if (fullName.match("Space Challenge")) Tab.challenges.space.show(true);
       else if (player.dilation.active) Tab.eternity.dilation.show(true);
       else Tab.celestials[celestial].show(true);
     },

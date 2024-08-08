@@ -14,7 +14,8 @@ export default {
   computed: {
     effectDisplay() {
         let spaceInfo = `Space: ${format(this.space, 2, 3)}`
-        if(this.spaceDivisior.neq(1)) spaceInfo += ` (after /${format(this.spaceDivisior, 2, 3)})`
+        if(this.spaceDivisior.gt(1)) spaceInfo += ` (after /${format(this.spaceDivisior, 2, 3)})`
+        if(this.spaceDivisior.lt(1)) spaceInfo += ` (after *${format(this.spaceDivisior.recip(), 2, 3)})`
         spaceInfo += ` | AM ^ (1/${format(this.nerf, 2, 3)})`
         return spaceInfo;
     },

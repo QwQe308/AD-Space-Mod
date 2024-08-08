@@ -446,7 +446,10 @@ class AntimatterDimensionState extends DimensionState {
     const tier = this.tier;
     if ((EternityChallenge(3).isRunning && tier > 4) ||
       (NormalChallenge(10).isRunning && tier > 6) ||
-      (Laitela.isRunning && tier > Laitela.maxAllowedDimension)) {
+      (Laitela.isRunning && tier > Laitela.maxAllowedDimension) ||
+      (isSCRunningOnTier(2,1) && tier > 4) ||//sc2-1
+      (isSCRunningOnTier(2,2) && tier > 3)//sc2-2
+      ) {
       return false;
     }
     return this.totalAmount.gt(0);
@@ -456,6 +459,7 @@ class AntimatterDimensionState extends DimensionState {
    * @returns {Decimal}
    */
   get currencyAmount() {
+    if(isSCRunningOnTier(3,1)) return player.matter//sc3-1
     return this.tier >= 3 && NormalChallenge(6).isRunning
       ? AntimatterDimension(this.tier - 2).amount
       : Currency.antimatter.value;
@@ -466,6 +470,7 @@ class AntimatterDimensionState extends DimensionState {
    */
   set currencyAmount(value) {
     if (this.tier >= 3 && NormalChallenge(6).isRunning) AntimatterDimension(this.tier - 2).amount = value;
+    else if(isSCRunningOnTier(3,1)) player.matter = value//sc3-1
     else Currency.antimatter.value = value;
   }
 
@@ -530,7 +535,9 @@ class AntimatterDimensionState extends DimensionState {
     if (!EternityMilestone.unlockAllND.isReached && this.tier > DimBoost.totalBoosts + 4) return false;
     const hasPrevTier = this.tier === 1 || AntimatterDimension(this.tier - 1).totalAmount.gt(0);
     if (!EternityMilestone.unlockAllND.isReached && !hasPrevTier) return false;
-    return this.tier < 7 || !NormalChallenge(10).isRunning;
+    if (isSCRunningOnTier(2, 1)) return this.tier <= 4
+    if (isSCRunningOnTier(2, 2)) return this.tier <= 3
+    return this.tier <= 6 || !NormalChallenge(10).isRunning;
   }
 
   reset() {

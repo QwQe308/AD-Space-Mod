@@ -47,6 +47,8 @@ export class DimBoost {
   }
 
   static get maxDimensionsUnlockable() {
+    if(isSCRunningOnTier(2,2)) return 3
+    if(isSCRunningOnTier(2,1)) return 4
     return NormalChallenge(10).isRunning ? 6 : 8;
   }
 
@@ -109,6 +111,8 @@ export class DimBoost {
       amount += Math.round((targetResets - 3) * (20 - discount));
     } else if (tier === 8) {
       amount += Math.round((targetResets - 5) * (15 - discount));
+    } else if (isSCRunningOnTierOrHigher(2, 1)){
+      amount += Math.round((targetResets - 1) * (15 - discount));
     }
     if (EternityChallenge(5).isRunning) {
       amount += Math.pow(targetResets - 1, 3) + targetResets - 1;

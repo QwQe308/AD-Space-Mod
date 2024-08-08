@@ -25,7 +25,7 @@ export const normalChallenges = [
     isQuickResettable: false,
     description:
       () => "buying Antimatter Dimensions or Tickspeed upgrades halts production of all Antimatter Dimensions. " +
-      `Production gradually returns to normal over ${formatInt(3)} minutes.`,
+      `Production gradually returns to normal over ${formatInt(30)} seconds.`,
     name: "2nd Antimatter Dimension Autobuyer",
     reward: "Upgradeable 2nd Antimatter Dimension Autobuyer",
     lockedAt: DC.D0,
@@ -59,7 +59,7 @@ export const normalChallenges = [
       () => `the Tickspeed purchase multiplier starts at ${formatX(1.080, 0, 3)} instead of ${formatX(1.1245, 0, 3)}.`,
     name: "5th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 5th Antimatter Dimension Autobuyer",
-    lockedAt: DC.D0,
+    lockedAt: DC.D3,
   },
   {
     id: 6,
@@ -69,7 +69,7 @@ export const normalChallenges = [
       "below it instead of antimatter. Antimatter Dimension prices are modified.",
     name: "6th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 6th Antimatter Dimension Autobuyer",
-    lockedAt: DC.D0,
+    lockedAt: DC.D2,
   },
   {
     id: 7,
@@ -80,17 +80,17 @@ export const normalChallenges = [
         ${formatX(0.2, 1, 1)} per Dimension Boost, to a maximum of ${formatX(2)}, and is unaffected by any upgrades.`,
     name: "7th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 7th Antimatter Dimension Autobuyer",
-    lockedAt: DC.D0,
+    lockedAt: DC.D3,
   },
   {
     id: 8,
     legacyId: 11,
     isQuickResettable: false,
     description: `Dimension Boosts provide no multiplier and Antimatter Galaxies cannot be bought. Dimensional
-      Sacrifice resets antimatter and all Antimatter Dimensions, but also gives a significantly stronger multiplier.`,
+      Sacrifice resets antimatter, all Antimatter Dimensions and T0 & T1 Researches, but gives a MODERATELY stronger multiplier.`,
     name: "8th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 8th Antimatter Dimension Autobuyer",
-    lockedAt: DC.D0,
+    lockedAt: DC.D2,
   },
   {
     id: 9,
@@ -100,7 +100,7 @@ export const normalChallenges = [
       "everything else of equal cost will increase to its next cost step.",
     name: "Tickspeed Autobuyer",
     reward: "Upgradeable Tickspeed Autobuyer",
-    lockedAt: DC.D0,
+    lockedAt: DC.D6,
   },
   {
     id: 10,
@@ -110,7 +110,7 @@ export const normalChallenges = [
       "and Antimatter Galaxy costs are modified.",
     name: "Automated Dimension Boosts",
     reward: "Dimension Boosts Autobuyer",
-    lockedAt: DC.D16,
+    lockedAt: DC.D9,
   },
   {
     id: 11,
@@ -120,7 +120,7 @@ export const normalChallenges = [
       "Dimension. If it exceeds your antimatter, it will Dimension Boost without giving the bonus.",
     name: "Automated Antimatter Galaxies",
     reward: "Antimatter Galaxies Autobuyer",
-    lockedAt: DC.D16,
+    lockedAt: DC.D4,
   },
   {
     id: 12,

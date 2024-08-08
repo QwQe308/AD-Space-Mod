@@ -96,3 +96,4 @@ export * from "./automator/script-templates";
 export * from "./_MOD/spaceResearches"
 export * from "./_MOD/spaceResearchRift"
 export * from "./_MOD/space"
+export * from "./_MOD/space-challenges"

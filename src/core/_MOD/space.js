@@ -1,3 +1,5 @@
+import { isSCRunningOnTier } from "./space-challenges";
+import { SpaceResearchTierDetail } from "./spaceResearches";
 import { SpaceResearchRifts } from "./spaceResearchRift";
 
 function getSpaceNerfExponent() {
@@ -8,12 +10,22 @@ export function getSpaceDivisor() {
   //space amount divisor
   let divisor = new Decimal(1);
   divisor = divisor.mul(SpaceResearchRifts.r22.effectValue)
+  if(isSCRunningOnTier(3,2)){
+    let sc3Nerf = DC.D1
+    SpaceResearchTierDetail[0].forEach(x => sc3Nerf = sc3Nerf.add(SpaceResearchRifts[x].level.mul(0.005)))
+    SpaceResearchTierDetail[1].forEach(x => sc3Nerf = sc3Nerf.add(SpaceResearchRifts[x].level.mul(0.02)))
+    SpaceResearchTierDetail[2].forEach(x => sc3Nerf = sc3Nerf.add(SpaceResearchRifts[x].level.mul(0.05)))
+    divisor = divisor.div(sc3Nerf)
+  }
   return divisor;
 }
 
 export function getAMMultplier() {
   let amMult = new Decimal(1);
   amMult = amMult.mul(SpaceResearchRifts.r11.effectValue)
+  amMult = amMult.timesEffectsOf(
+    InfinityUpgrade.dim45mult
+  )
   return amMult;
 }
 
@@ -45,4 +57,5 @@ export function produceAM(proc, diff) {
 
 export function updateSpaceItems(diff) {
   updateSpaceResearches(diff);
+  if(isSCRunningOnTier(3, 1)) Currency.matter.bumpTo(10)
 }

@@ -81,6 +81,8 @@ import UpgradeMechanicLockModal from "@/components/modals/UpgradeMechanicLockMod
 
 import S12GamesModal from "@/components/modals/secret-themes/S12GamesModal";
 
+import SpaceChallengeStartModal from "@/components/modals/_MOD/SpaceChallengeStartModal";
+
 let nextModalID = 0;
 export class Modal {
   constructor(component, priority = 0, closeEvent) {
@@ -193,6 +195,7 @@ class TimeModal extends Modal {
 
 // If a new modal which can be shown in the same queue multiple times needs to be added
 // Additional code needs to be written to account for that
+Modal.startSpaceChallenge = new ChallengeConfirmationModal(SpaceChallengeStartModal);
 
 Modal.startEternityChallenge = new ChallengeConfirmationModal(EternityChallengeStartModal);
 Modal.startInfinityChallenge = new ChallengeConfirmationModal(InfinityChallengeStartModal);

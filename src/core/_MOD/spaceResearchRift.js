@@ -1,5 +1,6 @@
 import { DC } from "../constants";
 import { GameMechanicState } from "../utils";
+import { getSCCompletions, isSCRunning, isSCRunningOnTier, isSCRunningOnTierOrHigher } from "./space-challenges";
 
 class SpaceResearchRift extends GameMechanicState {
   constructor(config) {
@@ -157,6 +158,9 @@ class SpaceResearchRift extends GameMechanicState {
     if(Autobuyer[`T${this.tier}AutoResearcher`]){
       efficiency += Autobuyer[`T${this.tier}AutoResearcher`].efficiency
     }
+
+    if(isSCRunningOnTier(1, 1) && this.tier > 0) return//sc1-1
+    if(isSCRunningOnTier(1, 2)) return//sc1-2
     
     // The UI removes the fill button after 100%, so we need to turn it off here
     if (this.isActive && this.isMaxed) {
@@ -165,7 +169,7 @@ class SpaceResearchRift extends GameMechanicState {
     }
     if (!efficiency || this.isMaxed) return;
 
-    let res = researchSpeed().mul(efficiency).mul(diff/1000)
+    let res = tierBasedResearchSpeed(this.tier).mul(efficiency).mul(diff/1000)
 
     this.pendingProgress = this.pendingProgress.add(res).max(this.progress)
     if(this.resetsNothing) this.progress = this.progress.add(res)

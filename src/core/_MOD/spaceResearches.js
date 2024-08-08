@@ -3,12 +3,31 @@ export function updateSpaceResearches(diff) {
   SpaceResearchRifts.all.forEach((r) => r.fill(diff));
 }
 
-export function researchSpeed() {
+export function globalResearchSpeed() {
   let spaceFactor = DC.E1.pow((player.space.add(1).log10() + 1) ** 3 - 1);
   let dbFactor = DC.D2.pow(DimBoost.totalBoosts ** 0.75);
   let researchFactor = SpaceResearchRifts.r21.effectValue[1] //r21
   let achievementFactor = Achievements.power
-  return spaceFactor.mul(dbFactor).mul(researchFactor).mul(achievementFactor);
+  let otherFactors = DC.D1.timesEffectsOf(
+    InfinityUpgrade.totalTimeMult
+  )
+  return spaceFactor.mul(dbFactor).mul(researchFactor).mul(achievementFactor).mul(otherFactors);
+}
+
+export function tierBasedResearchSpeed(tier){
+  let researchSpd = globalResearchSpeed()
+  switch (tier){
+    case 0:
+      researchSpd = researchSpd.timesEffectsOf(InfinityUpgrade.dim18mult)
+      break
+    case 1:
+      researchSpd = researchSpd.timesEffectsOf(InfinityUpgrade.dim27mult)
+      break
+    case 2:
+      researchSpd = researchSpd.timesEffectsOf(InfinityUpgrade.dim36mult)
+      break
+  }
+  return researchSpd
 }
 
 /* export const spaceResearches = {
@@ -138,9 +157,9 @@ export const spaceResearch = {
     tier: 2,
     costScale() {
       return new ExponentialCostScaling({
-        baseCost: 4e11,
-        baseIncrease: 100,
-        costScale: 1.25,
+        baseCost: 2e11,
+        baseIncrease: 50,
+        costScale: 1.2,
         purchasesBeforeScaling: Number.MAX_VALUE,
       });
     },
@@ -153,6 +172,10 @@ export const spaceResearch = {
   },
 };
 
-let maxTier = 2
+export const maxTier = 2
 export const SpaceResearchTierDetail = Array.range(0,maxTier+1).map(tier => Object.keys(spaceResearch).filter(i=>spaceResearch[i].tier == tier))
-export const SpaceResearchResetsNothing = [()=>true,()=>false,()=>false]
+export const SpaceResearchResetsNothing = [()=>true,()=>isSCTierCompleted(2, 2),()=>isSCTierCompleted(3, 2)]
+export function isSpaceResearchQuickResetAvailable(tier){
+  return SpaceResearchTierDetail[tier].filter((x) => SpaceResearchRifts[x].pendingLevel.neq(SpaceResearchRifts[x].level))
+  .length > 0
+}

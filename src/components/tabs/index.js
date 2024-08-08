@@ -43,6 +43,7 @@ import TimeStudiesTab from "./time-studies/TimeStudiesTab";
 import VTab from "./celestial-v/VTab";
 
 import SpaceResearchTab from "./_MOD-space/SpaceResearchTab";
+import SpaceChallengesTab from "./_MOD-space/space-challenges/SpaceChallengesTab"
 
 const TabComponents = {
   AntimatterDimensionsTab,
@@ -89,7 +90,8 @@ const TabComponents = {
   MultiplierBreakdownTab,
 
   //mod
-  SpaceResearchTab
+  SpaceResearchTab,
+  SpaceChallengesTab,
 };
 
 export default TabComponents;
