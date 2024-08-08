@@ -104,6 +104,8 @@ html {
 
   --color-pelle--base: crimson;
   --color-pelle--secondary: #00bcd4;
+
+  --color-space: #cccccc;
 }
 
 :root .t-metro,
@@ -752,6 +754,16 @@ button:focus {
 
 .o-tab-btn--celestial:hover {
   background: var(--color-celestials);
+}
+
+.o-tab-btn--space {
+  color: var(--color-space);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-space);
+}
+
+.o-tab-btn--space:hover {
+  background: var(--color-space);
 }
 
 /* #endregion tab buttons */
@@ -3446,6 +3458,14 @@ br {
   color: var(--color-text);
   background-color: var(--color-prestige--accent);
   border-color: var(--color-eternity);
+  border-radius: var(--var-border-radius, 1rem);
+}
+
+.c-challenge-box--space {
+  height: 18rem;
+  color: var(--color-text);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-space);
   border-radius: var(--var-border-radius, 1rem);
 }
 
@@ -9108,6 +9128,15 @@ input.o-automator-block-input {
 
 .c-hide-modal-tab-button--celestials:hover {
   background: var(--color-celestials);
+}
+
+.c-hide-modal-tab-button--space {
+  color: var(--color-space);
+  border-color: var(--color-space);
+}
+
+.c-hide-modal-tab-button--space:hover {
+  background: var(--color-space);
 }
 
 /* Prevent any themes overriding font awesome */
