@@ -101,8 +101,8 @@ export const normalAchievements = [
     description: "Buy an Antimatter Galaxy.",
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.GALAXY_RESET_BEFORE,
-    get reward() { return `Achievement multplier is ${formatPercents(1)} stronger.`; },
-    effect: 2,
+    get reward() { return `Achievement multplier is ${formatPercents(0.5)} stronger.`; },
+    effect: 1.5,
   },
   {
     id: 27,
