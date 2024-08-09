@@ -5,6 +5,7 @@ import { devMigrations } from "./dev-migrations";
 import { migrations } from "./migrations";
 
 import { deepmergeAll } from "@/utility/deepmerge";
+import { DC } from "../constants";
 
 export const BACKUP_SLOT_TYPE = {
   ONLINE: 0,
@@ -68,7 +69,7 @@ export const GameStorage = {
   saves: {
     0: undefined,
     1: undefined,
-    2: undefined
+    2: undefined,
   },
   saved: 0,
   lastSaveTime: Date.now(),
@@ -120,7 +121,7 @@ export const GameStorage = {
       this.saves = {
         0: root,
         1: undefined,
-        2: undefined
+        2: undefined,
       };
       this.currentSlot = 0;
       this.loadPlayerObject(root);
@@ -144,7 +145,7 @@ export const GameStorage = {
     this.loadPlayerObject(this.saves[slot] ?? Player.defaultStart);
     this.loadBackupTimes();
     this.backupOfflineSlots();
-    Tabs.all.find(t => t.id === player.options.lastOpenTab).show(false);
+    Tabs.all.find((t) => t.id === player.options.lastOpenTab).show(false);
     Modal.hideAll();
     Cloud.resetTempState();
     GameUI.notify.info("Game loaded");
@@ -245,7 +246,8 @@ export const GameStorage = {
   canSave(ignoreSimulation = false) {
     const isSelectingGlyph = GlyphSelection.active;
     const isSimulating = ui.$viewModel.modal.progressBar !== undefined && !ignoreSimulation;
-    const isEnd = (GameEnd.endState >= END_STATE_MARKERS.SAVE_DISABLED && !GameEnd.removeAdditionalEnd) ||
+    const isEnd =
+      (GameEnd.endState >= END_STATE_MARKERS.SAVE_DISABLED && !GameEnd.removeAdditionalEnd) ||
       GameEnd.endState >= END_STATE_MARKERS.INTERACTIVITY_DISABLED;
     return !isEnd && !(isSelectingGlyph || isSimulating);
   },
@@ -257,7 +259,7 @@ export const GameStorage = {
     if (manual && ++this.saved > 99) SecretAchievement(12).unlock();
     const root = {
       current: this.currentSlot,
-      saves: this.saves
+      saves: this.saves,
     };
     localStorage.setItem(this.localStorageKey, GameSaveSerializer.serialize(root));
     if (!silent) GameUI.notify.info("Game saved");
@@ -288,9 +290,9 @@ export const GameStorage = {
   backupOfflineSlots() {
     const currentTime = Date.now();
     const offlineTimeMs = currentTime - this.lastUpdateOnLoad;
-    const offlineSlots = AutoBackupSlots
-      .filter(slot => slot.type === BACKUP_SLOT_TYPE.OFFLINE)
-      .sort((a, b) => b.interval - a.interval);
+    const offlineSlots = AutoBackupSlots.filter((slot) => slot.type === BACKUP_SLOT_TYPE.OFFLINE).sort(
+      (a, b) => b.interval - a.interval
+    );
     for (const backupInfo of offlineSlots) {
       if (offlineTimeMs > 1000 * backupInfo.interval) {
         this.saveToBackup(backupInfo.id, player.backupTimer);
@@ -324,7 +326,7 @@ export const GameStorage = {
   // every time it saves
   tryOnlineBackups() {
     const toBackup = [];
-    for (const backupInfo of AutoBackupSlots.filter(slot => slot.type === BACKUP_SLOT_TYPE.ONLINE)) {
+    for (const backupInfo of AutoBackupSlots.filter((slot) => slot.type === BACKUP_SLOT_TYPE.ONLINE)) {
       const id = backupInfo.id;
       const timeSinceLast = player.backupTimer - (this.lastBackupTimes[id]?.backupTimer ?? 0);
       if (1000 * backupInfo.interval - timeSinceLast <= 800) toBackup.push(id);
@@ -335,13 +337,15 @@ export const GameStorage = {
   // Set the next backup time, but make sure to skip forward an appropriate amount if a load or import happened,
   // since these may cause the backup timer to be significantly behind
   resetBackupTimer() {
-    const latestBackupTime = Object.values(this.lastBackupTimes).map(t => t && t.backupTimer).max();
+    const latestBackupTime = Object.values(this.lastBackupTimes)
+      .map((t) => t && t.backupTimer)
+      .max();
     player.backupTimer = Math.max(this.oldBackupTimer, player.backupTimer, latestBackupTime);
   },
 
   // Saves the current game state to the first reserve slot it finds
   saveToReserveSlot() {
-    const targetSlot = AutoBackupSlots.find(slot => slot.type === BACKUP_SLOT_TYPE.RESERVE).id;
+    const targetSlot = AutoBackupSlots.find((slot) => slot.type === BACKUP_SLOT_TYPE.RESERVE).id;
     this.saveToBackup(targetSlot, player.backupTimer);
   },
 
@@ -366,21 +370,25 @@ export const GameStorage = {
     const save = this.exportModifiedSave();
     download(
       `AD Save, Slot ${GameStorage.currentSlot + 1}${saveFileName} #${player.options.exportedFileCount} \
-(${this.exportDateString}).txt`, save);
+(${this.exportDateString}).txt`,
+      save
+    );
     GameUI.notify.info("Successfully downloaded current save file to your computer");
   },
 
   exportBackupsAsFile() {
     player.options.exportedFileCount++;
     const backupData = {};
-    for (const id of AutoBackupSlots.map(slot => slot.id)) {
+    for (const id of AutoBackupSlots.map((slot) => slot.id)) {
       const backup = this.loadFromBackup(id);
       if (backup) backupData[id] = backup;
     }
     backupData.time = GameSaveSerializer.deserialize(localStorage.getItem(this.backupTimeKey(this.currentSlot)));
     download(
       `AD Save Backups, Slot ${GameStorage.currentSlot + 1} #${player.options.exportedFileCount} \
-(${this.exportDateString}).txt`, GameSaveSerializer.serialize(backupData));
+(${this.exportDateString}).txt`,
+      GameSaveSerializer.serialize(backupData)
+    );
     GameUI.notify.info("Successfully downloaded save file backups to your computer");
   },
 
@@ -421,6 +429,7 @@ export const GameStorage = {
   },
 
   loadPlayerObject(playerObject) {
+    //
     this.saved = 0;
 
     const checkString = this.checkPlayerObject(playerObject);
@@ -490,6 +499,22 @@ export const GameStorage = {
     AutomatorBackend.initializeFromSave();
     Lazy.invalidateAll();
 
+    //Old saves' value changing -- MOD --
+    if (playerObject.version === 24) {
+      player.auto.bigCrunch = {
+        cost: 1,
+        interval: 40000,
+        mode: 0,
+        amount: DC.D1,
+        increaseWithMult: true,
+        time: 1,
+        xHighest: DC.D1,
+        isActive: true,
+        lastTick: 0,
+      };
+      player.version = 25
+    }
+
     const rawDiff = Date.now() - player.lastUpdate;
     // We set offlineEnabled externally on importing or loading a backup; otherwise this is just a local load
     const simulateOffline = this.offlineEnabled ?? player.options.offlineProgress;
@@ -540,13 +565,13 @@ export const GameStorage = {
     // The condition for this secret achievement is only checked when the player is actively storing real time, either
     // when online or simulating time. When only storing offline, the condition is never actually entered in the
     // gameLoop due to the option technically being false, so we need to check it on-load too.
-    if (player.celestials.enslaved.storedReal > (24 * 60 * 60 * 1000)) SecretAchievement(46).unlock();
+    if (player.celestials.enslaved.storedReal > 24 * 60 * 60 * 1000) SecretAchievement(46).unlock();
     GameUI.update();
 
     for (const resource of AlchemyResources.all) {
       resource.before = resource.amount;
     }
-  }
+  },
 };
 
 function download(filename, text) {

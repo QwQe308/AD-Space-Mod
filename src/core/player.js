@@ -137,7 +137,7 @@ window.player = {
     },
     bigCrunch: {
       cost: 1,
-      interval: 100000,
+      interval: 40000,
       mode: 0,
       amount: DC.D1,
       increaseWithMult: true,
@@ -420,7 +420,7 @@ window.player = {
     previousRuns: {}
   },
   IPMultPurchases: 0,
-  version: 24,
+  version: 25,
   infinityPower: DC.D1,
   postC4Tier: 0,
   eternityPoints: DC.D0,

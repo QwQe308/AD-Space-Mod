@@ -80,7 +80,7 @@ export class Sacrifice {
     // different variable that is only applied during C8. However since sacrifice only depends on sacrificed ND1, this
     // can actually be done in a single calculation in order to handle C8 in a less hacky way.
     if (NormalChallenge(8).isRunning) {
-      prePowerSacrificeMult = nd1Amount.dividedBy(sacrificed).pow(0.05);
+      prePowerSacrificeMult = nd1Amount.dividedBy(sacrificed).pow(0.25);
     } else if (InfinityChallenge(2).isCompleted) {
       prePowerSacrificeMult = nd1Amount.dividedBy(sacrificed);
     } else {
@@ -131,7 +131,7 @@ export function sacrificeReset() {
     }
     Currency.antimatter.reset();
     SpaceResearchTierDetail[0].forEach(x => SpaceResearchRifts[x].reset());
-    SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset());
+    //SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset());
 } else if (!isAch118Unlocked) {
     AntimatterDimensions.resetAmountUpToTier(NormalChallenge(12).isRunning ? 6 : 7);
   }

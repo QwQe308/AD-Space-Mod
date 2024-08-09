@@ -8,6 +8,52 @@ export const changelog = [
    *  @property {function: @return String} info  Text body of information for the entry.
    * }
    */
+   {
+    date: [2024, 8, 9],
+    name: "v0.21 bug fixes & balancing changes",
+    info: `
+Changes:
+<ul>
+<li>Fixed bugs with C6 & C8.</li>
+<li>Boosted Big Crunch autobuyer.</li>
+<li>Rebalanced pre-Infinity contents.</li>
+<li>Added countdown for Space Researches.</li>
+<li>Added informations to DB & AG.</li>
+</ul>
+Content up to Break Infinity.
+<br>
+`
+  },
+   {
+    date: [2024, 8, 8],
+    name: "v0.2 - Space Mod first update",
+    info: `
+And more contents!
+New Things:
+<ul>
+<li>Added Space Challenge.</li>
+<li>Rebalanced Infinity Upgrades.</li>
+<li>Rebalanced Normal Challenges.</li>
+</ul>
+Content up to Break Infinity.
+<br>
+`
+  },
+  {
+    date: [2024, 8, 7],
+    name: "v0.1 - Space Mod Initial release",
+    info: `
+Wow there's the mod!
+New Things:
+<ul>
+<li>Added Space.</li>
+<li>Added T0, T1, T2 Space Research.</li>
+<li>Enhanced basic automation and added new automations.</li>
+</ul>
+Content up to first Infinity.
+<br>
+`
+  },
   {
     date: [2023, 7, 18],
     name: "Final Official Patch",

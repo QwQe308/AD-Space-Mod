@@ -259,7 +259,7 @@ export const tabs = [
       {
         key: "research",
         name: "Space Research",
-        symbol: "∑",
+        symbol: "<span style='position:relative;bottom:2px'>∑</span>",
         component: "SpaceResearchTab",
         id: 0,
         hidable: true,

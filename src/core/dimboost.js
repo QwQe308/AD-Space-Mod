@@ -154,7 +154,7 @@ export class DimBoost {
     const areDimensionsKept = (Perk.antimatterNoReset.isBought || Achievement(111).canBeApplied) &&
       (!Pelle.isDoomed || PelleUpgrade.dimBoostResetsNothing.isBought);
     if (areDimensionsKept) return boostEffects[0].toUpperCase() + boostEffects.substring(1);
-    return `Reset your Dimensions to ${boostEffects}`;
+    return `Reset your AD & T0 Res to ${boostEffects}`;
   }
 
   static get purchasedBoosts() {

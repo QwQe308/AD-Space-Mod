@@ -21,6 +21,7 @@ export default {
       // Converts 1 rem to number of px
       remToPx: parseInt(getComputedStyle(document.documentElement).fontSize, 10),
       effects: [],
+      timeToNext: "",
     };
   },
   computed: {
@@ -37,6 +38,9 @@ export default {
       this.isActive = rift.isActive;
       this.isMaxed = rift.isMaxed;
       this.percentage = rift.percentage;
+
+      if(rift.trueFillSpeed.gt(0)) this.timeToNext = TimeSpan.fromSeconds(rift.pendingRequirement.sub(rift.pendingProgress).div(rift.trueFillSpeed).toNumber()).toTimeEstimate()
+      else this.timeToNext = "Forever"
     },
     formatRift(value) {
       return typeof value === "number" ? `${formatInt(100 * value)}%` : format(value, 2);
@@ -58,6 +62,7 @@ export default {
 <template>
   <div
     ref="SpaceResearchRiftBar"
+    v-tooltip="timeToNext"
     class="c-pelle-rift-bar"
     :class="{
       'c-pelle-rift-bar-overfill-container': percentage > 1,

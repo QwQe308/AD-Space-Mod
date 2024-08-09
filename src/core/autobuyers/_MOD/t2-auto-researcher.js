@@ -11,7 +11,7 @@ export class T2AutoResearcherState extends AutobuyerState {
   }
 
   get efficiency() {
-    if(!this.data.isBought || !this.data.isActive) return 0
+    if(!this.data.isBought || !this.data.isActive || !player.auto.autobuyersOn) return 0
     if(isSCTierCompleted(3, 1)) return 2
     return 0.5
   }

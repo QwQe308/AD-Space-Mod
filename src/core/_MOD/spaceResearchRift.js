@@ -152,12 +152,21 @@ class SpaceResearchRift extends GameMechanicState {
     else this.rift.active = !this.rift.active;
   }
 
-  fill(diff) {
+  get efficiency() {
     let efficiency = 0
     if(this.isActive) efficiency += 1
     if(Autobuyer[`T${this.tier}AutoResearcher`]){
       efficiency += Autobuyer[`T${this.tier}AutoResearcher`].efficiency
     }
+    return efficiency
+  }
+
+  get trueFillSpeed() {
+    return tierBasedResearchSpeed(this.tier).mul(this.efficiency)
+  }
+
+  fill(diff) {
+    let spd = this.trueFillSpeed
 
     if(isSCRunningOnTier(1, 1) && this.tier > 0) return//sc1-1
     if(isSCRunningOnTier(1, 2)) return//sc1-2
@@ -167,9 +176,9 @@ class SpaceResearchRift extends GameMechanicState {
       this.rift.active = false;
       return;
     }
-    if (!efficiency || this.isMaxed) return;
+    if (this.isMaxed) return;
 
-    let res = tierBasedResearchSpeed(this.tier).mul(efficiency).mul(diff/1000)
+    let res = spd.mul(diff/1000)
 
     this.pendingProgress = this.pendingProgress.add(res).max(this.progress)
     if(this.resetsNothing) this.progress = this.progress.add(res)

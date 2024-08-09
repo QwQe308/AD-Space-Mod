@@ -34,7 +34,7 @@ export class SpaceChallengeState extends GameMechanicState {
   start() {
     if (!this.isUnlocked || this.isRunning) return;
     // Forces big crunch reset but ensures IP gain, if any.
-    this.config.data[this.displayCompletions].reset();
+    this.currentTier.reset();
     player.challenge.normal.current = 0;
     player.challenge.space.current = this.id;
   }
@@ -52,8 +52,8 @@ export class SpaceChallengeState extends GameMechanicState {
   }
 
   complete() {
-    player.spaceChalls[this.id] += 1
-    this.exit()
+    if(!this.isFullyCompleted) player.spaceChalls[this.id] += 1
+    if(this.goal !== "Big Crunch") this.exit()
   }
 
   get maxCompletions() {
@@ -68,34 +68,38 @@ export class SpaceChallengeState extends GameMechanicState {
     return Math.min(this.completions,this.maxCompletions-1)
   }
 
+  get currentTier(){
+    return this.config.data[this.displayCompletions]
+  }
+
   get isQuickResettable() {
-    return this.config.data[this.displayCompletions].isQuickResettable;
+    return this.currentTier.isQuickResettable;
   }
 
   get description() {
-    return this.config.data[this.displayCompletions].description;
+    return this.currentTier.description;
   }
 
   get goal() {
-    return this.config.data[this.displayCompletions].goal;
+    return this.currentTier.goal;
   }
 
   get reward() {
-    return this.config.data[this.displayCompletions].reward
+    return this.currentTier.reward
   }
 
   get resetDescription() {
-    return this.config.data[this.displayCompletions].resetDescription
+    return this.currentTier.resetDescription
   }
 
   get canComplete() {
-    if(!this.config.data[this.displayCompletions].canComplete) return false
-    return this.config.data[this.displayCompletions].canComplete()
+    if(!this.currentTier.canComplete) return false
+    return this.currentTier.canComplete()
   }
 
   exit() {
     player.challenge.space.current = 0;
-    this.config.data[this.displayCompletions].reset()
+    this.currentTier.reset()
   }
 }
 
@@ -163,8 +167,8 @@ export function isSCRunning(id){
 }
 
 export function isSCRunningOnTier(id, tier){
-  return SpaceChallenge(id).isRunning && SpaceChallenge(id).completions + 1 == tier
+  return SpaceChallenge(id).isRunning && SpaceChallenge(id).displayCompletions + 1 == tier
 }
 export function isSCRunningOnTierOrHigher(id, tier){
-  return SpaceChallenge(id).isRunning && SpaceChallenge(id).completions + 1 >= tier
+  return SpaceChallenge(id).isRunning && SpaceChallenge(id).displayCompletions + 1 >= tier
 }

@@ -80,17 +80,17 @@ export const normalChallenges = [
         ${formatX(0.2, 1, 1)} per Dimension Boost, to a maximum of ${formatX(2)}, and is unaffected by any upgrades.`,
     name: "7th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 7th Antimatter Dimension Autobuyer",
-    lockedAt: DC.D3,
+    lockedAt: DC.D9,
   },
   {
     id: 8,
     legacyId: 11,
     isQuickResettable: false,
     description: `Dimension Boosts provide no multiplier and Antimatter Galaxies cannot be bought. Dimensional
-      Sacrifice resets antimatter, all Antimatter Dimensions and T0 & T1 Researches, but gives a MODERATELY stronger multiplier.`,
+      Sacrifice resets antimatter, all Antimatter Dimensions and T0 Researches, but gives a MODERATELY stronger multiplier.`,
     name: "8th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 8th Antimatter Dimension Autobuyer",
-    lockedAt: DC.D2,
+    lockedAt: DC.D3,
   },
   {
     id: 9,

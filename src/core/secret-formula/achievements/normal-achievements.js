@@ -93,14 +93,16 @@ export const normalAchievements = [
     name: "Boosting to the max",
     get description() { return `Buy ${formatInt(10)} Dimension Boosts.`; },
     checkRequirement: () => DimBoost.purchasedBoosts >= 10,
-    checkEvent: GAME_EVENT.DIMBOOST_AFTER
+    checkEvent: GAME_EVENT.DIMBOOST_AFTER,
   },
   {
     id: 26,
     name: "You got past The Big Wall",
     description: "Buy an Antimatter Galaxy.",
     checkRequirement: () => true,
-    checkEvent: GAME_EVENT.GALAXY_RESET_BEFORE
+    checkEvent: GAME_EVENT.GALAXY_RESET_BEFORE,
+    get reward() { return `Achievement multplier is ${formatPercents(1)} stronger.`; },
+    effect: 2,
   },
   {
     id: 27,

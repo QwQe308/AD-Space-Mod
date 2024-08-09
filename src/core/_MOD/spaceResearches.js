@@ -95,7 +95,7 @@ export const spaceResearch = {
     tier: 0,
     costScale() {
       return new ExponentialCostScaling({
-        baseCost: 1e5,
+        baseCost: 1e4,
         baseIncrease: 3,
         costScale: 1,
         purchasesBeforeScaling: Number.MAX_VALUE,
