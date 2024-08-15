@@ -263,7 +263,7 @@ export function replicantiLoop(diff) {
 }
 
 export function replicantiMult() {
-  return Decimal.pow(Decimal.log10(Replicanti.amount.clampMin(1)), 1.66)
+  return Decimal.pow(Decimal.log10(Replicanti.amount.clampMin(1)), 1.5)
     .plusEffectOf(TimeStudy(21))
     .timesEffectOf(TimeStudy(102))
     .clampMin(1)
