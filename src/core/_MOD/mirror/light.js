@@ -1,4 +1,4 @@
-import { DC } from "../../constants";
+qimport { DC } from "../../constants";
 
 function calcBaseLight(percentage, mirror = player.light.inMirror) {
   return new Decimal(calcFunctioningPercentage(percentage));
@@ -24,7 +24,7 @@ export const light = {
   red: {
     amount: () => calcBaseLight(player.light.redPercent),
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).pow_base(1e6);
+      let eff = amount.mul(4).pow(0.9).pow_base(1e6);
       return player.light.inMirror ? eff.recip() : eff;
     },
     effect: (eff) => `AM multplier ${formatMultplier(eff, 2)}`,
@@ -32,7 +32,7 @@ export const light = {
   green: {
     amount: () => calcBaseLight(player.light.greenPercent),
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).pow_base(1.01);
+      let eff = amount.mul(4).pow(0.9).pow_base(1.01);
       return player.light.inMirror ? eff.recip() : eff;
     },
     effect: (eff) => `Dimension Shift base ${formatMultplier(eff, 2, 2)}`,
@@ -40,7 +40,7 @@ export const light = {
   blue: {
     amount: () => calcBaseLight(player.light.bluePercent),
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).pow_base(1.3);
+      let eff = amount.mul(4).pow(0.9).pow_base(1.3);
       return player.light.inMirror ? eff.recip() : eff;
     },
     effect: (eff) => `Pre-Inf Research Speed ${formatMultplier(eff, 2)}`,
@@ -50,7 +50,7 @@ export const light = {
   yellow: {
     amount: () => calcComplexLight("red", "green"), // Yellow = Red + Green
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).pow_base(1.05);
+      let eff = amount.mul(4).pow(0.9).pow_base(1.05);
       return player.light.inMirror ? eff.recip() : eff;
     },
     effect: (eff) => `Infinity Dimensions ${formatMultplier(eff, 2, 2)}`,
@@ -58,7 +58,7 @@ export const light = {
   purple: {
     amount: () => calcComplexLight("red", "blue"), // Purple = Red + Blue
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).div(3);
+      let eff = amount.mul(4).pow(0.9).div(3);
       return player.light.inMirror ? eff.neg() : eff;
     },
     effect: (eff) => `Free Tickspeed Upgrades ${formatAdd(eff, 2, 2)}`,
@@ -66,7 +66,7 @@ export const light = {
   cyan: {
     amount: () => calcComplexLight("blue", "green"), // Cyan = Blue + Green
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).pow_base(1.006);
+      let eff = amount.mul(4).pow(0.9).pow_base(1.006);
       return player.light.inMirror ? eff.recip() : eff;
     },
     effect: (eff) => `Efficient Space ${formatMultplier(eff, 2, 2)}`,
@@ -75,7 +75,7 @@ export const light = {
   white: {
     amount: () => calcComplexLight("red", "blue", "green"), // White = Red + Blue + Green
     effectValue(amount = this.amount()) {
-      let eff = amount.mul(8).pow(0.9).pow_base(1.006);
+      let eff = amount.mul(4).pow(0.9).pow_base(1.006);
       return player.light.inMirror ? eff.recip() : eff;
     },
     effect: (eff) => `Space ${formatMultplier(eff, 2, 2)}`,
