@@ -41,6 +41,7 @@ export default {
       mirror.<br />
       Target AM is based on your highest color percentage.
     </div>
+    <div v-if="prisms > 200">Prisms over 200 will offset white's effect outside mirror.</div>
     <br /><br />
     <div>
       <big style="color: var(--color-mirror)">
