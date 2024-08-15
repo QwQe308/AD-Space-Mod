@@ -127,7 +127,7 @@ export function getReplicantiInterval(overCapOverride, intervalIn) {
 // and celestial nerfs) interact very weirdly and the game balance relies on this behavior, and we also use this same
 // value in the multiplier tab too
 export function totalReplicantiSpeedMult(overCap) {
-  let totalMult = DC.D3;
+  let totalMult = DC.D4;
 
   // These are the only effects active in Pelle - the function shortcuts everything else if we're in Pelle
   totalMult = totalMult.times(PelleRifts.decay.effectValue);
@@ -538,7 +538,7 @@ export const ReplicantiUpgrade = {
     }
 
     baseCostAfterCount(count) {
-      const logBase = 308;
+      const logBase = 270;
       const logBaseIncrease = EternityChallenge(6).isRunning ? 2 : 25;
       const logCostScaling = EternityChallenge(6).isRunning ? 2 : 5;
       const distantReplicatedGalaxyStart = 100 + Effects.sum(GlyphSacrifice.replication);
@@ -579,7 +579,7 @@ export const Replicanti = {
       intervalCost: DC.E140,
       boughtGalaxyCap: 0,
       galaxies: 0,
-      galCost: DC.E308,
+      galCost: DC.E270,
     };
   },
   unlock(freeUnlock = false) {
