@@ -8,7 +8,20 @@ export const changelog = [
    *  @property {function: @return String} info  Text body of information for the entry.
    * }
    */
-   {
+  {
+    date: [2024, 8, 15],
+    name: "v0.3 Break Infinity",
+    info: `
+Changes:
+<ul>
+<li>Added Mirror.</li>
+<li>WOW big update.</li>
+</ul>
+Content up to Eternity...but may way more than e308 IP XD
+<br>
+`,
+  },
+  {
     date: [2024, 8, 9],
     name: "v0.21 bug fixes & balancing changes",
     info: `
@@ -22,9 +35,9 @@ Changes:
 </ul>
 Content up to Break Infinity.
 <br>
-`
+`,
   },
-   {
+  {
     date: [2024, 8, 8],
     name: "v0.2 - Space Mod first update",
     info: `
@@ -37,7 +50,7 @@ New Things:
 </ul>
 Content up to Break Infinity.
 <br>
-`
+`,
   },
   {
     date: [2024, 8, 7],
@@ -52,7 +65,7 @@ New Things:
 </ul>
 Content up to first Infinity.
 <br>
-`
+`,
   },
   {
     date: [2023, 7, 18],
@@ -148,7 +161,7 @@ rarity and/or type</li>
 <li>Various more minor bugfixes</li>
 </ul>
 <br>
-`
+`,
   },
   {
     date: [2023, 5, 25],
@@ -230,7 +243,7 @@ rarity and/or type</li>
 <li>A handful of more minor text and typo fixes</li>
 </ul>
 <br>
-`
+`,
   },
   {
     date: [2023, 4, 7],
@@ -300,7 +313,7 @@ finishing the game</li>
 <li>Fixed Transience of Information not calculating its RM requirement correctly</li>
 <li>Various more minor bugfixes</li>
 </ul>
-`
+`,
   },
   {
     date: [2023, 2, 22],
@@ -361,7 +374,7 @@ finishing the game</li>
 </li><li>Fixed hotkeys allowing autobuyers to be changed even when locked
 </li><li>Fixed Continuum H2P entry disappearing in cel7
 </ul>
-`
+`,
   },
   {
     date: [2023, 1, 26],
@@ -415,7 +428,7 @@ finishing the game</li>
 <li>Made paperclips less invisible</li>
 <li>Fixed more minor typos and made many minor wording improvements</li>
 </ul>
-`
+`,
   },
   {
     date: [2023, 1, 9],
@@ -462,7 +475,7 @@ finishing the game</li>
 <li>Added text in a few places for capped upgrades/effects</li>
 <li>Added news ticker suggestions up to Dec 26th, fixed some incorrect news tickers</li>
 </ul>
-`
+`,
   },
   {
     date: [2022, 12, 21],
@@ -485,7 +498,7 @@ finishing the game</li>
 <li>Fixed a game crash when attempting to run empty or invalid automator scripts</li>
 <li>Fixed a few bugs in celestial content</li>
 </ul>
-`
+`,
   },
   {
     date: [2022, 12, 17],
@@ -710,7 +723,7 @@ Bugfixes:
 <li>Fixed a bug where the Sacrifice and Dimension Boost Autobuyer would not honor Autobuyer interval.</li>
 <li>Fixed a bug where the Reality link was just a video of some guy dancing.</li>
 <li>Fixed a bunch of other bugs.</li>
-`
+`,
   },
   {
     date: [2018, 6, 17],
@@ -817,7 +830,7 @@ if you had no sacrifice bonus.</li>
 <li>Fixed a bug where you were able to select the achievement images by clicking and dragging over them.</li>
 <li>Fixed a bug where studies 233 and 234 had the wrong classes assigned to them on load.</li>
 </ul>
-`
+`,
   },
   {
     date: [2018, 4, 1],
@@ -917,7 +930,7 @@ dimension boosts breaking infinity upgrade.</li>
 <li>Did a barrel roll.</li>
 <li>Added more useless patch notes</li>
 </ul>
-`
+`,
   },
   {
     date: [2018, 2, 1],
@@ -1021,11 +1034,11 @@ if you eternitied while changing it.</li>
 <li>Fixed a bug where the future shop multipliers were displayed before the x rather than after.</li>
 <li>Fixed a bug where the challenge confirmation button's off and on were lowercase.</li>
 <li>Fixed a bug where the static infinity point display would disappear after eternity.</li>
-</ul>`
+</ul>`,
   },
   {
     date: [2017, 12, 1],
-    name: "\"Eternity\" update",
+    name: '"Eternity" update',
     info: `
 <ul>
 <li>Time studies tree with free respec</li>
@@ -1049,7 +1062,7 @@ if you eternitied while changing it.</li>
 <li>Added logarithm notation</li>
 <li>Made letter and cancer notation last longer.
 </ul>
-`
+`,
   },
   {
     date: [2017, 10, 10],
@@ -1064,7 +1077,7 @@ if you eternitied while changing it.</li>
 <li>Hotkeys- C for Big Crunch, M for Max All, S for Dimensional Sacrifice, D for Dimension Shift/Boost,
 G for Antimatter Galaxy, Numbers 1-8 for Buy 10 (D1-8), A for Toggle Autobuyers.</li>
 <li>Bug Fixes- At least 2, including a percentage buff.</li>
-</ul>`
+</ul>`,
   },
   {
     date: [2017, 9, 25],
@@ -1078,7 +1091,7 @@ G for Antimatter Galaxy, Numbers 1-8 for Buy 10 (D1-8), A for Toggle Autobuyers.
 <li>Eight new achievements added.</li>
 <li>Cloud saving maybe added.</li>
 <li>Refunded Dimension cost increase multiplier and changed the cost.</li>
-</ul>`
+</ul>`,
   },
   {
     date: [2017, 9, 19],
@@ -1108,7 +1121,7 @@ instantly buying once they are able to.</li>
 <li>Times below one minute are now kept at two decimal points of precision.</li>
 <li>Percentage increase per second for dimensions 1-8 are now kept to two decimal points of precision.</li>
 <li>The reset button works better now.</li>
-</ul>`
+</ul>`,
   },
   {
     date: [2017, 9, 7],
@@ -1118,7 +1131,7 @@ instantly buying once they are able to.</li>
 <li>Added 12 challenges.</li>
 <li>Added 8 new achievements.</li>
 <li>Added autobuyers.</li>
-</ul>`
+</ul>`,
   },
   {
     // These were originally spread throughout 28/8 to 30/8.
@@ -1135,7 +1148,7 @@ instantly buying once they are able to.</li>
 <li>More notations!</li>
 <li>Bar until infinity at the bottom.</li>
 <li>Some UI changes.</li>
-</ul>`
+</ul>`,
   },
   {
     date: [2017, 8, 24],
@@ -1147,7 +1160,7 @@ gaining infinity points.</li>
 <li>You can use infinity points for upgrades.</li>
 <li>The game also now runs 6 hours while it is closed.</li>
 <li>In addition there are some graphic updates.</li>
-</ul>`
+</ul>`,
   },
   // These were originally spread throughout 3/5 to 7/5.
   // But they would otherwise hold too little content on their own
@@ -1163,10 +1176,9 @@ gaining infinity points.</li>
 <li>Added save button although game saves every 10 seconds.</li>
 <li>Slightly smaller text and added a max all button.</li>
 <li>Saves should now FINALLY work properly.</li>
-</ul>`
-  }
+</ul>`,
+  },
 ];
-
 
 for (let i = 0; i < changelog.length; i++) {
   changelog[i].id = i;
