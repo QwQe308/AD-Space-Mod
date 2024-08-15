@@ -525,7 +525,7 @@ export const GameStorage = {
       player.version = 26;
     }
     if (playerObject.version === 26) {
-      player.replicanti.galCost = DC.E308;
+      player.replicanti.galCost = DC.E270;
       player.version = 27;
     }
 
