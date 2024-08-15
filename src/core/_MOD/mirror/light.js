@@ -1,4 +1,4 @@
-qimport { DC } from "../../constants";
+import { DC } from "../../constants";
 
 function calcBaseLight(percentage, mirror = player.light.inMirror) {
   return new Decimal(calcFunctioningPercentage(percentage));
