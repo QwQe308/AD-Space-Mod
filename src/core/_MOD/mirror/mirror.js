@@ -16,7 +16,7 @@ export function canBreakMirror() {
 
 export function getMirrorRequirement() {
   let highestPercent = Math.max(player.light.redPercent, player.light.greenPercent, player.light.bluePercent);
-  return DC.E10000.pow(highestPercent / 50 + 1);
+  return DC.E10000.pow(highestPercent / 100 + 1);
 }
 
 export function getPendingPrisms() {
