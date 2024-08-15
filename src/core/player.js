@@ -474,7 +474,7 @@ window.player = {
     intervalCost: DC.E140,
     boughtGalaxyCap: 0,
     galaxies: 0,
-    galCost: DC.E308,
+    galCost: DC.E270,
   },
   timestudy: {
     theorem: DC.D0,
