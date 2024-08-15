@@ -32,7 +32,7 @@ export default {
       return {
         min: 0,
         max: 100,
-        interval: 5,
+        interval: 10,
         width: "50rem",
         tooltip: false,
         bgClass: "c-mirror-slider__bg_" + this.color,
