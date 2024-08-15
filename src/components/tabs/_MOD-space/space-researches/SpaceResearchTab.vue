@@ -29,8 +29,8 @@ export default {
       this.t1QuickResetAvailable = isSpaceResearchQuickResetAvailable(1);
       this.t2QuickResetAvailable = isSpaceResearchQuickResetAvailable(2);
 
-      this.t1QuickResetUnlocked = PlayerProgress.dimensionBoostUnlocked() && !SpaceResearchResetsNothing[1]
-      this.t2QuickResetUnlocked = PlayerProgress.galaxyUnlocked() && !SpaceResearchResetsNothing[2]
+      this.t1QuickResetUnlocked = PlayerProgress.dimensionBoostUnlocked() && !SpaceResearchResetsNothing[1]()
+      this.t2QuickResetUnlocked = PlayerProgress.galaxyUnlocked() && !SpaceResearchResetsNothing[2]()
     },
   },
 };
