@@ -1,17 +1,13 @@
 import { DC } from "./constants";
-import { SpaceResearchRifts } from "./globals";
+import { isSCRunningOnTier } from "./globals";
 
 export function effectiveBaseGalaxies() {
   // Note that this already includes the "50% more" active path effect
   let replicantiGalaxies = Replicanti.galaxies.bought;
-  replicantiGalaxies *= (1 + Effects.sum(
-    TimeStudy(132),
-    TimeStudy(133)
-  ));
+  replicantiGalaxies *= 1 + Effects.sum(TimeStudy(132), TimeStudy(133));
   // "extra" galaxies unaffected by the passive/idle boosts come from studies 225/226 and Effarig Infinity
   replicantiGalaxies += Replicanti.galaxies.extra;
-  const nonActivePathReplicantiGalaxies = Math.min(Replicanti.galaxies.bought,
-    ReplicantiUpgrade.galaxies.value);
+  const nonActivePathReplicantiGalaxies = Math.min(Replicanti.galaxies.bought, ReplicantiUpgrade.galaxies.value);
   // Effects.sum is intentional here - if EC8 is not completed,
   // this value should not be contributed to total replicanti galaxies
   replicantiGalaxies += nonActivePathReplicantiGalaxies * Effects.sum(EternityChallenge(8).reward);
@@ -21,10 +17,11 @@ export function effectiveBaseGalaxies() {
 }
 
 export function getTickSpeedMultiplier() {
+  if (isSCRunningOnTier(4, 2)) return DC.D1;
   if (InfinityChallenge(3).isRunning) return DC.D1;
   if (Ra.isRunning) return DC.C1D1_1245;
   let galaxies = effectiveBaseGalaxies();
-  const effects = Effects.product(
+  let effects = Effects.product(
     InfinityUpgrade.galaxyBoost,
     InfinityUpgrade.galaxyBoost.chargedEffect,
     BreakInfinityUpgrade.galaxyBoost,
@@ -36,6 +33,9 @@ export function getTickSpeedMultiplier() {
     PelleUpgrade.galaxyPower,
     PelleRifts.decay.milestones[1]
   );
+
+  if (isSCRunningOnTier(3, 2)) galaxies = 0;
+
   if (galaxies < 3) {
     // Magic numbers are to retain balancing from before while displaying
     // them now as positive multipliers rather than negative percentages
@@ -51,7 +51,7 @@ export function getTickSpeedMultiplier() {
     if (Pelle.isDoomed) galaxies *= 0.5;
 
     galaxies *= Pelle.specialGlyphEffect.power;
-    return DC.D0_01.clampMin(baseMultiplier - (galaxies * perGalaxy));
+    return DC.D0_01.clampMin(baseMultiplier - galaxies * perGalaxy);
   }
   let baseMultiplier = 0.8;
   if (NormalChallenge(5).isRunning) baseMultiplier = 0.83;
@@ -120,17 +120,22 @@ export function resetTickspeed() {
 }
 
 export const Tickspeed = {
-
   get isUnlocked() {
-    return AntimatterDimension(2).bought > 0 || EternityMilestone.unlockAllND.isReached ||
-      PlayerProgress.realityUnlocked();
+    return (
+      AntimatterDimension(2).bought > 0 ||
+      EternityMilestone.unlockAllND.isReached ||
+      PlayerProgress.realityUnlocked() ||
+      Laitela.continuumUnlocked
+    );
   },
 
   get isAvailableForPurchase() {
-    return this.isUnlocked &&
+    return (
+      this.isUnlocked &&
       !EternityChallenge(9).isRunning &&
       !Laitela.continuumActive &&
-      (player.break || this.cost.lt(Decimal.NUMBER_MAX_VALUE));
+      (player.break || this.cost.lt(Decimal.NUMBER_MAX_VALUE))
+    );
   },
 
   get isAffordable() {
@@ -157,7 +162,7 @@ export const Tickspeed = {
       baseCost: 1000,
       baseIncrease: 10,
       costScale: Player.tickSpeedMultDecrease,
-      scalingCostThreshold: Number.MAX_VALUE
+      scalingCostThreshold: Number.MAX_VALUE,
     });
   },
 
@@ -167,13 +172,9 @@ export const Tickspeed = {
   },
 
   get baseValue() {
-    return DC.E3.timesEffectsOf(
-      Achievement(36),
-      Achievement(45),
-      Achievement(66),
-      Achievement(83),
-    )
-      .times(getTickSpeedMultiplier().pow(this.totalUpgrades));
+    return DC.E3.timesEffectsOf(Achievement(36), Achievement(45), Achievement(66), Achievement(83)).times(
+      getTickSpeedMultiplier().pow(this.totalUpgrades)
+    );
   },
 
   get totalUpgrades() {
@@ -191,9 +192,8 @@ export const Tickspeed = {
     for (const dimension of AntimatterDimensions.all) {
       if (dimension.cost.e === this.cost.e) dimension.costBumps++;
     }
-  }
+  },
 };
-
 
 export const FreeTickspeed = {
   BASE_SOFTCAP: 300000,
@@ -202,7 +202,7 @@ export const FreeTickspeed = {
   multToNext: 1.33,
 
   get amount() {
-    let tickspeedAmount = player.totalTickGained + this.extraAmount
+    let tickspeedAmount = player.totalTickGained + this.extraAmount;
     return tickspeedAmount;
   },
 
@@ -215,13 +215,13 @@ export const FreeTickspeed = {
   },
 
   get extraAmount() {
-    let extraTickspeeds = SpaceResearchRifts.r13.effectValue
+    let extraTickspeeds = SpaceResearchRifts.r13.effectValue + light.purple.effectValue().toNumber();
     return extraTickspeeds;
   },
 
   fromShards(shards) {
-    const tickmult = (1 + (Effects.min(1.33, TimeStudy(171)) - 1) *
-      Math.max(getAdjustedGlyphEffect("cursedtickspeed"), 1));
+    const tickmult =
+      1 + (Effects.min(1.33, TimeStudy(171)) - 1) * Math.max(getAdjustedGlyphEffect("cursedtickspeed"), 1);
     const logTickmult = Math.log(tickmult);
     const logShards = shards.ln();
     const uncapped = Math.max(0, logShards / logTickmult);
@@ -229,7 +229,7 @@ export const FreeTickspeed = {
       this.multToNext = tickmult;
       return {
         newAmount: Math.ceil(uncapped),
-        nextShards: Decimal.pow(tickmult, Math.ceil(uncapped))
+        nextShards: Decimal.pow(tickmult, Math.ceil(uncapped)),
       };
     }
     // Log of (cost - cost up to softcap)
@@ -243,11 +243,11 @@ export const FreeTickspeed = {
     // The first term (the big one) is the asymptotically more important term (since FreeTickspeed.GROWTH_EXP > 1),
     // but is small initially. The second term allows us to continue the pre-cap free tickspeed upgrade scaling
     // of tickmult per upgrade.
-    const boughtToCost = bought => costFormulaCoefficient * Math.pow(
-      Math.max(bought, 0), FreeTickspeed.GROWTH_EXP) + bought;
-    const derivativeOfBoughtToCost = x => FreeTickspeed.GROWTH_EXP * costFormulaCoefficient * Math.pow(
-      Math.max(x, 0), FreeTickspeed.GROWTH_EXP - 1) + 1;
-    const newtonsMethod = bought => bought - (boughtToCost(bought) - desiredCost) / derivativeOfBoughtToCost(bought);
+    const boughtToCost = (bought) =>
+      costFormulaCoefficient * Math.pow(Math.max(bought, 0), FreeTickspeed.GROWTH_EXP) + bought;
+    const derivativeOfBoughtToCost = (x) =>
+      FreeTickspeed.GROWTH_EXP * costFormulaCoefficient * Math.pow(Math.max(x, 0), FreeTickspeed.GROWTH_EXP - 1) + 1;
+    const newtonsMethod = (bought) => bought - (boughtToCost(bought) - desiredCost) / derivativeOfBoughtToCost(bought);
     let oldApproximation;
     let approximation = Math.min(
       desiredCost,
@@ -270,6 +270,5 @@ export const FreeTickspeed = {
       newAmount: purchases + FreeTickspeed.softcap,
       nextShards: next,
     };
-  }
-
+  },
 };

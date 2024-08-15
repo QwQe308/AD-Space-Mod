@@ -37,6 +37,21 @@ visible tab and subtab, if such an entry exists.
       tab: ""
     },
     {
+      name: "*About Space",
+      info: () => `
+Space gives a exponential nerf to the Antimatter, but at the same time, accelerating the Space Researches.
+Direct Antimatter Multplier applies after the nerf.
+<br>
+<br>
+If you progress further, you may see "Efficient Space" (also ES).
+It simply does everything as Space does except increasing the AM Nerf.
+Increasing Space Divisor do not reduce your Efficient Space.
+`,
+      isUnlocked: () => true,
+      tags: ["h2p", "how", "to", "play", "modal"],
+      tab: ""
+    },
+    {
       name: "Your savefile",
       info: () => `
 Your game's save data is stored on your computer's browser data if you are playing on a web browser, or in your Steam
@@ -232,6 +247,7 @@ Play entry will update itself with additional entries for new resources as you e
 ${PlayerProgress.infinityUnlocked() ? "- <b>IP</b>: Infinity Point<br>" : ""}
 ${PlayerProgress.infinityUnlocked() ? "- <b>NC</b>: Normal Challenge<br>" : ""}
 ${PlayerProgress.infinityUnlocked() ? "- <b>IC</b>: Infinity Challenge<br>" : ""}
+${PlayerProgress.hasBroken() ? "- <b>ES</b>: Efficient Space<br>" : ""}
 ${InfinityDimension(1).isUnlocked || PlayerProgress.eternityUnlocked() ? "- <b>ID</b>: Infinity Dimension<br>" : ""}
 ${PlayerProgress.replicantiUnlocked() ? "- <b>RG</b>: Replicanti Galaxy<br>" : ""}
 ${PlayerProgress.eternityUnlocked() ? "- <b>EP</b>: Eternity Point<br>" : ""}

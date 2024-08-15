@@ -82,6 +82,17 @@ SOFTWARE.
   border-radius: var(--var-border-radius, 1.5rem);
 }
 
+/* mirror */
+.c-mirror-slider__bg_red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+.c-mirror-slider__bg_green {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+.c-mirror-slider__bg_blue {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+
 .l-ad-slider__bg::after {
   content: "";
   width: 100%;
@@ -97,9 +108,19 @@ SOFTWARE.
   transition: all 0s;
 }
 
-.c-ad-slider__process {
+.c-mirror-slider__process {
   background-color: var(--color-slider-blue);
   border-radius: var(--var-border-radius, 15px);
+}
+
+.c-mirror-slider__process_red {
+  background-color: rgba(255, 0, 0, 1);
+}
+.c-mirror-slider__process_green {
+  background-color: rgba(0, 255, 0, 1);
+}
+.c-mirror-slider__process_blue {
+  background-color: rgba(0, 0, 255, 1);
 }
 
 .l-ad-slider__wrap .ad-slider-process-draggable {

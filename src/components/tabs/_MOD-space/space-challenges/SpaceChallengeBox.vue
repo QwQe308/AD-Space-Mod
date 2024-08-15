@@ -81,7 +81,7 @@ export default {
         <div>
           Completed {{ completions }} / {{ maxCompletions }} times
         </div>
-        <div>
+        <div v-if="!isCompleted">
           {{ goal }} to complete this challenge.
         </div>
       </div>

@@ -512,7 +512,21 @@ export const GameStorage = {
         isActive: true,
         lastTick: 0,
       };
-      player.version = 25
+      player.version = 25;
+    }
+    if (playerObject.version === 25) {
+      player.dimensions.infinity = Array.range(0, 8).map((tier) => ({
+        isUnlocked: false,
+        bought: 0,
+        amount: DC.D0,
+        cost: [DC.E7, DC.E9, DC.E12, DC.E20, DC.E140, DC.E200, DC.E250, DC.E280][tier],
+        baseAmount: 0,
+      }));
+      player.version = 26;
+    }
+    if (playerObject.version === 26) {
+      player.replicanti.galCost = DC.E308;
+      player.version = 27;
     }
 
     const rawDiff = Date.now() - player.lastUpdate;

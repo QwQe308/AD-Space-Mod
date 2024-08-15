@@ -6,7 +6,7 @@ export default {
   name: "ModernInfinityDimensionsTab",
   components: {
     PrimaryButton,
-    InfinityDimensionRow
+    InfinityDimensionRow,
   },
   data() {
     return {
@@ -79,21 +79,15 @@ export default {
     },
     buyTesseract() {
       Tesseracts.buyTesseract();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
   <div class="l-infinity-dim-tab">
     <div class="c-subtab-option-container">
-      <PrimaryButton
-        v-if="!isEC8Running"
-        class="o-primary-btn--subtab-option"
-        @click="maxAll"
-      >
-        Max all
-      </PrimaryButton>
+      <PrimaryButton v-if="!isEC8Running" class="o-primary-btn--subtab-option" @click="maxAll"> Max all </PrimaryButton>
       <PrimaryButton
         v-if="isAnyAutobuyerUnlocked && !isEC8Running"
         class="o-primary-btn--subtab-option"
@@ -107,14 +101,12 @@ export default {
         You have
         <span class="c-infinity-dim-description__accent">{{ format(infinityPower, 2, 1) }}</span>
         Infinity Power,
-        <br>
+        <br />
         <span v-if="!isEC9Running">
           increased by
           <span class="c-infinity-dim-description__accent">{{ formatPow(conversionRate, 2, 3) }}</span>
         </span>
-        <span v-else>
-          translated
-        </span>
+        <span v-else> translated </span>
         to a
         <span class="c-infinity-dim-description__accent">{{ formatX(dimMultiplier, 2, 1) }}</span>
         multiplier on all
@@ -122,48 +114,35 @@ export default {
         <span v-else>Time Dimensions due to Eternity Challenge 9.</span>
       </p>
     </div>
-    <div
-      v-if="enslavedCompleted"
-      class="l-infinity-dim-tab__enslaved-reward-container"
-    >
+    <div v-if="enslavedCompleted" class="l-infinity-dim-tab__enslaved-reward-container">
       <button
         class="c-infinity-dim-tab__tesseract-button"
         :class="{
           'c-infinity-dim-tab__tesseract-button--disabled': !canBuyTesseract,
-          'o-pelle-disabled-pointer': creditsClosed
+          'o-pelle-disabled-pointer': creditsClosed,
         }"
         @click="buyTesseract"
       >
-        <p>
-          Buy a Tesseract ({{ tesseractCountString }})
-        </p>
+        <p>Buy a Tesseract ({{ tesseractCountString }})</p>
         <p>Increase dimension caps by {{ format(nextDimCapIncrease, 2) }}</p>
-        <p><b>Costs: {{ format(tesseractCost) }} IP</b></p>
+        <p>
+          <b>Costs: {{ format(tesseractCost) }} IP</b>
+        </p>
       </button>
     </div>
-    <div v-if="isEnslavedRunning">
-      All Infinity Dimensions are limited to a single purchase.
-    </div>
+    <div v-if="isEnslavedRunning">All Infinity Dimensions are limited to a single purchase.</div>
     <div v-else>
       All Infinity Dimensions except for the 8th are limited to a maximum of {{ format(totalDimCap, 2) }}
-      purchases each.
+      purchases each...?
     </div>
     <div>You are getting {{ format(powerPerSecond, 2, 0) }} {{ incomeType }} per second.</div>
-    <b
-      v-if="isEC8Running"
-      class="l-infinity-dim-tab__ec8-purchases"
-    >
+    <b v-if="isEC8Running" class="l-infinity-dim-tab__ec8-purchases">
       You have {{ quantifyInt("purchase", EC8PurchasesLeft) }} left within Eternity Challenge 8.
     </b>
     <div class="l-dimensions-container">
-      <InfinityDimensionRow
-        v-for="tier in 8"
-        :key="tier"
-        :tier="tier"
-      />
+      <InfinityDimensionRow v-for="tier in 8" :key="tier" :tier="tier" />
     </div>
-    <div v-if="showLockedDimCostNote">
-      Hold shift to see the Infinity Point cost for locked Infinity Dimensions.
-    </div>
+    <div v-if="showLockedDimCostNote">Hold shift to see the Infinity Point cost for locked Infinity Dimensions.</div>
   </div>
 </template>
+

@@ -1,29 +1,32 @@
 <script>
-import { getSpaceNerf } from "@/core/_MOD/space";
-import { getSpaceDivisor } from "@/core/_MOD/space";
 
 export default {
   name: "HeaderSpaceInfo",
   data() {
     return {
       space: new Decimal(0),
-      spaceDivisior: 1,
+      spaceDivisior: new Decimal(1),
+      ESMult: new Decimal(1),
       nerf: new Decimal(0),
     };
   },
   computed: {
     effectDisplay() {
-        let spaceInfo = `Space: ${format(this.space, 2, 3)}`
-        if(this.spaceDivisior.gt(1)) spaceInfo += ` (after /${format(this.spaceDivisior, 2, 3)})`
-        if(this.spaceDivisior.lt(1)) spaceInfo += ` (after *${format(this.spaceDivisior.recip(), 2, 3)})`
+        let spaceInfo = `Space: ${format(this.space, 2, 2)}`
+        if(this.spaceDivisior.gt(1)) spaceInfo += ` (after /${format(this.spaceDivisior, 2, 2)})`
+        if(this.spaceDivisior.lt(1)) spaceInfo += ` (after *${format(this.spaceDivisior.recip(), 2, 2)})`
+        if(this.ESMult.neq(1) || this.spaceDivisior.neq(1)) spaceInfo += ` | Efficient Space: ${format(this.baseSpace.mul(this.ESMult), 2, 2)}`
+        if(this.ESMult.neq(1)) spaceInfo += ` (after *${format(this.ESMult, 2, 2)})`
         spaceInfo += ` | AM ^ (1/${format(this.nerf, 2, 3)})`
         return spaceInfo;
     },
   },
   methods: {
     update() {
-      this.space = new Decimal(player.space);
       this.spaceDivisior = getSpaceDivisor();
+      this.space = getSpaceAfterCalc();
+      this.baseSpace = player.space;
+      this.ESMult = getEfficientSpaceMult();
       this.nerf = getSpaceNerf();
     },
   },

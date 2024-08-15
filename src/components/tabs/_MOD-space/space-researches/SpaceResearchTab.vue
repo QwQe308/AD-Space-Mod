@@ -3,7 +3,7 @@ import SpaceResearchBarPanel from "./SpaceResearchBarPanel.vue";
 import PrimaryButton from "@/components/PrimaryButton";
 
 export default {
-  name: "entropy",
+  name: "SpaceResearchTab",
   components: {
     SpaceResearchBarPanel,
     PrimaryButton,
@@ -11,9 +11,9 @@ export default {
   data() {
     return {
       t1QuickResetAvailable: false,
-      dimensionBoostUnlocked: false,
+      t1QuickResetUnlocked: false,
       t2QuickResetAvailable: false,
-      galaxyUnlocked: false,
+      t2QuickResetUnlocked: false,
     };
   },
   computed: {
@@ -29,8 +29,8 @@ export default {
       this.t1QuickResetAvailable = isSpaceResearchQuickResetAvailable(1);
       this.t2QuickResetAvailable = isSpaceResearchQuickResetAvailable(2);
 
-      this.dimensionBoostUnlocked = PlayerProgress.dimensionBoostUnlocked()
-      this.galaxyUnlocked = PlayerProgress.galaxyUnlocked()
+      this.t1QuickResetUnlocked = PlayerProgress.dimensionBoostUnlocked() && !SpaceResearchResetsNothing[1]
+      this.t2QuickResetUnlocked = PlayerProgress.galaxyUnlocked() && !SpaceResearchResetsNothing[2]
     },
   },
 };
@@ -41,7 +41,7 @@ export default {
     <SpaceResearchBarPanel />
     <div class="c-pelle-row">
       <PrimaryButton
-        v-if="dimensionBoostUnlocked"
+        v-if="t1QuickResetUnlocked"
         :class="{
           'o-primary-btn--disabled': !t1QuickResetAvailable,
           'o-primary-btn--quick-reset': true
@@ -51,7 +51,7 @@ export default {
         Force perform a DB reset to upgrade T1 researches immediately
       </PrimaryButton>
       <PrimaryButton
-        v-if="galaxyUnlocked"
+        v-if="t2QuickResetUnlocked"
         :class="{
           'o-primary-btn--disabled': !t2QuickResetAvailable,
           'o-primary-btn--quick-reset': true

@@ -3,7 +3,7 @@ import { isSCRunningOnTier } from "./globals";
 export const GALAXY_TYPE = {
   NORMAL: 0,
   DISTANT: 1,
-  REMOTE: 2
+  REMOTE: 2,
 };
 
 class GalaxyRequirement {
@@ -33,16 +33,20 @@ export class Galaxy {
    * @returns {number} Max number of galaxies (total)
    */
   static buyableGalaxies(currency) {
-    const bulk = bulkBuyBinarySearch(new Decimal(currency), {
-      costFunction: x => this.requirementAt(x).amount,
-      cumulative: false,
-    }, player.galaxies);
+    const bulk = bulkBuyBinarySearch(
+      new Decimal(currency),
+      {
+        costFunction: (x) => this.requirementAt(x).amount,
+        cumulative: false,
+      },
+      player.galaxies
+    );
     if (!bulk) throw new Error("Unexpected failure to calculate galaxy purchase");
     return player.galaxies + bulk.quantity;
   }
 
   static requirementAt(galaxies) {
-    let amount = Galaxy.baseCost + (galaxies * Galaxy.costMult);
+    let amount = Galaxy.baseCost + galaxies * Galaxy.costMult;
 
     const type = Galaxy.typeAt(galaxies);
 
@@ -77,21 +81,24 @@ export class Galaxy {
   }
 
   static get requiredTier() {
-    if(isSCRunningOnTier(2,2)) return 3
-    if(isSCRunningOnTier(2,1)) return 4
+    if (isSCRunningOnTier(2, 1)) return 4;
     return NormalChallenge(10).isRunning ? 6 : 8;
   }
 
   static get canBeBought() {
+    if (isSCRunningOnTier(2, 2)) return false;
+    if (isSCRunningOnTier(3, 2)) return false;
+
     if (EternityChallenge(6).isRunning && !Enslaved.isRunning) return false;
     if (NormalChallenge(8).isRunning || InfinityChallenge(7).isRunning) return false;
-    if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) &&
-       (!player.break || Player.isInAntimatterChallenge)) return false;
+    if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) && (!player.break || Player.isInAntimatterChallenge))
+      return false;
     return true;
   }
 
   static get lockText() {
     if (this.canBeBought) return null;
+    if (isSCRunningOnTier(2, 2)) return "Locked (Space Challenge 2-2)";
     if (isSCRunningOnTier(3, 2)) return "Locked (Space Challenge 3-2)";
     if (EternityChallenge(6).isRunning) return "Locked (Eternity Challenge 6)";
     if (InfinityChallenge(7).isRunning) return "Locked (Infinity Challenge 7)";
@@ -101,11 +108,10 @@ export class Galaxy {
   }
 
   static get costScalingStart() {
-    return 100 + TimeStudy(302).effectOrDefault(0) + Effects.sum(
-      TimeStudy(223),
-      TimeStudy(224),
-      EternityChallenge(5).reward,
-      GlyphSacrifice.power
+    return (
+      100 +
+      TimeStudy(302).effectOrDefault(0) +
+      Effects.sum(TimeStudy(223), TimeStudy(224), EternityChallenge(5).reward, GlyphSacrifice.power)
     );
   }
 
@@ -132,8 +138,8 @@ function galaxyReset() {
   }
   softReset(0);
 
-  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())
-  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].refresh())
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[2].forEach((x) => SpaceResearchRifts[x].refresh());
 
   if (Notations.current === Notation.emoji) player.requirementChecks.permanent.emojiGalaxies++;
   // This is specifically reset here because the check is actually per-galaxy and not per-infinity
@@ -167,9 +173,9 @@ export function requestGalaxyReset(bulk, limit = Number.MAX_VALUE) {
 }
 
 //added
-export function forceGalaxyReset(){
-  player.galaxies -= 1
-  galaxyReset()
+export function forceGalaxyReset() {
+  player.galaxies -= 1;
+  galaxyReset();
 }
 
 function maxBuyGalaxies(limit = Number.MAX_VALUE) {
@@ -178,9 +184,7 @@ function maxBuyGalaxies(limit = Number.MAX_VALUE) {
   const req = Galaxy.requirement;
   if (!req.isSatisfied) return false;
   const dim = AntimatterDimension(req.tier);
-  const newGalaxies = Math.clampMax(
-    Galaxy.buyableGalaxies(Math.round(dim.totalAmount.toNumber())),
-    limit);
+  const newGalaxies = Math.clampMax(Galaxy.buyableGalaxies(Math.round(dim.totalAmount.toNumber())), limit);
   if (Notations.current === Notation.emoji) {
     player.requirementChecks.permanent.emojiGalaxies += newGalaxies - player.galaxies;
   }

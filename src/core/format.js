@@ -1,7 +1,6 @@
 function isEND() {
-  const threshold = GameEnd.endState > END_STATE_MARKERS.END_NUMBERS
-    ? 1
-    : (GameEnd.endState - END_STATE_MARKERS.FADE_AWAY) / 2;
+  const threshold =
+    GameEnd.endState > END_STATE_MARKERS.END_NUMBERS ? 1 : (GameEnd.endState - END_STATE_MARKERS.FADE_AWAY) / 2;
   // Using the Pelle.isDoomed getter here causes this to not update properly after a game restart
   return player.celestials.pelle.doomed && Math.random() < threshold;
 }
@@ -56,6 +55,18 @@ window.formatPostBreak = function formatPostBreak(value, places, placesUnder1000
   return decimal.sign() < 0
     ? notation.formatNegativeDecimal(decimal.abs(), places)
     : notation.formatDecimal(decimal, places);
+};
+
+window.formatAdd = function formatAdd(value, places, placesUnder1000) {
+  if (typeof value === "number" && value < 0) return `${format(value, places, placesUnder1000)}`;
+  if (value instanceof Decimal && value.sign() < 0) return `${format(value, places, placesUnder1000)}`;
+  return `+${format(value, places, placesUnder1000)}`;
+};
+
+window.formatMultplier = function formatMultplier(value, places, placesUnder1000) {
+  if (typeof value === "number" && value < 1) return `/${format(1 / value, places, placesUnder1000)}`;
+  if (value instanceof Decimal && value.lt(1)) return `/${format(value.recip(), places, placesUnder1000)}`;
+  return `x${format(value, places, placesUnder1000)}`;
 };
 
 window.formatX = function formatX(value, places, placesUnder1000) {
@@ -127,7 +138,7 @@ window.isSingular = function isSingular(amount) {
 const PLURAL_HELPER = new Map([
   [/y$/u, "ies"],
   [/x$/u, "xes"],
-  [/$/u, "s"]
+  [/$/u, "s"],
 ]);
 
 // Some terms require specific (or no) handling when plural. These terms should be added, in Word Case, to this Map.

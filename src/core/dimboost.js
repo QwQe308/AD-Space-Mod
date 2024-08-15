@@ -1,5 +1,4 @@
 import { DC } from "./constants";
-import { SpaceResearchRifts } from "./globals";
 
 class DimBoostRequirement {
   constructor(tier, amount) {
@@ -34,21 +33,26 @@ export class DimBoost {
         Achievement(142),
         GlyphEffect.dimBoostPower,
         PelleRifts.recursion.milestones[0]
-      ).powEffectsOf(InfinityUpgrade.dimboostMult.chargedEffect);
+      )
+      .mul(light.green.effectValue())
+      .powEffectsOf(InfinityUpgrade.dimboostMult.chargedEffect);
     if (GlyphAlteration.isAdded("effarig")) boost = boost.pow(getSecondaryGlyphEffect("effarigforgotten"));
     return boost;
   }
 
   static multiplierToNDTier(tier) {
+    if (isSCRunningOnTier(4, 1)) return DimBoost.power.pow(Math.min(this.purchasedBoosts, 7) + 1 - tier).clampMin(1);
     const normalBoostMult = DimBoost.power.pow(this.purchasedBoosts + 1 - tier).clampMin(1);
-    const imaginaryBoostMult = DimBoost.power.times(ImaginaryUpgrade(24).effectOrDefault(1))
-      .pow(this.imaginaryBoosts).clampMin(1);
+    const imaginaryBoostMult = DimBoost.power
+      .times(ImaginaryUpgrade(24).effectOrDefault(1))
+      .pow(this.imaginaryBoosts)
+      .clampMin(1);
     return normalBoostMult.times(imaginaryBoostMult);
   }
 
   static get maxDimensionsUnlockable() {
-    if(isSCRunningOnTier(2,2)) return 3
-    if(isSCRunningOnTier(2,1)) return 4
+    if (isSCRunningOnTier(2, 2)) return 4;
+    if (isSCRunningOnTier(2, 1)) return 4;
     return NormalChallenge(10).isRunning ? 6 : 8;
   }
 
@@ -57,6 +61,7 @@ export class DimBoost {
   }
 
   static get maxBoosts() {
+    //if (isSCRunningOnTier(3, 2)) return 0
     if (Ra.isRunning) {
       // Ra makes boosting impossible. Note that this function isn't called
       // when giving initial boosts, so the player will still get those.
@@ -81,13 +86,14 @@ export class DimBoost {
 
   static get canBeBought() {
     if (DimBoost.purchasedBoosts >= this.maxBoosts) return false;
-    if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) &&
-       (!player.break || Player.isInAntimatterChallenge)) return false;
+    if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) && (!player.break || Player.isInAntimatterChallenge))
+      return false;
     return true;
   }
 
   static get lockText() {
     if (DimBoost.purchasedBoosts >= this.maxBoosts) {
+      //if (isSCRunningOnTier(3, 2)) return "Locked (Space Challenge 3-2)";
       if (Ra.isRunning) return "Locked (Ra's Reality)";
       if (InfinityChallenge(1).isRunning) return "Locked (Infinity Challenge 1)";
       if (NormalChallenge(8).isRunning) return "Locked (8th Antimatter Dimension Autobuyer Challenge)";
@@ -103,15 +109,12 @@ export class DimBoost {
     const targetResets = DimBoost.purchasedBoosts + bulk;
     const tier = Math.min(targetResets + 3, this.maxDimensionsUnlockable);
     let amount = 20;
-    const discount = Effects.sum(
-      TimeStudy(211),
-      TimeStudy(222)
-    );
+    const discount = Effects.sum(TimeStudy(211), TimeStudy(222));
     if (tier === 6 && NormalChallenge(10).isRunning) {
       amount += Math.round((targetResets - 3) * (20 - discount));
     } else if (tier === 8) {
       amount += Math.round((targetResets - 5) * (15 - discount));
-    } else if (isSCRunningOnTierOrHigher(2, 1)){
+    } else if (isSCRunningOnTierOrHigher(2, 1)) {
       amount += Math.round((targetResets - 1) * (15 - discount));
     }
     if (EternityChallenge(5).isRunning) {
@@ -151,7 +154,8 @@ export class DimBoost {
     else boostEffects = `${newUnlock} and ${formattedMultText} ${dimensionRange}`;
 
     if (boostEffects === "") return "Dimension Boosts are currently useless";
-    const areDimensionsKept = (Perk.antimatterNoReset.isBought || Achievement(111).canBeApplied) &&
+    const areDimensionsKept =
+      (Perk.antimatterNoReset.isBought || Achievement(111).canBeApplied) &&
       (!Pelle.isDoomed || PelleUpgrade.dimBoostResetsNothing.isBought);
     if (areDimensionsKept) return boostEffects[0].toUpperCase() + boostEffects.substring(1);
     return `Reset your AD & T0 Res to ${boostEffects}`;
@@ -162,8 +166,10 @@ export class DimBoost {
   }
 
   static get imaginaryBoosts() {
-    let imaginaryBoosts = Ra.isRunning ? 0 : ImaginaryUpgrade(12).effectOrDefault(0) * ImaginaryUpgrade(23).effectOrDefault(1)
-    imaginaryBoosts += SpaceResearchRifts.r21.effectValue[0]
+    let imaginaryBoosts = Ra.isRunning
+      ? 0
+      : ImaginaryUpgrade(12).effectOrDefault(0) * ImaginaryUpgrade(23).effectOrDefault(1);
+    imaginaryBoosts += SpaceResearchRifts.r21.effectValue[0];
     return imaginaryBoosts;
   }
 
@@ -199,7 +205,7 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
   skipResetsIfPossible(enteringAntimatterChallenge);
   const canKeepAntimatter = Pelle.isDoomed
     ? PelleUpgrade.dimBoostResetsNothing.canBeApplied
-    : (Achievement(111).isUnlocked || Perk.antimatterNoReset.canBeApplied);
+    : Achievement(111).isUnlocked || Perk.antimatterNoReset.canBeApplied;
   if (!forcedAMReset && canKeepAntimatter) {
     Currency.antimatter.bumpTo(Currency.antimatter.startingValue);
   } else {
@@ -208,9 +214,9 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
   EventHub.dispatch(GAME_EVENT.DIMBOOST_AFTER, bulk);
 
   //MOD
-  player.space = new Decimal(0)
-  SpaceResearchTierDetail[0].forEach(x => SpaceResearchRifts[x].reset())
-  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].refresh())
+  player.space = new Decimal(0);
+  SpaceResearchTierDetail[0].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].refresh());
 }
 
 export function skipResetsIfPossible(enteringAntimatterChallenge) {
@@ -259,8 +265,7 @@ function maxBuyDimBoosts() {
   // so a = req2 - req1, b = req1 - a = 2 req1 - req2, num = (dims - b) / a
   const increase = req2.amount - req1.amount;
   const dim = AntimatterDimension(req1.tier);
-  let maxBoosts = Math.min(Number.MAX_VALUE,
-    1 + Math.floor((dim.totalAmount.toNumber() - req1.amount) / increase));
+  let maxBoosts = Math.min(Number.MAX_VALUE, 1 + Math.floor((dim.totalAmount.toNumber() - req1.amount) / increase));
   if (DimBoost.bulkRequirement(maxBoosts).isSatisfied) {
     softReset(maxBoosts);
     return;

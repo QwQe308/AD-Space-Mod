@@ -21,9 +21,7 @@ export const tabs = [
         symbol: "∞",
         component: "InfinityDimensionsTab",
         condition: () =>
-          PlayerProgress.realityUnlocked() ||
-          PlayerProgress.eternityUnlocked() ||
-          InfinityDimension(1).isUnlocked,
+          PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked() || InfinityDimension(1).isUnlocked,
         id: 1,
         hidable: true,
       },
@@ -37,7 +35,7 @@ export const tabs = [
         id: 2,
         hidable: true,
       },
-    ]
+    ],
   },
   {
     key: "options",
@@ -69,8 +67,8 @@ export const tabs = [
         component: "OptionsGameplayTab",
         id: 2,
         hidable: false,
-      }
-    ]
+      },
+    ],
   },
   {
     key: "statistics",
@@ -93,9 +91,7 @@ export const tabs = [
         symbol: "<i class='fas fa-stopwatch'></i>",
         component: "ChallengeRecordsTab",
         condition: () =>
-          PlayerProgress.realityUnlocked() ||
-          PlayerProgress.eternityUnlocked() ||
-          PlayerProgress.challengeCompleted(),
+          PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked() || PlayerProgress.challengeCompleted(),
         id: 1,
         hidable: true,
       },
@@ -144,7 +140,7 @@ export const tabs = [
         id: 6,
         hidable: true,
       },
-    ]
+    ],
   },
   {
     key: "achievements",
@@ -168,8 +164,8 @@ export const tabs = [
         component: "SecretAchievementTab",
         id: 1,
         hidable: true,
-      }
-    ]
+      },
+    ],
   },
   {
     key: "automation",
@@ -196,16 +192,14 @@ export const tabs = [
         id: 1,
         hidable: true,
       },
-    ]
+    ],
   },
   {
     key: "challenges",
     name: "Challenges",
     hideAt: 2,
     condition: () =>
-      PlayerProgress.realityUnlocked() ||
-      PlayerProgress.eternityUnlocked() ||
-      PlayerProgress.infinityUnlocked(),
+      PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked() || PlayerProgress.infinityUnlocked(),
     id: 5,
     hidable: true,
     subtabs: [
@@ -215,7 +209,7 @@ export const tabs = [
         symbol: "Ω",
         component: "NormalChallengesTab",
         id: 0,
-        hidable: true
+        hidable: true,
       },
       {
         key: "infinity",
@@ -224,7 +218,7 @@ export const tabs = [
         component: "infinity-challenges-tab",
         condition: () => PlayerProgress.realityUnlocked() || PlayerProgress.hasBroken() || Pelle.isDoomed,
         id: 1,
-        hidable: true
+        hidable: true,
       },
       {
         key: "eternity",
@@ -234,9 +228,9 @@ export const tabs = [
         condition: () =>
           PlayerProgress.realityUnlocked() ||
           player.challenge.eternity.unlocked !== 0 ||
-          EternityChallenges.all.some(ec => ec.completions > 0),
+          EternityChallenges.all.some((ec) => ec.completions > 0),
         id: 2,
-        hidable: true
+        hidable: true,
       },
       {
         key: "space",
@@ -244,7 +238,7 @@ export const tabs = [
         symbol: "∮",
         component: "SpaceChallengesTab",
         id: 3,
-        hidable: true
+        hidable: true,
       },
     ],
   },
@@ -259,12 +253,21 @@ export const tabs = [
       {
         key: "research",
         name: "Space Research",
-        symbol: "<span style='position:relative;bottom:2px'>∑</span>",
+        symbol: "<span style='position:relative;bottom:3px'>∑</span>",
         component: "SpaceResearchTab",
         id: 0,
         hidable: true,
       },
-    ]
+      {
+        key: "mirror",
+        name: "Mirror",
+        symbol: "〖〗",
+        component: "MirrorTab",
+        condition: () => PlayerProgress.IDUnlocked(4) || PlayerProgress.eternityUnlocked(),
+        id: 1,
+        hidable: true,
+      },
+    ],
   },
   {
     key: "infinity",
@@ -282,9 +285,7 @@ export const tabs = [
         symbol: "<i class='fas fa-arrow-up'></i>",
         component: "InfinityUpgradesTab",
         condition: () =>
-          PlayerProgress.realityUnlocked() ||
-          PlayerProgress.eternityUnlocked() ||
-          PlayerProgress.infinityUnlocked(),
+          PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked() || PlayerProgress.infinityUnlocked(),
         id: 0,
         hidable: true,
       },
@@ -294,9 +295,7 @@ export const tabs = [
         symbol: "∝",
         component: "BreakInfinityTab",
         condition: () =>
-          PlayerProgress.realityUnlocked() ||
-          PlayerProgress.eternityUnlocked() ||
-          PlayerProgress.infinityUnlocked(),
+          PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked() || PlayerProgress.infinityUnlocked(),
         id: 1,
         hidable: true,
       },
@@ -306,12 +305,10 @@ export const tabs = [
         symbol: "Ξ",
         component: "ReplicantiTab",
         condition: () =>
-          PlayerProgress.realityUnlocked() ||
-          PlayerProgress.eternityUnlocked() ||
-          PlayerProgress.infinityUnlocked(),
+          PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked() || PlayerProgress.infinityUnlocked(),
         id: 2,
         hidable: true,
-      }
+      },
     ],
   },
   {
@@ -319,9 +316,7 @@ export const tabs = [
     name: "Eternity",
     hideAt: 1.8,
     UIClass: "o-tab-btn--eternity",
-    condition: () =>
-      PlayerProgress.realityUnlocked() ||
-      PlayerProgress.eternityUnlocked(),
+    condition: () => PlayerProgress.realityUnlocked() || PlayerProgress.eternityUnlocked(),
     before: "EternityPointsHeader",
     id: 8,
     hidable: true,
@@ -358,7 +353,7 @@ export const tabs = [
         condition: () => PlayerProgress.dilationUnlocked() || PlayerProgress.realityUnlocked(),
         id: 3,
         hidable: true,
-      }
+      },
     ],
   },
   {
@@ -501,8 +496,8 @@ export const tabs = [
         condition: () => Pelle.isUnlocked,
         id: 7,
         hidable: true,
-      }
-    ]
+      },
+    ],
   },
   {
     key: "shop",
@@ -519,8 +514,8 @@ export const tabs = [
         symbol: "$",
         component: "ShopTab",
         id: 0,
-        hidable: true
-      }
-    ]
+        hidable: true,
+      },
+    ],
   },
 ];

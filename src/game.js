@@ -10,7 +10,6 @@ import { Cloud } from "./core/storage";
 import { supportedBrowsers } from "./supported-browsers";
 
 import Payments from "./core/payments";
-import { updateSpaceItems } from "./core/globals";
 
 if (GlobalErrorHandler.handled) {
   throw new Error("Initialization failed");
@@ -106,6 +105,7 @@ export function gainedInfinityPoints() {
     ip = ip.min(DC.E200);
   }
   ip = ip.times(GameCache.totalIPMult.value);
+  ip = ip.times(SpaceResearchRifts.r41.effectValue)
   if (Teresa.isRunning) {
     ip = ip.pow(0.55);
   } else if (V.isRunning) {
@@ -283,6 +283,7 @@ export function gainedInfinities() {
     Ra.unlocks.continuousTTBoost.effects.infinity
   );
   infGain = infGain.times(getAdjustedGlyphEffect("infinityinfmult"));
+  infGain = infGain.times(SpaceResearchRifts.r43.effectValue);
   infGain = infGain.powEffectOf(SingularityMilestone.infinitiedPow);
   return infGain;
 }
@@ -451,6 +452,10 @@ export function gameLoop(passDiff, options = {}) {
     simulateTime(realDiff / 1000, true);
     realTimeMechanics(realDiff);
     return;
+  }
+
+  if(DEV){
+    realDiff *= player.devSpeed
   }
 
   // Run all the functions which only depend on real time and not game time, skipping the rest of the loop if needed
@@ -694,7 +699,7 @@ function passivePrestigeGen() {
     let infGen = DC.D0;
     if (BreakInfinityUpgrade.infinitiedGen.isBought) {
       // Multipliers are done this way to explicitly exclude ach87 and TS32
-      infGen = infGen.plus(0.5 * Time.deltaTimeMs / Math.clampMin(50, player.records.bestInfinity.time));
+      infGen = infGen.plus(2 * Time.deltaTimeMs / Math.clampMin(50, player.records.bestInfinity.time));
       infGen = infGen.timesEffectsOf(
         RealityUpgrade(5),
         RealityUpgrade(7),

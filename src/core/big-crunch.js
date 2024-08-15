@@ -175,7 +175,7 @@ export function secondSoftReset(enteringAntimatterChallenge) {
 
   SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
   SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
-  //SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].refresh())
+  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].refresh())
 }
 
 export function preProductionGenerateIP(diff) {

@@ -79,7 +79,6 @@ export default {
       if (this.overrideLabel.length) return this.overrideLabel;
       if (this.isRunning) return "Running";
       if (this.isCompleted) {
-        if (this.isUnlocked) return "Redo";
         return "Completed";
       }
       if (this.isUnlocked) return "Start";

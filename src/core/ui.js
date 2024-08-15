@@ -13,7 +13,7 @@ Vue.mixin({
   computed: {
     $viewModel() {
       return state.view;
-    }
+    },
   },
   created() {
     if (this.update) {
@@ -32,7 +32,7 @@ Vue.mixin({
 
     for (const key in watchers) makeRecomputable(watchers[key], key, recomputed);
 
-    this.$recompute = key => recomputed[key] = !recomputed[key];
+    this.$recompute = (key) => (recomputed[key] = !recomputed[key]);
     Vue.observable(recomputed);
   },
   destroyed() {
@@ -63,6 +63,12 @@ Vue.mixin({
     formatRarity(value) {
       return formatRarity(value);
     },
+    formatAdd(value, places, placesUnder1000) {
+      return formatAdd(value, places, placesUnder1000);
+    },
+    formatMultplier(value, places, placesUnder1000) {
+      return formatMultplier(value, places, placesUnder1000);
+    },
     formatX(value, places, placesUnder1000) {
       return formatX(value, places, placesUnder1000);
     },
@@ -74,8 +80,8 @@ Vue.mixin({
     },
     pluralize,
     quantify,
-    quantifyInt
-  }
+    quantifyInt,
+  },
 });
 
 // This function is also from the fiddle above
@@ -84,7 +90,7 @@ function makeRecomputable(watcher, key, recomputed) {
   recomputed[key] = true;
 
   // eslint-disable-next-line no-sequences
-  watcher.getter = vm => (recomputed[key], original.call(vm, vm));
+  watcher.getter = (vm) => (recomputed[key], original.call(vm, vm));
 }
 
 const ReactivityComplainer = {
@@ -105,7 +111,7 @@ const ReactivityComplainer = {
         this.checkReactivity(prop, `${path}.${key}`);
       }
     }
-  }
+  },
 };
 
 export const GameUI = {
@@ -114,9 +120,11 @@ export const GameUI = {
   flushPromise: undefined,
   initialized: false,
   globalClickListener: null,
-  touchDevice: ("ontouchstart" in window ||
-    window.navigator.maxTouchPoints > 0 || window.navigator.msMaxTouchPoints > 0 ||
-    (window.DocumentTouch && document instanceof DocumentTouch)),
+  touchDevice:
+    "ontouchstart" in window ||
+    window.navigator.maxTouchPoints > 0 ||
+    window.navigator.msMaxTouchPoints > 0 ||
+    (window.DocumentTouch && document instanceof DocumentTouch),
   dispatch(event, args) {
     const index = this.events.indexOf(event);
     if (index !== -1) {
@@ -126,8 +134,7 @@ export const GameUI = {
       this.events.push([event, args]);
     }
     if (this.flushPromise) return;
-    this.flushPromise = Promise.resolve()
-      .then(this.flushEvents.bind(this));
+    this.flushPromise = Promise.resolve().then(this.flushEvents.bind(this));
   },
   flushEvents() {
     this.flushPromise = undefined;
@@ -156,13 +163,13 @@ export const GameUI = {
   },
   update() {
     this.dispatch(GAME_EVENT.UPDATE);
-  }
+  },
 };
 
-export const UIID = (function() {
+export const UIID = (function () {
   let id = 0;
   return { next: () => id++ };
-}());
+})();
 
 VTooltip.options.defaultClass = "general-tooltip";
 VTooltip.options.popover.defaultBaseClass = "general-tooltip";
@@ -170,31 +177,31 @@ VTooltip.options.defaultTemplate =
   '<div role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';
 Vue.use(VTooltip);
 
-(function() {
+(function () {
   const methodStrategy = Vue.config.optionMergeStrategies.methods;
   // eslint-disable-next-line max-params
   Vue.config.optionMergeStrategies.methods = (parentVal, childVal, vm, key) => {
     const result = methodStrategy(parentVal, childVal, vm, key);
-    const hasUpdate = val => val && val.update;
+    const hasUpdate = (val) => val && val.update;
     if (!hasUpdate(parentVal) || !hasUpdate(childVal)) return result;
-    result.update = function() {
+    result.update = function () {
       parentVal.update.call(this);
       childVal.update.call(this);
     };
     return result;
   };
-}());
+})();
 
 useLongPress(Vue);
 useRepeatingClick(Vue);
 Vue.use(VueGtag, {
-  config: { id: "UA-77268961-1" }
+  config: { id: "UA-77268961-1" },
 });
 
 export const ui = new Vue({
   el: "#ui",
   components: {
-    GameUIComponent
+    GameUIComponent,
   },
   data: state,
   computed: {
@@ -235,10 +242,10 @@ export const ui = new Vue({
     scroll(t) {
       const now = Date.now();
       if (this.view.scrollWindow) {
-        window.scrollBy(0, this.view.scrollWindow * (now - t) / 2);
+        window.scrollBy(0, (this.view.scrollWindow * (now - t)) / 2);
         setTimeout(() => this.scroll(now), 20);
       }
-    }
+    },
   },
-  render: h => h(GameUIComponent)
+  render: (h) => h(GameUIComponent),
 });

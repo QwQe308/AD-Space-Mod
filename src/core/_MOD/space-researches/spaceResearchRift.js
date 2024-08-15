@@ -1,6 +1,5 @@
-import { DC } from "../constants";
-import { GameMechanicState } from "../utils";
-import { getSCCompletions, isSCRunning, isSCRunningOnTier, isSCRunningOnTierOrHigher } from "./space-challenges";
+import { DC } from "../../constants";
+import { GameMechanicState } from "../../utils";
 
 class SpaceResearchRift extends GameMechanicState {
   constructor(config) {
@@ -132,6 +131,11 @@ class SpaceResearchRift extends GameMechanicState {
     return SpaceResearchResetsNothing[this.tier]()
   }
 
+  get unlocked(){
+    if(!this.config.unlocked) return true
+    return this.config.unlocked()
+  }
+
   reset() {
     this.rift.progress = DC.D0
     this.rift.pendingProgress = DC.D0
@@ -176,7 +180,7 @@ class SpaceResearchRift extends GameMechanicState {
       this.rift.active = false;
       return;
     }
-    if (this.isMaxed) return;
+    if (this.isMaxed || !this.unlocked) return;
 
     let res = spd.mul(diff/1000)
 

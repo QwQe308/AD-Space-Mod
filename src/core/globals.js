@@ -93,7 +93,9 @@ export * from "./automator/script-templates";
 
 //MOD
 
-export * from "./_MOD/spaceResearches"
-export * from "./_MOD/spaceResearchRift"
-export * from "./_MOD/space"
-export * from "./_MOD/space-challenges"
+export * from "./_MOD/space-researches/spaceResearches";
+export * from "./_MOD/space-researches/spaceResearchRift";
+export * from "./_MOD/space";
+export * from "./_MOD/space-challenges/space-challenges";
+export * from "./_MOD/mirror/light.js";
+export * from "./_MOD/mirror/mirror.js";

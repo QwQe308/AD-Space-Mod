@@ -1,6 +1,5 @@
 import { DC } from "./constants";
 import { GameMechanicState } from "./game-mechanics";
-import { isSCRunningOnTier } from "./globals";
 
 export function updateNormalAndInfinityChallenges(diff) {
   if (NormalChallenge(11).isRunning || InfinityChallenge(6).isRunning) {

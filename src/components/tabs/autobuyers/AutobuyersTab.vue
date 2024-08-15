@@ -13,6 +13,7 @@ import TickspeedAutobuyerBox from "./TickspeedAutobuyerBox";
 import T0AutoResearcherBox from "./_MOD/T0AutoResearcherBox"
 import T1AutoResearcherBox from "./_MOD/T1AutoResearcherBox"
 import T2AutoResearcherBox from "./_MOD/T2AutoResearcherBox"
+import T3AutoResearcherBox from "./_MOD/T3AutoResearcherBox"
 
 export default {
   name: "AutobuyersTab",
@@ -31,6 +32,7 @@ export default {
     T0AutoResearcherBox,
     T1AutoResearcherBox,
     T2AutoResearcherBox,
+    T3AutoResearcherBox,
   },
   data() {
     return {
@@ -108,6 +110,7 @@ export default {
     <T0AutoResearcherBox />
     <T1AutoResearcherBox />
     <T2AutoResearcherBox />
+    <T3AutoResearcherBox />
 
     <SimpleAutobuyersMultiBox />
   </div>

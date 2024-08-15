@@ -23,6 +23,7 @@ import { TimeTheoremAutobuyerState } from "./time-theorem-autobuyer";
 import { T0AutoResearcherState } from "./_MOD/t0-auto-researcher";
 import { T1AutoResearcherState } from "./_MOD/t1-auto-researcher";
 import { T2AutoResearcherState } from "./_MOD/t2-auto-researcher";
+import { T3AutoResearcherState } from "./_MOD/t3-auto-researcher";
 
 export const Autobuyer = {
   annihilation: new AnnihilationAutobuyerState(),
@@ -52,6 +53,7 @@ export const Autobuyer = {
   T0AutoResearcher: new T0AutoResearcherState(),
   T1AutoResearcher: new T1AutoResearcherState(),
   T2AutoResearcher: new T2AutoResearcherState(),
+  T3AutoResearcher: new T3AutoResearcherState(),
 };
 
 export const Autobuyers = (function() {
@@ -77,10 +79,6 @@ export const Autobuyers = (function() {
     Autobuyer.darkMatterDimsAscension,
     Autobuyer.singularity,
     Autobuyer.annihilation,
-    
-    Autobuyer.T0AutoResearcher,
-    Autobuyer.T1AutoResearcher,
-    Autobuyer.T2AutoResearcher,
   ];
 
   const singleComplex = [
@@ -96,7 +94,16 @@ export const Autobuyers = (function() {
     Autobuyer.realityUpgrade.zeroIndexed,
     Autobuyer.imaginaryUpgrade.zeroIndexed,
   ];
-  const all = dimensions.concat(prestige, singleComplex, arrays);
+
+  const others = [
+    Autobuyer.T0AutoResearcher,
+    Autobuyer.T1AutoResearcher,
+    Autobuyer.T2AutoResearcher,
+    Autobuyer.T3AutoResearcher,
+  ];
+
+  const all = dimensions.concat(prestige, singleComplex, arrays, others);
+  
   const multiple = [
     Autobuyer.antimatterDimension,
     Autobuyer.infinityDimension,

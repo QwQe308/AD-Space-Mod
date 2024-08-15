@@ -37,11 +37,11 @@ export class PlayerProgress {
   }
 
   static hasBroken() {
-    return player.break || this.isEternityUnlocked || this.isRealityUnlocked;
+    return player.break || PlayerProgress.current.isEternityUnlocked;
   }
 
   static replicantiUnlocked() {
-    return Replicanti.areUnlocked || this.isEternityUnlocked;
+    return Replicanti.areUnlocked || PlayerProgress.current.isEternityUnlocked;
   }
 
   static eternityUnlocked() {
@@ -76,5 +76,10 @@ export class PlayerProgress {
 
   static galaxyUnlocked() {
     return player.galaxies > 0 || this.infinityUnlocked()
+  }
+
+  static IDUnlocked(id) {
+    return PlayerProgress.current.isEternityUnlocked ||
+          InfinityDimension(id).isUnlocked
   }
 }

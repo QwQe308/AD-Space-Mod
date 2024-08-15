@@ -1,4 +1,4 @@
-import { spaceChallenges } from "../../_MOD/space-challenges-config";
+import { spaceChallenges } from "../../_MOD/space-challenges/space-challenges-config";
 import { eternityChallenges } from "./eternity-challenges";
 import { infinityChallenges } from "./infinity-challenges";
 import { normalChallenges } from "./normal-challenges";
