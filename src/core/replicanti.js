@@ -127,7 +127,7 @@ export function getReplicantiInterval(overCapOverride, intervalIn) {
 // and celestial nerfs) interact very weirdly and the game balance relies on this behavior, and we also use this same
 // value in the multiplier tab too
 export function totalReplicantiSpeedMult(overCap) {
-  let totalMult = DC.D1;
+  let totalMult = DC.D3;
 
   // These are the only effects active in Pelle - the function shortcuts everything else if we're in Pelle
   totalMult = totalMult.times(PelleRifts.decay.effectValue);
@@ -263,7 +263,7 @@ export function replicantiLoop(diff) {
 }
 
 export function replicantiMult() {
-  return Decimal.pow(Decimal.log10(Replicanti.amount.clampMin(1)), 1.5)
+  return Decimal.pow(Decimal.log10(Replicanti.amount.clampMin(1)), 1.6)
     .plusEffectOf(TimeStudy(21))
     .timesEffectOf(TimeStudy(102))
     .clampMin(1)
