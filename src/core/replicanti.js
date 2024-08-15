@@ -579,7 +579,7 @@ export const Replicanti = {
       intervalCost: DC.E140,
       boughtGalaxyCap: 0,
       galaxies: 0,
-      galCost: DC.E170,
+      galCost: DC.E308,
     };
   },
   unlock(freeUnlock = false) {
