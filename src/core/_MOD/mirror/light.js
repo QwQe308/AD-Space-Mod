@@ -69,13 +69,13 @@ export const light = {
       let eff = amount.mul(4).pow(0.9).pow_base(1.006);
       return player.light.inMirror ? eff.recip() : eff;
     },
-    effect: (eff) => `Efficient Space ${formatMultplier(eff, 2, 2)}`,
+    effect: (eff) => `Effective Space ${formatMultplier(eff, 2, 2)}`,
   },
   //Final color
   white: {
     amount: () => calcComplexLight("red", "blue", "green"), // White = Red + Blue + Green
     effectValue(amount = this.amount()) {
-      if(!player.light.inMirror) amount = amount.sub(Math.max(player.light.prisms - 200, 0)).max(0)
+      if (!player.light.inMirror) amount = amount.sub(Math.max(player.light.prisms - 200, 0)).max(0);
       let eff = amount.mul(4).pow(0.9).pow_base(1.006);
       return player.light.inMirror ? eff.recip() : eff;
     },

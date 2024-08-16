@@ -44,9 +44,9 @@ Space gives a exponential nerf to the Antimatter, but at the same time, accelera
 Direct Antimatter Multplier applies after the nerf.
 <br>
 <br>
-If you progress further, you may see "Efficient Space" (also ES).
+If you progress further, you may see "Effective Space" (also ES).
 It simply does everything as Space does except increasing the AM Nerf.
-Increasing Space Divisor do not reduce your Efficient Space.
+Increasing Space Divisor do not reduce your Effective Space.
 `,
       isUnlocked: () => true,
       tags: ["space", "*", "mod", "nerf", "AM", "direct"],
@@ -71,7 +71,7 @@ Blue: *1.3^x Pre-Infinity Research Speed<br>
 <br>
 Yellow: *1.05^x Infinity Dimensions' Multplier<br>
 Purple: +x/3 Free Tickspeed Upgrades<br>
-Cyan: *1.006^x Efficient Space<br>
+Cyan: *1.006^x Effective Space<br>
 <br>
 White: *1.006^x Space
 `,
@@ -296,7 +296,7 @@ Play entry will update itself with additional entries for new resources as you e
 ${PlayerProgress.infinityUnlocked() ? "- <b>IP</b>: Infinity Point<br>" : ""}
 ${PlayerProgress.infinityUnlocked() ? "- <b>NC</b>: Normal Challenge<br>" : ""}
 ${PlayerProgress.infinityUnlocked() ? "- <b>IC</b>: Infinity Challenge<br>" : ""}
-${PlayerProgress.hasBroken() ? "- <b>ES</b>: Efficient Space<br>" : ""}
+${PlayerProgress.hasBroken() ? "- <b>ES</b>: Effective Space<br>" : ""}
 ${InfinityDimension(1).isUnlocked || PlayerProgress.eternityUnlocked() ? "- <b>ID</b>: Infinity Dimension<br>" : ""}
 ${PlayerProgress.replicantiUnlocked() ? "- <b>RG</b>: Replicanti Galaxy<br>" : ""}
 ${PlayerProgress.eternityUnlocked() ? "- <b>EP</b>: Eternity Point<br>" : ""}

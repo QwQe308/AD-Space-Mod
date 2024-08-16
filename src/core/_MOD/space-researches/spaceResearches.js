@@ -5,7 +5,7 @@ export function updateSpaceResearches(diff) {
 }
 
 export function globalResearchSpeed() {
-  let spaceFactor = DC.E1.pow((getEfficientSpace().add(1).log10() + 1) ** 2.5 - 1);
+  let spaceFactor = DC.E1.pow((getEffectiveSpace().add(1).log10() + 1) ** 2.5 - 1);
   let dbFactor = DC.D2.pow(DimBoost.totalBoosts ** 0.75);
   let researchFactor = SpaceResearchRifts.r21.effectValue[1]; //r21
   let achievementFactor = Achievements.power;
@@ -217,7 +217,7 @@ export const spaceResearch = {
       return level.pow_base(1.1);
     },
     effect: (value) => {
-      return `x ${format(value, 2, 2)} Efficient Space`;
+      return `x ${format(value, 2, 2)} Effective Space`;
     },
   },
 

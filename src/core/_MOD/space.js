@@ -19,19 +19,19 @@ export function getSpaceDivisor() {
   return divisor.pow(player.spaceDivisiorActivePercentage);
 }
 
-export function getEfficientSpace() {
-  let efficientSpace = player.space.mul(getEfficientSpaceMult()).mul(light.cyan.effectValue());
-  return efficientSpace;
+export function getEffectiveSpace() {
+  let effectiveSpace = player.space.mul(getEffectiveSpaceMult()).mul(light.cyan.effectValue());
+  return effectiveSpace;
 }
 
 export function getSpaceAfterCalc() {
   return player.space.div(getSpaceDivisor());
 }
 
-export function getEfficientSpaceMult() {
-  let efficientMult = new Decimal(1);
-  efficientMult = efficientMult.mul(SpaceResearchRifts.r42.effectValue);
-  return efficientMult;
+export function getEffectiveSpaceMult() {
+  let effectiveMult = new Decimal(1);
+  effectiveMult = effectiveMult.mul(SpaceResearchRifts.r42.effectValue);
+  return effectiveMult;
 }
 
 export function getAMMultplier() {

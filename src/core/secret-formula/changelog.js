@@ -18,6 +18,7 @@ Changes:
 <li>Added H2P for mirror.</li>
 <li>Added notify for break-infinity Space Challenge.</li>
 <li>Fixed NA95 being got early.</li>
+<li>Fixed a typo.</li>
 </ul>
 Content up to Eternity.
 <br>
