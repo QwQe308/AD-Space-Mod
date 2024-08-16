@@ -32,6 +32,10 @@ export const tabNotifications = {
         parent: "infinity",
         tab: "break",
       },
+      {
+        parent: "challenges",
+        tab: "space",
+      },
     ],
     condition: () =>
       !PlayerProgress.realityUnlocked() && !PlayerProgress.eternityUnlocked() && Autobuyer.bigCrunch.hasMaxedInterval,

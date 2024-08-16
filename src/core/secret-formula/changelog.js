@@ -9,15 +9,32 @@ export const changelog = [
    * }
    */
   {
+    date: [2024, 8, 16],
+    name: "v0.31 Small fixes",
+    info: `
+Changes:
+<ul>
+<li>AM production will never show negative values. (but actually it's still decreasing but not shown)</li>
+<li>Added H2P for mirror.</li>
+<li>Added notify for break-infinity Space Challenge.</li>
+<li>Fixed NA95 being got early.</li>
+</ul>
+Content up to Eternity.
+<br>
+`,
+  },
+  {
     date: [2024, 8, 15],
     name: "v0.3 Break Infinity",
     info: `
 Changes:
 <ul>
 <li>Added Mirror.</li>
+<li>Added T3 Researches.</li>
+<li>Rebalanced the game and made space divisor do not reduce research speed.</li>
 <li>WOW big update.</li>
 </ul>
-Content up to Eternity...but may way more than e308 IP XD
+Content up to Eternity...<del>but may way more than e308 IP XD</del> Post e140 IP are rebalanced.
 <br>
 `,
   },

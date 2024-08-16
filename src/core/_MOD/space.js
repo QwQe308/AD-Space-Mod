@@ -65,7 +65,10 @@ export function produceAM(proc, diff) {
   Currency.antimatter.value = pendingAM.pow(1 / getSpaceNerf()).mul(amMult);
   player.records.totalAntimatter = player.records.totalAntimatter.max(player.antimatter);
 
-  player.amProc = player.antimatter.sub(recordAM).div(diff / 1000);
+  player.amProc = player.antimatter
+    .sub(recordAM)
+    .div(diff / 1000)
+    .max(0);
 }
 
 export function updateSpaceItems(diff) {

@@ -785,9 +785,7 @@ export const normalAchievements = [
     get reward() {
       return `You keep your Replicanti and ${formatInt(1)} Replicanti Galaxy on Infinity.`;
     },
-    checkRequirement: () =>
-      (Replicanti.amount.eq(Decimal.NUMBER_MAX_VALUE) || player.replicanti.galaxies > 0) &&
-      Time.thisInfinityRealTime.totalHours <= 1,
+    checkRequirement: () => false,
     checkEvent: GAME_EVENT.REPLICANTI_TICK_AFTER,
   },
   {
