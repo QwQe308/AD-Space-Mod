@@ -60,11 +60,11 @@ At first, you shall complete a mirror run to get "Prisms", to use it in common r
 All color of light gives a buff/nerf, and is simply reversed in Mirror run.
 Basic colors is based on percentage (RGB), Complex colors is based on its basic colors' minimum value.
 For example, Red + Blue = Purple, so Purple is based on minimum value of Red and Blue.<br>
-Pending Prisms is equal to total percentage; if total percentage greater than prisms, it will be divided by (Total percentage / Prisms), which may cause some slight loss as light is limited as a Integer.<br>
+Pending Prisms is equal to total percentage; if total percentage greater than prisms, it will be divided by (Total percentage / Prisms), which may cause some slight loss as light is floored as a Integer.<br>
 If you get more than 200 Prisms, white light's effect is offseted equal to Prisms amount.
 <br><br>
 Lights' effect formula if you like:<br>
-x = (light * 4) ^ 0.9<br>
+x = (light * 4) ^ 0.9<br><br>
 Red: *1e6^x Antimatter<br>
 Green: *1.01^x Dimension Boost Base (note that DB base do not affect Research Speed)<br>
 Blue: *1.3^x Pre-Infinity Research Speed<br>
