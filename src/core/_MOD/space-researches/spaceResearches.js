@@ -239,7 +239,7 @@ export const spaceResearch = {
     name: "Continuous Dimensions",
     tier: 3,
     level(progress) {
-      if (progress.lte(1e23)) return DC.D0;
+      if (progress.lte(1e24)) return DC.D0;
       return new Decimal(progress.div(1e23).log10() ** (1 / 3) * 3 - 2).floor();
     },
     requirement(level) {
