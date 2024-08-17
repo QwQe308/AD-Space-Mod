@@ -9,6 +9,21 @@ export const changelog = [
    * }
    */
   {
+    date: [2024, 8, 17],
+    name: "v0.32 Small fixes #2",
+    info: `
+Changes:
+<ul>
+<li>Fixed Break Research Speed multpliers not working, now their related effect are removed XD</li>
+<li>Added H2P button for Research / Mirror.</li>
+<li>Fixed orginal sliders' color.</li>
+<li>Removes "Leveling up these requires a X reset" if it's needn't.</li>
+</ul>
+Content up to Eternity.
+<br>
+`,
+  },
+  {
     date: [2024, 8, 16],
     name: "v0.31 Small fixes",
     info: `
