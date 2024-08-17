@@ -108,7 +108,7 @@ SOFTWARE.
   transition: all 0s;
 }
 
-.c-mirror-slider__process {
+.c-ad-slider__process {
   background-color: var(--color-slider-blue);
   border-radius: var(--var-border-radius, 15px);
 }

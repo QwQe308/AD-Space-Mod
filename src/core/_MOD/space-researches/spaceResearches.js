@@ -10,13 +10,6 @@ export function globalResearchSpeed() {
   let researchFactor = SpaceResearchRifts.r21.effectValue[1]; //r21
   let achievementFactor = Achievements.power;
   let otherFactors = DC.D1.timesEffectsOf(InfinityUpgrade.totalTimeMult);
-  if (!isSCRunningOnTier(3, 2))
-    otherFactors.timesEffectsOf(
-      BreakInfinityUpgrade.totalAMMult,
-      BreakInfinityUpgrade.currentAMMult,
-      BreakInfinityUpgrade.infinitiedMult,
-      BreakInfinityUpgrade.achievementMult
-    );
   return spaceFactor.mul(dbFactor).mul(researchFactor).mul(achievementFactor).mul(otherFactors);
 }
 

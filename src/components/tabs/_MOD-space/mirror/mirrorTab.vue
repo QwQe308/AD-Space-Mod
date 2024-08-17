@@ -1,12 +1,14 @@
 <script>
 import EnterMirrorButton from "./enterMirrorButton";
 import ColorSlider from "./colorSlider";
+import PrimaryButton from "../../../PrimaryButton.vue";
 
 export default {
   name: "MirrorTab",
   components: {
     EnterMirrorButton,
     ColorSlider,
+    PrimaryButton,
   },
   data() {
     return {
@@ -30,6 +32,10 @@ export default {
       this.mirrorReq = getMirrorRequirement();
       this.pendingPrisms = getPendingPrisms();
     },
+    showMirrorHowTo() {
+      ui.view.h2pForcedTab = GameDatabase.h2p.tabs.filter((tab) => tab.name === "*The Mirror")[0];
+      Modal.h2p.show();
+    },
   },
 };
 </script>
@@ -42,7 +48,8 @@ export default {
       Target AM is based on your highest color percentage.
     </div>
     <div v-if="prisms > 200">Prisms over 200 will offset white light's effect outside mirror.</div>
-    <div>See How To Play for detailed info.</div>
+
+    <PrimaryButton class="o-primary-btn--subtab-option" @click="showMirrorHowTo"> How to play </PrimaryButton>
     <br /><br />
     <div>
       <big style="color: var(--color-mirror)">

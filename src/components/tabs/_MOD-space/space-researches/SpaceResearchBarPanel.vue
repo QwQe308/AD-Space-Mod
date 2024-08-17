@@ -1,12 +1,14 @@
 <script>
 import SpaceResearchRift from "./SpaceResearch.vue";
 import SpaceDivisorSlider from "../SpaceDivisorSlider.vue";
+import PrimaryButton from "../../../PrimaryButton.vue";
 
 export default {
   name: "SpaceResearchBarPanel",
   components: {
     SpaceResearchRift,
     SpaceDivisorSlider,
+    PrimaryButton,
   },
   data() {
     return {
@@ -14,6 +16,7 @@ export default {
       isCollapsed: false,
       researchSpeed: new Decimal(0),
       tierResearchSpeed: [],
+      resetsNothing: [],
       SpaceResearchTierDetail: SpaceResearchTierDetail,
       dimensionBoostUnlocked: false,
       galaxyUnlocked: false,
@@ -38,6 +41,7 @@ export default {
       this.hasBroken = PlayerProgress.hasBroken();
       for (let tier = 0; tier <= maxTier; tier++) {
         this.tierResearchSpeed[tier] = tierBasedResearchSpeed(tier);
+        this.resetsNothing[tier] = SpaceResearchResetsNothing[tier]();
       }
     },
     toggleCollapse() {
@@ -45,6 +49,10 @@ export default {
     },
     totalrifts() {
       return SpaceResearchRifts.all.length;
+    },
+    showSpaceHowTo() {
+      ui.view.h2pForcedTab = GameDatabase.h2p.tabs.filter((tab) => tab.name === "*About Space")[0];
+      Modal.h2p.show();
     },
   },
 };
@@ -59,7 +67,10 @@ export default {
     <div v-if="!isCollapsed" class="l-pelle-content-container">
       Researches can be progressed by clicking on their bars.<br />
       Research speed is based on dimension boosts and space amount.<br /><br />
-      <big>Current base research speed: {{ format(researchSpeed, 2) }} /s</big><br /><br />
+      <big>Current base research speed: {{ format(researchSpeed, 2) }} /s</big><br />
+
+      <PrimaryButton class="o-primary-btn--subtab-option" @click="showSpaceHowTo"> How to play </PrimaryButton
+      ><br /><br />
 
       <SpaceDivisorSlider />
 
@@ -82,7 +93,7 @@ export default {
         <big v-if="tierResearchSpeed[1].neq(researchSpeed)"
           >T1 research speed: {{ format(tierResearchSpeed[1], 2) }} /s</big
         >
-        Leveling up these requires a Dimension Boost reset.
+        <div v-if="!resetsNothing[1]">Leveling up these requires a Dimension Boost reset.</div>
         <SpaceResearchRift
           v-for="rift in rifts"
           v-if="SpaceResearchTierDetail[1].includes(rift.config.key) && rift.unlocked"
@@ -97,7 +108,7 @@ export default {
         <big v-if="tierResearchSpeed[2].neq(researchSpeed)"
           >T2 research speed: {{ format(tierResearchSpeed[2], 2) }} /s</big
         >
-        Leveling up these requires a Galaxy reset.
+        <div v-if="!resetsNothing[2]">Leveling up these requires a Galaxy reset.</div>
         <SpaceResearchRift
           v-for="rift in rifts"
           v-if="SpaceResearchTierDetail[2].includes(rift.config.key) && rift.unlocked"
@@ -112,7 +123,7 @@ export default {
         <big v-if="tierResearchSpeed[3].neq(researchSpeed)"
           >T3 research speed: {{ format(tierResearchSpeed[3], 2) }} /s</big
         >
-        Leveling up these requires a Infinity reset.
+        <div v-if="!resetsNothing[3]">Leveling up these requires a Infinity reset.</div>
         <SpaceResearchRift
           v-for="rift in rifts"
           v-if="SpaceResearchTierDetail[3].includes(rift.config.key) && rift.unlocked"
