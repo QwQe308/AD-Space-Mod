@@ -2,13 +2,15 @@
 import ChallengeGrid from "@/components/ChallengeGrid";
 import ChallengeTabHeader from "@/components/ChallengeTabHeader";
 import SpaceChallengeBox from "./SpaceChallengeBox";
+import PrimaryButton from "@/components/PrimaryButton";
 
 export default {
   name: "SpaceChallengesTab",
   components: {
     ChallengeTabHeader,
     ChallengeGrid,
-    SpaceChallengeBox
+    SpaceChallengeBox,
+    PrimaryButton
   },
   data() {
     return {
@@ -28,7 +30,10 @@ export default {
     },
     isChallengeVisible(challenge) {
       return challenge.completions > 0 || challenge.isUnlocked || challenge.hasUnlocked;
-    }
+    },
+    showModal() {
+      Modal.spaceChallengeReward.show();
+    },
   }
 };
 </script>
@@ -36,11 +41,18 @@ export default {
 <template>
   <div class="l-challenges-tab">
     <ChallengeTabHeader />
+    <PrimaryButton
+      class="o-primary-btn--subtab-option"
+      @click="showModal"
+    >
+      View acquired rewards
+    </PrimaryButton>
+    <br>
     <div>
-      Complete Space Challenges again for a bigger reward.
+      Complete Space Challenges again for another reward.
     </div>
     <div>
-      **These could be hard, do not try them too early**
+      <b>These could be hard, do not try them too early</b>
     </div>
     <div v-if="unlockedCount !== challenges.length">
       You have seen {{ formatInt(unlockedCount) }} out of {{ formatInt(challenges.length) }} Space Challenges.

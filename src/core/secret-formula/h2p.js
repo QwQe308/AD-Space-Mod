@@ -40,28 +40,51 @@ visible tab and subtab, if such an entry exists.
     {
       name: "*About Space",
       info: () => `
-Space gives a exponential nerf to the Antimatter, but at the same time, accelerating the Space Researches.
+Space gives an exponential nerf to the Antimatter, but at the same time, accelerating the Space Researches.
 Direct Antimatter Multplier applies after the nerf.
 <br>
 <br>
 If you progress further, you may see "Effective Space" (also ES).
-It simply does everything as Space does except increasing the AM Nerf.
-Increasing Space Divisor do not reduce your Effective Space.
+Space Researches speed is actually based on Effective Space.
+Effective Space has the same base value as Space, but unaffected by Space Divisor.
 `,
       isUnlocked: () => true,
       tags: ["space", "*", "mod", "nerf", "AM", "direct"],
-      tab: "",
+      tab: "space/research",
+    },
+    {
+      name: "*Space Challenges",
+      info: () => `
+Space Challenges work like other types of challenges in the game.
+After the first Infinity, Tier 1 of the first 3 Space Challenges are unlocked.
+More Tiers and challenges will unlock based on your progress.<br>
+<br>
+Different tiers of the same Space Challenge may have completely different limitations and rewards.
+They are only grouped by the stage the reward is affecting.<br>
+<br>
+You can view all previous rewards by the 'View acquired rewards' button.
+`,
+      isUnlocked: () => true,
+      tags: ["space", "*", "mod", "challenge"],
+      tab: "challenges/space",
     },
     {
       name: "*The Mirror",
       info: () => `
 The Mirror is a complex content.<br>
-At first, you shall complete a mirror run to get "Prisms", to use it in common runs.<br>
-All color of light gives a buff/nerf, and is simply reversed in Mirror run.
-Basic colors is based on percentage (RGB), Complex colors is based on its basic colors' minimum value.
-For example, Red + Blue = Purple, so Purple is based on minimum value of Red and Blue.<br>
-Pending Prisms is equal to total percentage; if total percentage greater than prisms, it will be divided by (Total percentage / Prisms), which may cause some slight loss as light is floored as a Integer.<br>
-If you get more than 200 Prisms, white light's effect is offseted equal to Prisms amount.
+<br>
+Each color gives you a buff or nerf based on its value.
+The value of basic colors are based on your selected percentage on the slider,
+and value of complex colors are based on minimum value of corresponding basic colors.<br>
+<br>
+In the mirror, all effects are reversed. If you reach the goal based on the highest value of basic colors,
+you can get Prisms equal to sum of basic color percentages.<br>
+In normal runs, you can distribute your Prisms to basic colors by the slider.
+If you distribute more than Prisms you have, active percentage is scaled to match Prisms you have.<br>
+<br>
+If you get more than 200 Prisms, in normal runs, white light's effect starts (Prism-200) later.<br>
+<br>
+Changing the slider will force a Big Crunch.
 <br><br>
 Lights' effect formula if you like:<br>
 x = (light * 4) ^ 0.9<br><br>
@@ -77,7 +100,7 @@ White: *1.006^x Space
 `,
       isUnlocked: () => PlayerProgress.IDUnlocked(4),
       tags: ["mirror", "*", "mod", "light", "color", "percentage", "red", "blue", "green", "RGB"],
-      tab: "",
+      tab: "space/mirror",
     },
     {
       name: "Your savefile",
@@ -758,7 +781,7 @@ ${formatX(Math.pow(2, 20), 2, 2)} at ${formatPostBreak(Number.MAX_VALUE, 2)} Rep
 <br>
 <b>Interval upgrade cost:</b> Base ${format(DC.E140)} IP, cost increment ${formatX(DC.E10)} IP
 <br>
-<b>Galaxy upgrade cost:</b> Base ${format(DC.E170)} IP, cost increment ${formatX(DC.E25)} IP and an additional
+<b>Galaxy upgrade cost:</b> Base ${format(DC.E270)} IP, cost increment ${formatX(DC.E25)} IP and an additional
 ${formatX(1e5)} IP per upgrade, scaling similarly to distant Antimatter Galaxies. Above ${formatInt(100)} Replicanti
 Galaxies, this ${formatX(1e5)} per upgrade changes to ${formatX(DC.E55)}. Above ${formatInt(1000)}, the scaling switches
 from quadratic to cubic, with the ${formatX(DC.E55)} multiplier itself increasing by ${formatX(DC.E5)} per upgrade.
