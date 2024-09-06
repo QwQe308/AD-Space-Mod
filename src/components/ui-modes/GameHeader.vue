@@ -5,6 +5,7 @@ import HeaderChallengeEffects from "./HeaderChallengeEffects";
 import HeaderPrestigeGroup from "./HeaderPrestigeGroup";
 
 import GameSpeedDisplay from "@/components/GameSpeedDisplay";
+import HeaderSpaceInfo from "../tabs/_MOD/MODHeaderSpaceInfo.vue";
 
 export default {
   name: "GameHeader",
@@ -14,6 +15,7 @@ export default {
     HeaderBlackHole,
     HeaderPrestigeGroup,
     GameSpeedDisplay,
+    HeaderSpaceInfo,
   },
   data() {
     return {
@@ -36,6 +38,7 @@ export default {
     <GameSpeedDisplay v-if="hasReality" />
     <br v-if="hasReality">
     <HeaderBlackHole />
+    <HeaderSpaceInfo />
   </div>
 </template>
 

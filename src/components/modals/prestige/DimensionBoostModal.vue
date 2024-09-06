@@ -21,7 +21,7 @@ export default {
         PelleUpgrade.dimBoostResetsNothing.isBought
         ? `not actually reset anything due to an upgrade you have which prevents Antimatter and Antimatter Dimensions
           from being reset in this situation. You will still gain the multiplier from the Boost, as usual.`
-        : `reset your Antimatter and Antimatter Dimensions. Are you sure you want to do this?`;
+        : `reset your Antimatter, Antimatter Dimensions and T0 researches. Are you sure you want to do this?`;
 
       return `This will ${keepDimensions}`;
     },

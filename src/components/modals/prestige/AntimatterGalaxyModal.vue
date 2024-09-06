@@ -31,6 +31,7 @@ export default {
       if (!this.perkANRBought) resetResouces.push("Antimatter Dimensions", "Tickspeed");
       if (!this.keepDimBoost) resetResouces.push("Dimension Boosts");
       if (!this.keepAntimatter && !this.perkANRBought) resetResouces.push("Antimatter");
+      resetResouces.push("T0 & T1 Researches");
       const resetList = makeEnumeration(resetResouces);
       let tickspeedFixed = "";
       if (InfinityChallenge(3).isRunning) {

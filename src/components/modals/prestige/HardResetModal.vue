@@ -64,7 +64,6 @@ export default {
       ref="input"
       v-model="input"
       type="text"
-      onpaste="return false;"
       class="c-modal-input c-modal-hard-reset__input"
       @keyup.esc="emitClose"
     >

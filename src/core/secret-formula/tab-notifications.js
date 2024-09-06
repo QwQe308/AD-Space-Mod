@@ -15,7 +15,11 @@ export const tabNotifications = {
       {
         parent: "statistics",
         tab: "multipliers"
-      }
+      },
+      {
+        parent: "challenges",
+        tab: "space",
+      },
     ],
     condition: () => !PlayerProgress.realityUnlocked() &&
       !PlayerProgress.eternityUnlocked() &&
@@ -28,7 +32,11 @@ export const tabNotifications = {
       {
         parent: "infinity",
         tab: "break"
-      }
+      },
+      {
+        parent: "challenges",
+        tab: "space",
+      },
     ],
     condition: () => !PlayerProgress.realityUnlocked() &&
       !PlayerProgress.eternityUnlocked() && Autobuyer.bigCrunch.hasMaxedInterval
@@ -54,6 +62,18 @@ export const tabNotifications = {
     ],
     condition: () => !PlayerProgress.realityUnlocked() &&
       !PlayerProgress.eternityUnlocked()
+  },
+  //extra
+  ID4Unlock: {
+    id: 17,
+    tabsToHighLight: [
+      {
+        parent: "space",
+        tab: "mirror",
+      },
+    ],
+    condition: () =>
+      !PlayerProgress.realityUnlocked() && !PlayerProgress.eternityUnlocked() && !InfinityDimension(5).isUnlocked,
   },
   replicanti: {
     id: 4,
