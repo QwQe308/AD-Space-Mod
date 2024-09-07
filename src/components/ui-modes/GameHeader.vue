@@ -1,11 +1,12 @@
 <script>
+import HeaderSpaceInfo from "../tabs/_MOD/headerSpaceInfo.vue";
+
 import HeaderBlackHole from "./HeaderBlackHole";
 import HeaderChallengeDisplay from "./HeaderChallengeDisplay";
 import HeaderChallengeEffects from "./HeaderChallengeEffects";
 import HeaderPrestigeGroup from "./HeaderPrestigeGroup";
 
 import GameSpeedDisplay from "@/components/GameSpeedDisplay";
-import HeaderSpaceInfo from "../tabs/_MOD/MODHeaderSpaceInfo.vue";
 
 export default {
   name: "GameHeader",

@@ -202,6 +202,7 @@ export const Tabs = (function() {
       Tab.achievements,
       Tab.automation,
       Tab.challenges,
+      Tab.space,//MOD
       Tab.infinity,
       Tab.eternity,
       Tab.reality,
@@ -211,6 +212,7 @@ export const Tabs = (function() {
       Tab.dimensions,
       Tab.automation,
       Tab.challenges,
+      Tab.space,//MOD
       Tab.infinity,
       Tab.eternity,
       Tab.reality,

@@ -1,5 +1,6 @@
 import { beMigration } from "./be-migrations";
 import { deepmergeAll } from "@/utility/deepmerge";
+import { DC } from "../constants";
 
 
 // WARNING: Don't use state accessors and functions from global scope here, that's not safe in long-term
@@ -422,15 +423,39 @@ export const migrations = {
 
       // This update has a rebalance that assumes the 3rd dilation repeatable is unpurchasable in cel7
       if (player.celestials.pelle.doomed) player.dilation.rebuyables[3] = 0;
+
+      player.auto.bigCrunch = {
+        cost: 1,
+        interval: 40000,
+        mode: 0,
+        amount: DC.D1,
+        increaseWithMult: true,
+        time: 1,
+        xHighest: DC.D1,
+        isActive: true,
+        lastTick: 0,
+      };
     },
     26: player => {
       delete player.infinity?.upgradeBits;
+      player.dimensions.infinity = Array.range(0, 8).map((tier) => ({
+        isUnlocked: false,
+        bought: DC.D0,
+        amount: DC.D0,
+        cost: [DC.E7, DC.E9, DC.E12, DC.E20, DC.E140, DC.E200, DC.E250, DC.E280][tier],
+        baseAmount: DC.D0,
+      }));
+    },
+    27: player => {
+      player.replicanti.galCost = DC.E270;
     },
     // 83 is used because 8 = B, and 3 = E, so 83 = BE, short for BE port (blob edition).
     // Recommended to start any modded migrations at 100.
     83: player => {
       beMigration(player);
     },
+    101: player => {
+    }
   },
 
   normalizeTimespans(player) {

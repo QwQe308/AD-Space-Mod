@@ -14,6 +14,7 @@ export class Sacrifice {
   }
 
   static get disabledCondition() {
+    if (isSCRunningOnTierOrHigher(2, 1)) return "8th Dimensions are disabled";
     if (NormalChallenge(10).isRunning) return "8th Dimensions are disabled";
     if (EternityChallenge(3).isRunning) return "Eternity Challenge 3";
     if (DimBoost.purchasedBoosts.lt(5)) return `Requires ${formatInt(5)} Dimension Boosts`;
@@ -79,8 +80,7 @@ export class Sacrifice {
     // different variable that is only applied during C8. However since sacrifice only depends on sacrificed ND1, this
     // can actually be done in a single calculation in order to handle C8 in a less hacky way.
     if (NormalChallenge(8).isRunning) {
-      prePowerSacrificeMult = nd1Amount.pow(0.05).dividedBy(sacrificed.pow(0.04)).clampMin(1)
-        .times(nd1Amount.pow(0.05).dividedBy(sacrificed.plus(nd1Amount).pow(0.04)));
+      prePowerSacrificeMult = nd1Amount.dividedBy(sacrificed).pow(0.25);
     } else if (InfinityChallenge(2).isCompleted) {
       prePowerSacrificeMult = nd1Amount.dividedBy(sacrificed);
     } else {
@@ -130,6 +130,7 @@ export function sacrificeReset() {
       AntimatterDimensions.reset();
     }
     Currency.antimatter.reset();
+    SpaceResearchTierDetail[0].forEach(x => SpaceResearchRifts[x].reset());
   } else if (!isAch118Unlocked) {
     AntimatterDimensions.resetAmountUpToTier(NormalChallenge(12).isRunning ? 6 : 7);
   }

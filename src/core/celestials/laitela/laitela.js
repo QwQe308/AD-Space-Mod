@@ -32,7 +32,7 @@ export const Laitela = {
     return Laitela.maxAllowedDimension === 0;
   },
   get continuumUnlocked() {
-    return ImaginaryUpgrade(15).isBought && !Pelle.isDisabled("continuum");
+    return ImaginaryUpgrade(15).isBought && !Pelle.isDisabled("continuum") || isSCTierCompleted(1, 2);
   },
   get continuumActive() {
     return this.continuumUnlocked && !player.auto.disableContinuum && !Pelle.isDisabled("continuum");
@@ -45,8 +45,11 @@ export const Laitela = {
     }
   },
   get matterExtraPurchaseFactor() {
-    return Decimal.pow(Currency.darkMatter.max.add(1).max(1).log10().div(50), 0.4)
-      .times((SingularityMilestone.continuumMult.effectOrDefault(DC.D0)).add(1)).div(2).add(1);
+    let extraPurchases = Decimal.pow(Currency.darkMatter.max.add(1).max(1).log10().div(50), 0.4).div(2).add(1)
+    extraPurchases = extraPurchases.add(SpaceResearchRifts.r44.effectValue)
+    //multpliers
+    extraPurchases = extraPurchases.times((SingularityMilestone.continuumMult.effectOrDefault(DC.D0)).add(1));
+    return extraPurchases
   },
   get realityReward() {
     return Decimal.clampMin(Decimal.pow(100, this.difficultyTier)

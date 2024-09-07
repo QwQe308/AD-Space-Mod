@@ -60,7 +60,7 @@ export default {
       <RealityButton v-else />
     </div>
     <div v-else>
-      You are getting {{ format(antimatterPerSec, 2) }} antimatter per second.
+      You are getting {{ format(antimatterPerSec, 2, 2) }} antimatter per second.
       <br>
       <HeaderTickspeedInfo />
     </div>

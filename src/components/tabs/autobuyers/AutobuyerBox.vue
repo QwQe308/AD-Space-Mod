@@ -26,7 +26,12 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    extraInfos: {
+      type: String,
+      required: false,
+      default: ""
+    },
   },
   data() {
     return {
@@ -152,6 +157,9 @@ export default {
       />
       <div v-if="isShowingStateInfo">
         {{ extraInfo }}
+      </div>
+      <div v-if="extraInfos">
+        {{ extraInfos }}
       </div>
     </div>
     <div class="c-autobuyer-box-row__intervalSlot">

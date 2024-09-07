@@ -8,8 +8,8 @@ export const infinityChallenges = [
     goal: DC.E650,
     isQuickResettable: true,
     reward: {
-      description: () => `${formatX(1.3, 1, 1)} on all Infinity Dimensions for each Infinity Challenge completed`,
-      effect: () => Math.pow(1.3, InfinityChallenges.completed.length),
+      description: () => `${formatX(2, 1, 1)} on all Infinity Dimensions for each Infinity Challenge completed`,
+      effect: () => Math.pow(2, InfinityChallenges.completed.length),
       formatEffect: value => formatX(value, 1, 1)
     },
     unlockAM: DC.E2000,
@@ -32,9 +32,11 @@ export const infinityChallenges = [
     description: () =>
       `Tickspeed upgrades are always ${formatX(1)}. For every Tickspeed upgrade purchase, you instead get a static
       multiplier on all Antimatter Dimensions which increases based on Antimatter Galaxies.`,
-    goal: DC.E5000,
+    goal: DC.E5300,
     isQuickResettable: false,
-    effect: () => Decimal.pow(player.galaxies.times(0.005).add(1.05), player.totalTickBought),
+    effect: () => Laitela.continuumActive
+      ? Decimal.pow(player.galaxies.times(0.005).add(1.05), Tickspeed.continuumValue)
+      : Decimal.pow(player.galaxies.times(0.005).add(1.05), player.totalTickBought),
     formatEffect: value => formatX(value, 2, 2),
     reward: {
       description: `Antimatter Dimension multiplier based on Antimatter Galaxies and Tickspeed purchases`,
@@ -49,7 +51,9 @@ export const infinityChallenges = [
     id: 4,
     description: () =>
       `only the latest bought Antimatter Dimension's production is normal. All other Antimatter Dimensions
-      produce less (${formatPow(0.25, 2, 2)}).`,
+      produce less (${formatPow(0.25, 2, 2)}).
+      NOTE: You shall disable continuum before buying dimensions and switch back to gain continuum-based buffs :D
+      Toggle continuum hotkey: Alt + A`,
     goal: DC.E13000,
     isQuickResettable: true,
     effect: 0.25,

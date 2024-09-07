@@ -51,7 +51,7 @@ export const breakInfinityUpgrades = {
     id: "infinitiedMult",
     cost: DC.E5,
     description: "Antimatter Dimensions gain a multiplier based on Infinities",
-    effect: () => Currency.infinitiesTotal.value.max(1).absLog10().times(10).add(1),
+    effect: () => Currency.infinitiesTotal.value.max(1).absLog10().times(2).pow(2).add(1),
     formatEffect: value => formatX(value, 2, 2)
   },
   achievementMult: {
@@ -63,21 +63,22 @@ export const breakInfinityUpgrades = {
   },
   slowestChallengeMult: {
     id: "challengeMult",
-    cost: new Decimal(1e7),
+    cost: new Decimal(1e8),
     description: "Antimatter Dimensions gain a multiplier based on how fast your slowest challenge run is",
-    effect: () => Decimal.clampMin(new Decimal(50).div(Time.worstChallenge.totalMinutes), 1),
+    effect: () => Decimal.clampMin(new Decimal(50).div(Time.worstChallenge.totalMinutes), 1).pow(1.33),
     formatEffect: value => formatX(value, 2, 2),
     hasCap: true,
     cap: DC.D3E4
   },
   infinitiedGen: {
     id: "infinitiedGeneration",
-    cost: new Decimal(2e7),
+    cost: new Decimal(1e6),
     description: "Passively generate Infinities based on your fastest Infinity",
     effect: () => player.records.bestInfinity.time,
     formatEffect: value => {
       if (value === Number.MAX_VALUE && !Pelle.isDoomed) return "No Infinity generation";
-      let infinities = DC.D1;
+      let infinities = DC.D4;
+      infinities = infinities.mul(SpaceResearchRifts.r43.effectValue);
       infinities = infinities.timesEffectsOf(
         RealityUpgrade(5),
         RealityUpgrade(7),
@@ -92,12 +93,12 @@ export const breakInfinityUpgrades = {
   },
   autobuyMaxDimboosts: {
     id: "autobuyMaxDimboosts",
-    cost: new Decimal(5e9),
+    cost: DC.E7,
     description: "Unlock the buy max Dimension Boost Autobuyer mode"
   },
   autobuyerSpeed: {
     id: "autoBuyerUpgrade",
-    cost: DC.E15,
+    cost: DC.E9,
     description: "Autobuyers unlocked or improved by Normal Challenges work twice as fast"
   },
   tickspeedCostMult: rebuyable({
@@ -115,7 +116,7 @@ export const breakInfinityUpgrades = {
   }),
   dimCostMult: rebuyable({
     id: 1,
-    initialCost: new Decimal(1e7),
+    initialCost: new Decimal(1e8),
     costIncrease: new Decimal(5e3),
     maxUpgrades: new Decimal(7),
     description: "Reduce post-infinity Antimatter Dimension cost multiplier scaling",
@@ -128,14 +129,14 @@ export const breakInfinityUpgrades = {
   }),
   ipGen: rebuyable({
     id: 2,
-    initialCost: new Decimal(1e7),
+    initialCost: new Decimal(1e6),
     costIncrease: DC.E1,
     maxUpgrades: DC.E1,
-    effect: value => Player.bestRunIPPM.times(value.div(20)),
+    effect: value => Player.bestRunIPPM.times(value.div(10)),
     description: () => {
-      let generation = `Generate ${format(player.infinityRebuyables[2].mul(5))}%`;
+      let generation = `Generate ${format(player.infinityRebuyables[2].mul(10))}%`;
       if (!BreakInfinityUpgrade.ipGen.isCapped) {
-        generation += ` ➜ ${format(player.infinityRebuyables[2].add(1).mul(5))}%`;
+        generation += ` ➜ ${format(player.infinityRebuyables[2].add(1).mul(10))}%`;
       }
       return `${generation} of your best IP/min from your last 10 Infinities`;
     },

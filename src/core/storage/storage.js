@@ -525,6 +525,7 @@ export const GameStorage = {
     EventHub.dispatch(GAME_EVENT.GAME_LOAD);
     AutomatorBackend.initializeFromSave();
     Lazy.invalidateAll();
+    
 
     const rawDiff = Date.now() - player.lastUpdate;
     // We set offlineEnabled externally on importing or loading a backup; otherwise this is just a local load

@@ -64,8 +64,8 @@ export const normalAchievements = [
     description: "Go Infinite.",
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
-    get reward() { return `Start with ${formatInt(100)} antimatter.`; },
-    effect: 100
+    get reward() { return `Start with ${formatInt(1000)} antimatter. (may be reduced due to space)`; },
+    effect: 1000
   },
   {
     id: 22,
@@ -168,10 +168,10 @@ export const normalAchievements = [
     name: "Don't you dare sleep",
     get description() {
       return PlayerProgress.realityUnlocked()
-        ? `Be offline for a period of over ${formatInt(6)} hours (real time).`
-        : `Be offline for a period of over ${formatInt(6)} hours.`;
+        ? `Be offline for a period of over ${formatInt(4)} hours (real time).`
+        : `Be offline for a period of over ${formatInt(4)} hours.`;
     },
-    checkRequirement: () => Date.now() - new Decimal(player.lastUpdate).toNumber() >= 21600000,
+    checkRequirement: () => Date.now() - new Decimal(player.lastUpdate).toNumber() >= 14400000,
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE
   },
   {
@@ -191,8 +191,8 @@ export const normalAchievements = [
     get description() { return `Infinity in under ${formatInt(2)} hours.`; },
     checkRequirement: () => Time.thisInfinityRealTime.totalHours.lte(2),
     checkEvent: GAME_EVENT.BIG_CRUNCH_BEFORE,
-    get reward() { return `Start with ${formatInt(5000)} antimatter.`; },
-    effect: 5000
+    get reward() { return `Start with ${formatInt(50000)} antimatter.`; },
+    effect: 50000
   },
   {
     id: 38,
@@ -510,11 +510,11 @@ export const normalAchievements = [
   {
     id: 76,
     name: "One for each dimension",
-    get description() { return `Play for ${formatInt(8)} days.`; },
-    checkRequirement: () => Time.totalTimePlayed.totalDays.gte(8),
+    get description() { return `Play for ${formatInt(8)} Hours.`; },
+    checkRequirement: () => Time.totalTimePlayed.totalHours.gte(8),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    reward: "Extremely small multiplier to Antimatter Dimensions based on time played.",
-    effect: () => Decimal.max(Decimal.pow(Time.totalTimePlayed.totalDays.div(2), 0.05), 1),
+    reward: "Small multiplier to Antimatter Dimensions based on time played.",
+    effect: () => Decimal.max(Decimal.pow(Time.totalTimePlayed.totalHours, 0.1), 1),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {

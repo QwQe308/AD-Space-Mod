@@ -17,6 +17,84 @@ function getGlyphTypes() {
 // This is actually reassigned when importing saves
 // eslint-disable-next-line prefer-const
 window.player = {
+  version: 101,
+  //MOD
+  light: {
+    inMirror: false,
+    prisms: 0,
+    redPercent: 0,
+    greenPercent: 0,
+    bluePercent: 0,
+    presets: [],
+  },
+  space: DC.D0,
+  spaceDivisiorActivePercentage: 1,
+  amProc: DC.D0,
+  spaceChalls: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+  spaceResearches: {
+    r11: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r12: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r13: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r21: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r22: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r31: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r32: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r41: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r42: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r43: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r44: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r45: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+  },
+
+  //original
   antimatter: DC.E1,
   dimensions: {
     antimatter: Array.range(0, 8).map(() => ({
@@ -28,7 +106,7 @@ window.player = {
       isUnlocked: false,
       bought: DC.D0,
       amount: DC.D0,
-      cost: [DC.E8, DC.E9, DC.E10, DC.E20, DC.E140, DC.E200, DC.E250, DC.E280][tier],
+      cost: [DC.E7, DC.E9, DC.E12, DC.E20, DC.E140, DC.E200, DC.E250, DC.E280][tier],
       baseAmount: DC.D0
     })),
     time: Array.range(0, 8).map(tier => ({
@@ -58,11 +136,32 @@ window.player = {
       current: 0,
       unlocked: 0,
       requirementBits: 0,
-    }
+    },
+    space: {
+      current: 0,
+      unlocked: 0,
+    },
   },
   auto: {
     autobuyersOn: true,
     disableContinuum: false,
+    //MOD
+    T0AutoResearcher: {
+      isBought: false,
+      isActive: true,
+    },
+    T1AutoResearcher: {
+      isBought: false,
+      isActive: true,
+    },
+    T2AutoResearcher: {
+      isBought: false,
+      isActive: true,
+    },
+    T3AutoResearcher: {
+      isActive: true,
+    },
+
     reality: {
       mode: 0,
       rm: DC.D1,
@@ -81,7 +180,7 @@ window.player = {
     },
     bigCrunch: {
       cost: 1,
-      interval: 150000,
+      interval: 40000,
       mode: 0,
       amount: DC.D1,
       increaseWithMult: true,
@@ -92,7 +191,7 @@ window.player = {
     },
     galaxy: {
       cost: 1,
-      interval: 20000,
+      interval: 10000,
       limitGalaxies: false,
       maxGalaxies: new Decimal(1),
       buyMax: false,
@@ -102,7 +201,7 @@ window.player = {
     },
     dimBoost: {
       cost: 1,
-      interval: 4000,
+      interval: 2000,
       limitDimBoosts: false,
       maxDimBoosts: new Decimal(1),
       limitUntilGalaxies: false,
@@ -114,7 +213,7 @@ window.player = {
     tickspeed: {
       isUnlocked: false,
       cost: 1,
-      interval: 500,
+      interval: 200,
       mode: AUTOBUYER_MODE.BUY_SINGLE,
       isActive: true,
       lastTick: 0,
@@ -129,7 +228,7 @@ window.player = {
         isUnlocked: false,
         cost: 1,
         interval: [500, 600, 700, 800, 900, 1000, 1100, 1200][tier],
-        bulk: 1,
+        bulk: 4,
         mode: AUTOBUYER_MODE.BUY_10,
         isActive: true,
         lastTick: 0,
@@ -371,7 +470,6 @@ window.player = {
     previousRuns: {}
   },
   IPMultPurchases: DC.D0,
-  version: 83,
   infinityPower: DC.D1,
   postC4Tier: 0,
   eternityPoints: DC.D0,
@@ -390,7 +488,7 @@ window.player = {
     intervalCost: DC.E140,
     boughtGalaxyCap: DC.D0,
     galaxies: DC.D0,
-    galCost: DC.E170,
+    galCost: DC.E270,
   },
   timestudy: {
     theorem: DC.D0,
@@ -946,11 +1044,19 @@ export const Player = {
   },
 
   get isInAnyChallenge() {
-    return this.isInAntimatterChallenge || EternityChallenge.isRunning;
+    return this.isInAntimatterChallenge || EternityChallenge.isRunning || SpaceChallenge.isRunning;
   },
 
   get anyChallenge() {
-    return this.antimatterChallenge || EternityChallenge.current;
+    return this.antimatterChallenge || EternityChallenge.current || SpaceChallenge.current;
+  },
+
+  get spaceChallenge() {
+    return SpaceChallenge.current;
+  },
+
+  get isInSpaceChallenge() {
+    return SpaceChallenge.isRunning;
   },
 
   get canCrunch() {

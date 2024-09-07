@@ -10,6 +10,10 @@ export class PlayerProgress {
   get isEternityUnlocked() {
     return new Decimal(this._player.eternities).gt(0) || this.isRealityUnlocked;
   }
+  
+  get isEternityUnlocked() {
+    return new Decimal(this._player.eternities).gt(0) || this.isRealityUnlocked;
+  }
 
   get isRealityUnlocked() {
     return new Decimal(this._player.realities).gt(0);
@@ -32,11 +36,11 @@ export class PlayerProgress {
   }
 
   static hasBroken() {
-    return player.break || this.isEternityUnlocked || this.isRealityUnlocked;
+    return player.break || this.eternityUnlocked();
   }
 
   static replicantiUnlocked() {
-    return Replicanti.areUnlocked || this.isEternityUnlocked;
+    return Replicanti.areUnlocked || this.eternityUnlocked();
   }
 
   static eternityUnlocked() {
@@ -62,5 +66,19 @@ export class PlayerProgress {
 
   static infinityChallengeCompleted() {
     return InfinityChallenges.all.some(c => c.isCompleted);
+  }
+
+  //added
+  static dimensionBoostUnlocked() {
+    return player.dimensionBoosts.gt(0) || this.galaxyUnlocked()
+  }
+
+  static galaxyUnlocked() {
+    return player.galaxies.gt(0) || this.infinityUnlocked()
+  }
+
+  static IDUnlocked(id) {
+    return this.eternityUnlocked() ||
+          InfinityDimension(id).isUnlocked
   }
 }

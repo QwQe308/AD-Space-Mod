@@ -84,9 +84,17 @@ export * from "./black-hole";
 export * from "./machines";
 export * from "./devtools";
 export * from "./news-ticker";
-export * from "./shop";
 export * from "./tabs";
 export * from "./tab-notifications";
 export * from "./speedrun";
 
 export * from "./automator/script-templates";
+
+//MOD
+
+export * from "./_MOD/space-researches/spaceResearches";
+export * from "./_MOD/space-researches/spaceResearchRift";
+export * from "./_MOD/space";
+export * from "./_MOD/space-challenges/space-challenges";
+export * from "./_MOD/mirror/light.js";
+export * from "./_MOD/mirror/mirror.js";

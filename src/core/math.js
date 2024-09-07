@@ -138,7 +138,7 @@ window.bulkBuyBinarySearch = function bulkBuyBinarySearch(money, costInfo, alrea
     const newCost = otherCost.plus(costFunction(alreadyBought + i - 1));
     if (newCost.eq(otherCost)) break;
     otherCost = newCost;
-    if (++count > 1000) throw new Error("unexpected long loop (buggy cost function?)");
+    if (++count > 1000) throw new Error("unexpected long 1000 times loop (buggy cost function?)");
   }
   let totalCost = baseCost.plus(otherCost);
   // Check the purchase price again
@@ -415,8 +415,8 @@ window.LinearCostScaling = class LinearCostScaling {
   /**
    * @param {Decimal} resourcesAvailable amount of available resources
    * @param {Decimal} initialCost current cost
-   * @param {Number} costMultiplier current cost multiplier
-   * @param {Number} maxPurchases max amount of purchases
+   * @param {Decimal} costMultiplier current cost multiplier
+   * @param {Decimal} maxPurchases max amount of purchases
    * @param {Boolean} free signifies if the purchase is free -> if we only need to consider the last cost
    */
   constructor(resourcesAvailable, initialCost, costMultiplier, maxPurchases = DC.BEMAX, free = false) {
@@ -465,14 +465,14 @@ window.LinearCostScaling = class LinearCostScaling {
 window.ExponentialCostScaling = class ExponentialCostScaling {
   /**
   * @param {Object} param configuration object with the following fields
-  * @param {number|Decimal} param.baseCost the cost of the first purchase
-  * @param {number} param.baseIncrease the baseline increase in price
-  * @param {number} param.costScale the amount by which the cost scaling increases;
+  * @param {Decimal} param.baseCost the cost of the first purchase
+  * @param {Decimal} param.baseIncrease the baseline increase in price
+  * @param {Decimal} param.costScale the amount by which the cost scaling increases;
   *  e.g. if it is 10, then the ratio between successive prices goes up by 10
-  * @param {number} [param.purchasesBeforeScaling] the number of purchases that can
+  * @param {Decimal} [param.purchasesBeforeScaling] the number of purchases that can
   *  be made before scaling begins. If baseCost is B, baseIncrease is C, and costScale is S,
   *  and purchasesBeforeScaling is 0, the prices will go: B, B C, B C^2 S, B C^3 S^3, B C^4 S^6, etc.
-  * @param {number|Decimal} [param.scalingCostThreshold] an alternative way of specifying
+  * @param {Decimal} [param.scalingCostThreshold] an alternative way of specifying
   *  when scaling begins; once the cost is >= this threshold, scaling applies. Using the same
   *  notation: B BC BC^2 .... BC^n <threshold> BC^(n+1) BC^(n+2)S BC^(n+3)S^3 etc. So, the first
   *  price past the threshold has no costScale in it, but everything past that does.
@@ -505,7 +505,7 @@ window.ExponentialCostScaling = class ExponentialCostScaling {
     if (param.purchasesBeforeScaling === undefined && param.scalingCostThreshold === undefined) {
       throw new Error("purchasesBeforeScaling or scalingCostThreshold must be defined");
     }
-    if (!(param.purchasesBeforeScaling instanceof Decimal || param.scalingCostThreshold instanceof Decimal)) {
+    if (!(param.purchasesBeforeScainlg instanceof Decimal || param.scalingCostThreshold instanceof Decimal)) {
       throw new Error("purchasesBeforeScaling or scalingCostThreshold must be Decimal");
     }
     if (param.purchasesBeforeScaling instanceof Decimal) this._purchasesBeforeScaling = param.purchasesBeforeScaling;
@@ -597,13 +597,13 @@ window.ExponentialCostScaling = class ExponentialCostScaling {
     // Technically this only buys up to the nearest set, but post exponential thats a minor flaw at most (and correct?)
     if (roundDown) purchaseAmount = purchaseAmount.floor();
 
-    if (purchaseAmount.lte(currentPurchases)) return null;
+    if (purchaseAmount.add(1).lte(currentPurchases)) return null;
 
     const purchaseCost = this.calculateCost(purchaseAmount).log10().add(ppIlog);
     purchaseAmount = purchaseAmount.sub(currentPurchases);
     if (roundDown) purchaseAmount = purchaseAmount.floor();
 
-    purchaseAmount = purchaseAmount.times(purchasesPerIncrease);
+    purchaseAmount = purchaseAmount.add(1).times(purchasesPerIncrease);
     return { quantity: purchaseAmount, logPrice: purchaseCost };
   }
 

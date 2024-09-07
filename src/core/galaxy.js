@@ -148,10 +148,14 @@ export class Galaxy {
   }
 
   static get requiredTier() {
+    if (isSCRunningOnTier(2, 1)) return 4;
     return NormalChallenge(10).isRunning ? 6 : 8;
   }
 
   static get canBeBought() {
+    if (isSCRunningOnTier(2, 2)) return false;
+    if (isSCRunningOnTier(3, 2)) return false;
+
     if (EternityChallenge(6).isRunning && !Enslaved.isRunning) return false;
     if (NormalChallenge(8).isRunning || InfinityChallenge(7).isRunning) return false;
     if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) &&
@@ -161,6 +165,8 @@ export class Galaxy {
 
   static get lockText() {
     if (this.canBeBought) return null;
+    if (isSCRunningOnTier(2, 2)) return "Locked (Space Challenge 2-2)";
+    if (isSCRunningOnTier(3, 2)) return "Locked (Space Challenge 3-2)";
     if (EternityChallenge(6).isRunning) return "Locked (Eternity Challenge 6)";
     if (InfinityChallenge(7).isRunning) return "Locked (Infinity Challenge 7)";
     if (InfinityChallenge(1).isRunning) return "Locked (Infinity Challenge 1)";
@@ -200,6 +206,10 @@ export function galaxyReset() {
     player.dimensionBoosts = DC.D0;
   }
   softReset(0);
+
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[2].forEach((x) => SpaceResearchRifts[x].refresh());
+
   if (Notations.current === Notation.emoji) player.requirementChecks.permanent.emojiGalaxies =
   player.requirementChecks.permanent.emojiGalaxies.add(1);
   // This is specifically reset here because the check is actually per-galaxy and not per-infinity
@@ -230,6 +240,12 @@ export function requestGalaxyReset(bulk, limit = Number.MAX_VALUE) {
   Tutorial.turnOffEffect(TUTORIAL_STATE.GALAXY);
   galaxyReset();
   return true;
+}
+
+//added
+export function forceGalaxyReset() {
+  player.galaxies = player.galaxies.sub(1);
+  galaxyReset();
 }
 
 function maxBuyGalaxies(limit = DC.BEMAX) {

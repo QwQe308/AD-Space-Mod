@@ -20,7 +20,7 @@ export default {
   methods: {
     update() {
       this.isHidden = AutomatorData.isEditorFullscreen;
-      this.tabVisibilities = [true, true, true, true, true, true, true, true, true, true, true];
+      this.tabVisibilities = [true, true, true, true, true, true, true, true, true, true, true, true];
     },
   },
 };

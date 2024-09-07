@@ -1,5 +1,6 @@
 import { DC } from "./constants";
 import FullScreenAnimationHandler from "./full-screen-animation-handler";
+import { SpaceChallenge } from "./globals";
 
 export function bigCrunchAnimation() {
   FullScreenAnimationHandler.display("a-implode", 2);
@@ -7,6 +8,12 @@ export function bigCrunchAnimation() {
 
 function handleChallengeCompletion() {
   const challenge = Player.antimatterChallenge;
+  const spaceChall = SpaceChallenge.current;
+
+  if(spaceChall) if(spaceChall.goal === `Big Crunch`){
+    spaceChall.complete()
+  }
+
   if (!challenge && !NormalChallenge(1).isCompleted) {
     NormalChallenge(1).complete();
   }
@@ -168,11 +175,15 @@ export function secondSoftReset(enteringAntimatterChallenge) {
   player.records.thisInfinity.realTime = DC.D0;
   Player.resetRequirements("infinity");
   AchievementTimers.marathon2.reset();
+  
+  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
+  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
+  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].refresh())
 }
 
 export function preProductionGenerateIP(diff) {
   if (InfinityUpgrade.ipGen.isBought) {
-    const genPeriod = Time.bestInfinity.totalMilliseconds.clampMin(1e-100).times(10);
+    const genPeriod = Time.bestInfinity.totalMilliseconds.clampMin(1e-100).times(4);
     let genCount;
     if (diff.gte(1e100)) {
       genCount = Decimal.div(diff, genPeriod);

@@ -10,6 +10,11 @@ import RealityAutobuyerBox from "./RealityAutobuyerBox";
 import SimpleAutobuyersMultiBox from "./SimpleAutobuyersMultiBox";
 import TickspeedAutobuyerBox from "./TickspeedAutobuyerBox";
 
+import T0AutoResearcherBox from "./_MOD/T0AutoResearcherBox"
+import T1AutoResearcherBox from "./_MOD/T1AutoResearcherBox"
+import T2AutoResearcherBox from "./_MOD/T2AutoResearcherBox"
+import T3AutoResearcherBox from "./_MOD/T3AutoResearcherBox"
+
 export default {
   name: "AutobuyersTab",
   components: {
@@ -22,7 +27,12 @@ export default {
     DimensionBoostAutobuyerBox,
     TickspeedAutobuyerBox,
     DimensionAutobuyerBox,
-    SimpleAutobuyersMultiBox
+    SimpleAutobuyersMultiBox,
+    
+    T0AutoResearcherBox,
+    T1AutoResearcherBox,
+    T2AutoResearcherBox,
+    T3AutoResearcherBox,
   },
   data() {
     return {
@@ -96,6 +106,12 @@ export default {
         :tier="tier"
       />
     </template>
+    
+    <T0AutoResearcherBox />
+    <T1AutoResearcherBox />
+    <T2AutoResearcherBox />
+    <T3AutoResearcherBox />
+
     <SimpleAutobuyersMultiBox />
   </div>
 </template>

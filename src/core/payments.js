@@ -1,1 +1,0 @@
-// Payments have been removed

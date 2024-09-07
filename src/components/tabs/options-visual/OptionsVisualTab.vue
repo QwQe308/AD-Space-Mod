@@ -156,7 +156,7 @@ export default {
           </template>
         </ExpandingControlBox>
       </div>
-      <div class="l-options-grid__row">
+      <!--div class="l-options-grid__row">
         <ExpandingControlBox
           class="l-options-grid__button c-options-grid__notations"
           button-class="o-primary-btn o-primary-btn--option l-options-grid__notations-header"
@@ -166,7 +166,7 @@ export default {
             <SelectLargeNotationDropdown />
           </template>
         </ExpandingControlBox>
-      </div>
+      </div-->
       <OpenModalHotkeysButton />
     </div>
   </div>

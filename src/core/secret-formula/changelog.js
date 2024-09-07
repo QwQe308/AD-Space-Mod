@@ -8,6 +8,111 @@ export const changelog = [
    *  @property {function: @return String} info  Text body of information for the entry.
    * }
    */
+   {
+    date: [2024, 9, 7],
+    name: "v0.4 BE Migration",
+    info: `
+    Fully Migrated to AD:BE port, meaning numbers can go brrr!
+Changes:
+<ul>
+<li>Disabled "E" hotkey.</li>
+</ul>
+There might be some new Bugs in game, please report them if any.
+Content up to Eternity.
+<br>
+`,
+  },{
+    date: [2024, 8, 17],
+    name: "v0.32 Small fixes #2",
+    info: `
+Changes:
+<ul>
+<li>Fixed Break Research Speed multpliers not working, now their related effect are removed XD</li>
+<li>Added H2P button for Research / Mirror.</li>
+<li>Fixed orginal sliders' color.</li>
+<li>Removes "Leveling up these requires a X reset" if it's needn't.</li>
+</ul>
+Content up to Eternity.
+<br>
+`,
+  },
+  {
+    date: [2024, 8, 16],
+    name: "v0.31 Small fixes",
+    info: `
+Changes:
+<ul>
+<li>AM production will never show negative values. (but actually it's still decreasing but not shown)</li>
+<li>Added H2P for mirror.</li>
+<li>Added notify for break-infinity Space Challenge.</li>
+<li>Fixed NA95 being got early.</li>
+<li>Fixed a typo.</li>
+</ul>
+Content up to Eternity.
+<br>
+`,
+  },
+  {
+    date: [2024, 8, 15],
+    name: "v0.3 Break Infinity",
+    info: `
+Changes:
+<ul>
+<li>Added Mirror.</li>
+<li>Added T3 Researches.</li>
+<li>Rebalanced the game and made space divisor do not reduce research speed.</li>
+<li>WOW big update.</li>
+</ul>
+Content up to Eternity...<del>but may way more than e308 IP XD</del> Post e140 IP are rebalanced.
+<br>
+`,
+  },
+  {
+    date: [2024, 8, 9],
+    name: "v0.21 bug fixes & balancing changes",
+    info: `
+Changes:
+<ul>
+<li>Fixed bugs with C6 & C8.</li>
+<li>Boosted Big Crunch autobuyer.</li>
+<li>Rebalanced pre-Infinity contents.</li>
+<li>Added countdown for Space Researches.</li>
+<li>Added informations to DB & AG.</li>
+</ul>
+Content up to Break Infinity.
+<br>
+`,
+  },
+  {
+    date: [2024, 8, 8],
+    name: "v0.2 - Space Mod first update",
+    info: `
+And more contents!
+New Things:
+<ul>
+<li>Added Space Challenge.</li>
+<li>Rebalanced Infinity Upgrades.</li>
+<li>Rebalanced Normal Challenges.</li>
+</ul>
+Content up to Break Infinity.
+<br>
+`,
+  },
+  {
+    date: [2024, 8, 7],
+    name: "v0.1 - Space Mod Initial release",
+    info: `
+Wow there's the mod!
+New Things:
+<ul>
+<li>Added Space.</li>
+<li>Added T0, T1, T2 Space Research.</li>
+<li>Enhanced basic automation and added new automations.</li>
+</ul>
+Content up to first Infinity.
+<br>
+`,
+  },
   {
     date: [2024, 5, 2],
     name: "Celebrate Android Reality Update",

@@ -189,7 +189,7 @@ const EP_BUTTON_DISPLAY_TYPE = {
     v-if="isVisible"
     :class="buttonClassObject"
     class="o-prestige-button"
-    onclick="eternityResetRequest()"
+    onclick="/*eternityResetRequest()*/"
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
@@ -202,7 +202,7 @@ const EP_BUTTON_DISPLAY_TYPE = {
 
     <!-- First time -->
     <template v-else-if="type === 0">
-      Other times await... I need to become Eternal
+      Other times await... I need to become Eternal [Place Holder]
     </template>
 
     <!-- Normal -->

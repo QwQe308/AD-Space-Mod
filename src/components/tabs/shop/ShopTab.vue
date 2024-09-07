@@ -9,7 +9,8 @@ export default {
 <template>
   <div class="tab shop">
     <div>
-      STD's cannot be bought on games made with the Break Eternity port of AD.
+      STD's cannot be bought on games made with the Break Eternity port of AD.<br>
+      You know, this is a mod. Go purchase them in the orginal game.
     </div>
   </div>
 </template>

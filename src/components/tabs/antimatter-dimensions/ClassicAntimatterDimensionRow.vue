@@ -49,7 +49,8 @@ export default {
     singleText() {
       if (this.isCapped) return "Capped";
       const prefix = this.showCostTitle(this.singleCost) ? "Cost: " : "";
-      const suffix = this.isCostsAD ? `${this.costUnit}` : "AM";
+      let suffix = this.isCostsAD ? `${this.costUnit}` : "AM";
+      if(isSCRunningOnTier(3, 1)) suffix = "Matter"
       return `${prefix} ${format(this.singleCost)} ${suffix}`;
     },
     until10Text() {
@@ -57,7 +58,8 @@ export default {
       if (this.isContinuumActive) return `Continuum: ${this.continuumString}`;
 
       const prefix = `Until ${formatInt(10)},${this.showCostTitle(this.until10Cost) ? " Cost" : ""}`;
-      const suffix = this.isCostsAD ? `${this.costUnit}` : "AM";
+      let suffix = this.isCostsAD ? `${this.costUnit}` : "AM";
+      if(isSCRunningOnTier(3, 1)) suffix = "Matter"
       return `${prefix} ${format(this.until10Cost)} ${suffix}`;
     },
     continuumString() {

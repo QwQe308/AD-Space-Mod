@@ -1,4 +1,5 @@
 import { DC } from "../constants";
+import { SpaceResearchRifts } from "../globals";
 
 import { DimensionState } from "./dimension";
 
@@ -12,11 +13,13 @@ export function antimatterDimensionCommonMultiplier() {
   if (!EternityChallenge(9).isRunning) {
     multiplier = multiplier.times(Currency.infinityPower.value.pow(InfinityDimensions.powerConversionRate).max(1));
   }
-  multiplier = multiplier.timesEffectsOf(
+  if (!isSCRunningOnTier(3, 2)) multiplier = multiplier.timesEffectsOf(
     BreakInfinityUpgrade.totalAMMult,
     BreakInfinityUpgrade.currentAMMult,
     BreakInfinityUpgrade.achievementMult,
     BreakInfinityUpgrade.slowestChallengeMult,
+  )
+  multiplier = multiplier.timesEffectsOf(
     InfinityUpgrade.totalTimeMult,
     InfinityUpgrade.thisInfinityTimeMult,
     Achievement(48),
@@ -91,7 +94,7 @@ function applyNDMultipliers(mult, tier) {
 
   let buy10Value;
   if (Laitela.continuumActive) {
-    buy10Value = AntimatterDimension(tier).continuumValue;
+    buy10Value = AntimatterDimension(tier).continuumValue.div(10);
   } else {
     buy10Value = Decimal.floor(AntimatterDimension(tier).bought.div(10));
   }
@@ -105,6 +108,11 @@ function applyNDMultipliers(mult, tier) {
   );
   infinitiedMult = infinitiedMult.pow(TimeStudy(31).effectOrDefault(1));
   multiplier = multiplier.times(infinitiedMult);
+
+  if (isSCRunningOnTierOrHigher(4, 1))
+    multiplier = multiplier.div(
+      Decimal.pow(AntimatterDimensions.buyTenMultiplier, buy10Value).times(DimBoost.multiplierToNDTier(tier))
+    );
 
   if (tier === 1) {
     multiplier = multiplier
@@ -349,7 +357,9 @@ class AntimatterDimensionState extends DimensionState {
    */
   get costScale() {
     return new ExponentialCostScaling({
-      baseCost: NormalChallenge(6).isRunning ? this._c6BaseCost : this._baseCost,
+      baseCost: NormalChallenge(6).isRunning
+      ? this._c6BaseCost.div(SpaceResearchRifts.r12.effectValue)
+      : this._baseCost.div(SpaceResearchRifts.r12.effectValue),
       baseIncrease: NormalChallenge(6).isRunning ? this._c6BaseCostMultiplier : this._baseCostMultiplier,
       costScale: new Decimal(Player.dimensionMultDecrease),
       scalingCostThreshold: DC.NUMMAX
@@ -442,9 +452,13 @@ class AntimatterDimensionState extends DimensionState {
    */
   get isProducing() {
     const tier = this.tier;
-    if ((EternityChallenge(3).isRunning && tier > 4) ||
+    if (
+      (EternityChallenge(3).isRunning && tier > 4) ||
       (NormalChallenge(10).isRunning && tier > 6) ||
-      (Laitela.isRunning && tier > Laitela.maxAllowedDimension)) {
+      (Laitela.isRunning && tier > Laitela.maxAllowedDimension) ||
+      (isSCRunningOnTier(2, 1) && tier > 4) || //sc2-1
+      (isSCRunningOnTier(2, 2) && tier > 4) //sc2-2
+      ) {
       return false;
     }
     return this.totalAmount.gt(0);
@@ -454,6 +468,7 @@ class AntimatterDimensionState extends DimensionState {
    * @returns {Decimal}
    */
   get currencyAmount() {
+    if (isSCRunningOnTier(3, 1)) return player.matter; //sc3-1
     return this.tier >= 3 && NormalChallenge(6).isRunning
       ? AntimatterDimension(this.tier - 2).amount
       : Currency.antimatter.value;
@@ -464,6 +479,7 @@ class AntimatterDimensionState extends DimensionState {
    */
   set currencyAmount(value) {
     if (this.tier >= 3 && NormalChallenge(6).isRunning) AntimatterDimension(this.tier - 2).amount = value;
+    else if (isSCRunningOnTier(3, 1)) player.matter = value;//sc3-1
     else Currency.antimatter.value = value;
   }
 
@@ -529,7 +545,9 @@ class AntimatterDimensionState extends DimensionState {
     if (!EternityMilestone.unlockAllND.isReached && DimBoost.totalBoosts.add(4).lt(this.tier)) return false;
     const hasPrevTier = this.tier === 1 || AntimatterDimension(this.tier - 1).totalAmount.gt(0);
     if (!EternityMilestone.unlockAllND.isReached && !hasPrevTier) return false;
-    return this.tier < 7 || !NormalChallenge(10).isRunning;
+    if (isSCRunningOnTier(2, 1)) return this.tier <= 4;
+    if (isSCRunningOnTier(2, 2)) return this.tier <= 4;
+    return this.tier <= 6 || !NormalChallenge(10).isRunning;
   }
 
   reset() {
@@ -553,7 +571,7 @@ class AntimatterDimensionState extends DimensionState {
         dimension.costBumps = dimension.costBumps.add(1);
       }
     }
-    if (Tickspeed.cost.e === this.cost.e) chall9TickspeedCostBumps = chall9TickspeedCostBumps.add(1);
+    if (Tickspeed.cost.e === this.cost.e) player.chall9TickspeedCostBumps = player.chall9TickspeedCostBumps.add(1);
   }
 
   multiplyIC5Costs() {
@@ -576,7 +594,7 @@ class AntimatterDimensionState extends DimensionState {
       InfinityChallenge.isRunning ||
       Enslaved.isRunning;
     if (postBI && postBreak) return DC.BEMAX;
-    return postBreak ? DC.BIMAX : DC.E315;
+    return postBreak ? DC.BIMAX : DC.E616;
   }
 
   get productionPerSecond() {
@@ -614,7 +632,7 @@ class AntimatterDimensionState extends DimensionState {
 export const AntimatterDimension = AntimatterDimensionState.createAccessor();
 
 export const AntimatterDimensions = {
-  /**
+  /**.
    * @type {AntimatterDimensionState[]}
    */
   all: AntimatterDimension.index.compact(),
@@ -645,6 +663,9 @@ export const AntimatterDimensions = {
       Achievement(58)
     ).times(getAdjustedGlyphEffect("powerbuy10"));
 
+    mult = mult.mul(SpaceResearchRifts.r31.effectValue[0]);
+    mult = mult.pow(SpaceResearchRifts.r31.effectValue[1]);
+
     mult = mult.pow(getAdjustedGlyphEffect("effarigforgotten")).powEffectOf(InfinityUpgrade.buy10Mult.chargedEffect);
     mult = mult.pow(ImaginaryUpgrade(14).effectOrDefault(1));
 
@@ -669,11 +690,16 @@ export const AntimatterDimensions = {
     if (AntimatterDimension(1).amount.gt(0)) {
       player.requirementChecks.eternity.noAD1 = false;
     }
-    AntimatterDimension(1).produceCurrency(Currency.antimatter, diff);
+
+    let AMproc = AntimatterDimension(1).productionForDiff(diff);
     if (NormalChallenge(12).isRunning) {
-      AntimatterDimension(2).produceCurrency(Currency.antimatter, diff);
+      AMproc = AMproc.add(AntimatterDimension(2).productionForDiff(diff));
     }
+
+    produceAM(AMproc, diff);
+
     // Production may overshoot the goal on the final tick of the challenge
     if (hasBigCrunchGoal) Currency.antimatter.dropTo(Player.infinityGoal);
+    if (hasBigCrunchGoal) player.antimatter = player.antimatter.min(Player.infinityGoal);
   }
 };

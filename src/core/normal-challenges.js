@@ -23,7 +23,7 @@ export function updateNormalAndInfinityChallenges(diff) {
   }
 
   if (NormalChallenge(2).isRunning) {
-    player.chall2Pow = Decimal.min(player.chall2Pow.add(diff.div(100).div(1800)), 1);
+    player.chall2Pow = Decimal.min(player.chall2Pow.add(diff.div(30000)), 1);
   }
 
   if (InfinityChallenge(2).isRunning) {
@@ -46,7 +46,7 @@ class NormalChallengeState extends GameMechanicState {
 
   get isRunning() {
     const isPartOfIC1 = this.id !== 9 && this.id !== 12;
-    return player.challenge.normal.current === this.id || (isPartOfIC1 && InfinityChallenge(1).isRunning);
+    return player.challenge.normal.current === this.id || (isPartOfIC1 && InfinityChallenge(1).isRunning) || (isSCRunningOnTier(3, 1) && this.id === 11);
   }
 
   get isOnlyActiveChallenge() {

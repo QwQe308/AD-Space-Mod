@@ -129,7 +129,7 @@ export function getReplicantiInterval(overCapOverride, intervalIn) {
 // and celestial nerfs) interact very weirdly and the game balance relies on this behavior, and we also use this same
 // value in the multiplier tab too
 export function totalReplicantiSpeedMult(overCap) {
-  let totalMult = DC.D1;
+  let totalMult = DC.D4;
 
   // These are the only effects active in Pelle - the function shortcuts everything else if we're in Pelle
   totalMult = totalMult.times(PelleRifts.decay.effectValue);
@@ -263,7 +263,7 @@ export function replicantiLoop(diff) {
 }
 
 export function replicantiMult() {
-  return Decimal.pow(Decimal.log2(Replicanti.amount.clampMin(1)), 2)
+  return Decimal.pow(Decimal.log10(Replicanti.amount.clampMin(1)), 2)
     .plusEffectOf(TimeStudy(21))
     .timesEffectOf(TimeStudy(102))
     .clampMin(1)
@@ -342,7 +342,7 @@ export const ReplicantiUpgrade = {
     get costIncrease() { return 1e15; }
 
     get cap() {
-      // Chance never goes over 100%.
+      // Chance never(?) goes over 100%.
       return DC.D1;
     }
 
@@ -457,7 +457,7 @@ export const ReplicantiUpgrade = {
 
     bulkPurchaseCalc() {
       // Copypasted constants
-      const logBase = new Decimal(170);
+      const logBase = new Decimal(270);
       const logBaseIncrease = EternityChallenge(6).isRunning ? DC.D2 : new Decimal(25);
       const logCostScaling = EternityChallenge(6).isRunning ? DC.D2 : DC.D5;
       const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(100);
@@ -479,7 +479,7 @@ export const ReplicantiUpgrade = {
       // eslint-disable-next-line max-len
       b = logBaseIncrease.sub(logCostScaling.div(2)).sub(logDistantScaling.times(distantReplicatedGalaxyStart)).add(logDistantScaling.times(4.5));
       // eslint-disable-next-line max-len
-      c = cur.neg().add(170).add(distantReplicatedGalaxyStart.pow(2).times(logDistantScaling).div(2)).sub(distantReplicatedGalaxyStart.times(4.5).times(logDistantScaling));
+      c = cur.neg().add(270).add(distantReplicatedGalaxyStart.pow(2).times(logDistantScaling).div(2)).sub(distantReplicatedGalaxyStart.times(4.5).times(logDistantScaling));
       if (decimalQuadraticSolution(a, b, c).floor().lte(remoteReplicatedGalaxyStart)) {
         // eslint-disable-next-line consistent-return
         return decimalQuadraticSolution(a, b, c).floor().add(1);
@@ -493,7 +493,7 @@ export const ReplicantiUpgrade = {
         .add(logDistantScaling.times(4.5)).add(remoteReplicatedGalaxyStart.pow(2).mul(logRemoteScaling))
         .sub(remoteReplicatedGalaxyStart.mul(logRemoteScaling));
 
-      const d = cur.neg().add(170).add(distantReplicatedGalaxyStart.pow(2).mul(logDistantScaling).div(2))
+      const d = cur.neg().add(270).add(distantReplicatedGalaxyStart.pow(2).mul(logDistantScaling).div(2))
         .sub(distantReplicatedGalaxyStart.mul(4.5).mul(logDistantScaling))
         .sub(remoteReplicatedGalaxyStart.pow(3).mul(logRemoteScaling).div(3))
         .add(remoteReplicatedGalaxyStart.pow(2).mul(logRemoteScaling).div(2))
@@ -515,7 +515,7 @@ export const ReplicantiUpgrade = {
     }
 
     baseCostAfterCount(count) {
-      const logBase = new Decimal(170);
+      const logBase = new Decimal(270);
       const logBaseIncrease = EternityChallenge(6).isRunning ? 2 : 25;
       const logCostScaling = EternityChallenge(6).isRunning ? 2 : 5;
       const distantReplicatedGalaxyStart = GlyphInfo.replication.sacrificeInfo.effect().add(100);
@@ -557,11 +557,12 @@ export const Replicanti = {
       intervalCost: DC.E140,
       boughtGalaxyCap: DC.D0,
       galaxies: DC.D0,
-      galCost: DC.E170,
+      galCost: DC.E270,
     };
   },
   unlock(freeUnlock = false) {
     const cost = DC.E140.dividedByEffectOf(PelleRifts.vacuum.milestones[1]);
+    Achievement(95).unlock();
     if (player.replicanti.unl) return;
     if (freeUnlock || Currency.infinityPoints.gte(cost)) {
       if (!freeUnlock) Currency.infinityPoints.subtract(cost);

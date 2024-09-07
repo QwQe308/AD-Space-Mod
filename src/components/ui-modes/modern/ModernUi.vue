@@ -9,6 +9,8 @@ import NewsTicker from "../NewsTicker";
 import GameSpeedDisplay from "@/components/GameSpeedDisplay";
 
 
+import HeaderSpaceInfo from "../../tabs/_MOD/headerSpaceInfo.vue";
+
 export default {
   name: "ModernUi",
   components: {
@@ -19,6 +21,7 @@ export default {
     HeaderBlackHole,
     HeaderPrestigeGroup,
     GameSpeedDisplay,
+    HeaderSpaceInfo,
   },
   data() {
     return {
@@ -79,6 +82,7 @@ export default {
           <GameSpeedDisplay v-if="hasReality" />
           <br v-if="hasReality">
           <HeaderBlackHole />
+          <HeaderSpaceInfo />
         </div>
         <slot />
       </div>

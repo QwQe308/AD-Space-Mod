@@ -102,6 +102,9 @@ export function gainedInfinityPoints() {
     ip = ip.min(DC.E200);
   }
   ip = ip.times(GameCache.totalIPMult.value);
+
+  ip = ip.times(SpaceResearchRifts.r41.effectValue)//MOD r41
+
   if (Teresa.isRunning) {
     ip = ip.pow(0.55);
   } else if (V.isRunning) {
@@ -261,6 +264,7 @@ export function addRealityTime(trueTime, time, realTime, rm, level, realities, a
     realities, reality, level, shards.mul(ampFactor), projIM]);
 }
 
+//-- Infinities mult here --
 export function gainedInfinities() {
   if (EternityChallenge(4).isRunning || Pelle.isDisabled("InfinitiedMults")) return DC.D1;
   let infGain = Decimal.max(1, Achievement(87));
@@ -274,6 +278,9 @@ export function gainedInfinities() {
     Ra.unlocks.continuousTTBoost.effects.infinity
   );
   infGain = infGain.times(getAdjustedGlyphEffect("infinityinfmult"));
+
+  infGain = infGain.times(SpaceResearchRifts.r43.effectValue);//MOD r43
+
   infGain = infGain.powEffectOf(SingularityMilestone.infinitiedPow);
   return infGain;
 }
@@ -298,6 +305,7 @@ export const GAME_SPEED_EFFECT = {
   * @param {number?} blackHolesActiveOverride A numerical value which forces all black holes up to its specified index
   *   to be active for the purposes of game speed calculation. This is only used during offline black hole stuff.
   */
+// -- Game Speed Mult here --
 export function getGameSpeedupFactor(effectsToConsider, blackHolesActiveOverride) {
   let effects;
   if (effectsToConsider === undefined) {
@@ -634,6 +642,9 @@ export function gameLoop(passedDiff, options = {}) {
   if (!Enslaved.canAmplify) {
     Enslaved.boostReality = false;
   }
+
+    //MOD update related
+    updateSpaceItems(diff)
 
   // Stopping these checks after CREDITS_START reduces lag and allows for the glyph customization modal to appear
   if (GameEnd.endState < END_STATE_MARKERS.CREDITS_START) {

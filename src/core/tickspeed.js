@@ -20,6 +20,7 @@ export function effectiveBaseGalaxies() {
 }
 
 export function getTickSpeedMultiplier() {
+  if (isSCRunningOnTier(4, 2)) return DC.D1;
   if (InfinityChallenge(3).isRunning) return DC.D1;
   if (Ra.isRunning) return DC.C1D1_1245;
   let galaxies = effectiveBaseGalaxies();
@@ -35,6 +36,9 @@ export function getTickSpeedMultiplier() {
     PelleUpgrade.galaxyPower,
     PelleRifts.decay.milestones[1]
   );
+
+  if (isSCRunningOnTier(3, 2)) galaxies = DC.D0;
+
   if (galaxies.lt(3)) {
     // Magic numbers are to retain balancing from before while displaying
     // them now as positive multipliers rather than negative percentages
@@ -133,7 +137,7 @@ export const Tickspeed = {
 
   get isUnlocked() {
     return AntimatterDimension(2).bought.gt(0) || EternityMilestone.unlockAllND.isReached ||
-      PlayerProgress.realityUnlocked();
+      PlayerProgress.realityUnlocked() || Laitela.continuumUnlocked;
   },
 
   get isAvailableForPurchase() {
@@ -191,7 +195,7 @@ export const Tickspeed = {
     let boughtTickspeed;
     if (Laitela.continuumActive) boughtTickspeed = new Decimal(this.continuumValue);
     else boughtTickspeed = new Decimal(player.totalTickBought);
-    return boughtTickspeed.plus(player.totalTickGained);
+    return boughtTickspeed.plus(player.totalTickGained).add(FreeTickspeed.extraAmount);
   },
 
   get perSecond() {
@@ -214,7 +218,12 @@ export const FreeTickspeed = {
     Decimal.max(getAdjustedGlyphEffect("cursedtickspeed"), 1)),
 
   get amount() {
-    return player.totalTickGained;
+    return player.totalTickGained.add(this.extraAmount);
+  },
+
+  get extraAmount() {
+    let extraTickspeeds = SpaceResearchRifts.r13.effectValue.add(light.purple.effectValue());
+    return extraTickspeeds;
   },
 
   get softcap() {

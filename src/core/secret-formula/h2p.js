@@ -35,7 +35,72 @@ visible tab and subtab, if such an entry exists.
 `,
       isUnlocked: () => true,
       tags: ["h2p", "how", "to", "play", "modal"],
-      tab: ""
+      tab: "",
+    },
+    {
+      name: "*About Space",
+      info: () => `
+  Space gives an exponential nerf to the Antimatter, but at the same time, accelerating the Space Researches.
+  Direct Antimatter Multplier applies after the nerf.
+  <br>
+  <br>
+  If you progress further, you may see "Effective Space" (also ES).
+  Space Researches speed is actually based on Effective Space.
+  Effective Space has the same base value as Space, but unaffected by Space Divisor.
+  `,
+      isUnlocked: () => true,
+      tags: ["space", "*", "mod", "nerf", "AM", "direct"],
+      tab: "space/research",
+    },
+    {
+      name: "*Space Challenges",
+      info: () => `
+  Space Challenges work like other types of challenges in the game.
+  After the first Infinity, Tier 1 of the first 3 Space Challenges are unlocked.
+  More Tiers and challenges will unlock based on your progress.<br>
+  <br>
+  Different tiers of the same Space Challenge may have completely different limitations and rewards.
+  They are only grouped by the stage the reward is affecting.<br>
+  <br>
+  You can view all previous rewards by the 'View acquired rewards' button.
+  `,
+      isUnlocked: () => true,
+      tags: ["space", "*", "mod", "challenge"],
+      tab: "challenges/space",
+    },
+    {
+      name: "*The Mirror",
+      info: () => `
+  The Mirror is a complex content.<br>
+  <br>
+  Each color gives you a buff or nerf based on its value.
+  The value of basic colors are based on your selected percentage on the slider,
+  and value of complex colors are based on minimum value of corresponding basic colors.<br>
+  <br>
+  In the mirror, all effects are reversed. If you reach the goal based on the highest value of basic colors,
+  you can get Prisms equal to sum of basic color percentages.<br>
+  In normal runs, you can distribute your Prisms to basic colors by the slider.
+  If you distribute more than Prisms you have, active percentage is scaled to match Prisms you have.<br>
+  <br>
+  If you get more than 200 Prisms, in normal runs, white light's effect starts (Prism-200) later.<br>
+  <br>
+  Changing the slider will force a Big Crunch.
+  <br><br>
+  Lights' effect formula if you like:<br>
+  x = (light * 4) ^ 0.9<br><br>
+  Red: *1e6^x Antimatter<br>
+  Green: *1.01^x Dimension Boost Base (note that DB base do not affect Research Speed)<br>
+  Blue: *1.3^x Pre-Infinity Research Speed<br>
+  <br>
+  Yellow: *1.05^x Infinity Dimensions' Multplier<br>
+  Purple: +x/3 Free Tickspeed Upgrades<br>
+  Cyan: *1.006^x Effective Space<br>
+  <br>
+  White: *1.006^x Space
+  `,
+      isUnlocked: () => PlayerProgress.IDUnlocked(4),
+      tags: ["mirror", "*", "mod", "light", "color", "percentage", "red", "blue", "green", "RGB"],
+      tab: "space/mirror",
     },
     {
       name: "Your savefile",
@@ -95,7 +160,7 @@ irreversible and gives you no permanent benefits, secret or otherwise.</b>
 `,
       isUnlocked: () => true,
       tags: ["choose", "cloud", "google", "save", "import", "export", "reset"],
-      tab: "options/saving"
+      tab: "options/saving",
     },
     {
       name: "Customization",
@@ -119,9 +184,23 @@ although the ability to disable any given animation or confirmation will only ap
 at least once.
 `,
       isUnlocked: () => true,
-      tags: ["UI", "update", "news", "theme", "notation", "comma", "exponent", "animation", "retry", "confirmation",
-        "offline", "hotkey", "classic", "modern"],
-      tab: "options/visual"
+      tags: [
+        "UI",
+        "update",
+        "news",
+        "theme",
+        "notation",
+        "comma",
+        "exponent",
+        "animation",
+        "retry",
+        "confirmation",
+        "offline",
+        "hotkey",
+        "classic",
+        "modern",
+      ],
+      tab: "options/visual",
     },
     {
       name: "Offline Progress",
@@ -154,7 +233,8 @@ autobuyers - in this situation autobuyers will effectively only trigger once eve
 may have a strong impact depending on the part of the game.
 <br>
 <br>
-${player.blackHole[0].unlocked
+${
+  player.blackHole[0].unlocked
     ? `<b>Offline Black Hole behavior:</b> Once the Black Hole has been unlocked, the offline progress simulation will
       attempt to run the game in a way where each tick contains roughly the same amount of <i>game</i> time. This may
       give the appearance of the Black Hole(s) being active for a much larger fraction of time than normal while
@@ -178,8 +258,9 @@ the game closed.
 `,
       isUnlocked: () => true,
       tags: ["offline", "away", "progress"],
-      tab: "options/gameplay"
-    }, {
+      tab: "options/gameplay",
+    },
+    {
       name: "Effect Stacking",
       info: () => `
 Most of the effects and upgrades in Antimatter Dimensions largely fall into three categories:
@@ -206,22 +287,27 @@ any of the above effects are applied. To determine the final value of a set of e
 are individually combined, and then applied in the order of additive, multiplicative, then power effects.
 <br>
 <br>
-${PlayerProgress.realityUnlocked() || PlayerProgress.dilationUnlocked()
+${
+  PlayerProgress.realityUnlocked() || PlayerProgress.dilationUnlocked()
     ? "Dilation and any Dilation-like effects apply <i>after</i> all of these other effects are stacked together."
-    : ""}
+    : ""
+}
 <br>
 <br>
-${PlayerProgress.realityUnlocked()
+${
+  PlayerProgress.realityUnlocked()
     ? `Glyph Effects effectively have two stacking attributes; their internal way of stacking together and the way
       they stack with all other game effects. These may not necessarily be the same - for example, the "Antimatter
       Dimension Power" effect will stack <i>additively with itself</i>, but then the total effect will be added to
       a base value of ${formatInt(1)} and then applied as a <i>power effect</i> to Antimatter Dimensions.`
-    : ""}
+    : ""
+}
 `,
       isUnlocked: () => true,
       tags: ["effect", "stack", "combine", "add", "reduce", "multiply", "divide", "power", "dilation", "glyph"],
-      tab: "options/gameplay"
-    }, {
+      tab: "options/gameplay",
+    },
+    {
       name: "Common Abbreviations",
       info: () => `
 Many resources within the game may appear in an abbreviated format as text in order to save space. This How to
@@ -250,10 +336,34 @@ ${Laitela.isUnlocked ? "- <b>DM</b>: Dark Matter<br>" : ""}
 ${Laitela.isUnlocked ? "- <b>DE</b>: Dark Energy<br>" : ""}
 `,
       isUnlocked: () => true,
-      tags: ["abbreviation", "shorten", "am", "ad", "ag", "ip", "nc", "ic", "id", "rg", "ep", "tt", "td", "ec", "tp",
-        "dt", "tg", "rm", "ap", "bh", "im", "dm", "de"],
-      tab: ""
-    }, {
+      tags: [
+        "abbreviation",
+        "shorten",
+        "am",
+        "ad",
+        "ag",
+        "ip",
+        "nc",
+        "ic",
+        "id",
+        "rg",
+        "ep",
+        "tt",
+        "td",
+        "ec",
+        "tp",
+        "dt",
+        "tg",
+        "rm",
+        "ap",
+        "bh",
+        "im",
+        "dm",
+        "de",
+      ],
+      tab: "",
+    },
+    {
       name: "Antimatter Dimensions",
       info: () => `
 Antimatter is a resource that is used throughout the entire game for purchasing various things as you progress. You
@@ -299,12 +409,12 @@ then second, and so on until the 8th Antimatter Dimension, and then buy max Tick
 <br>
 <br>
 <b>Dimension base prices:</b> ${Array.range(1, 8)
-    .map(tier => format(AntimatterDimension(tier)._baseCost, 2, 2))
-    .join(", ")}
+        .map((tier) => format(AntimatterDimension(tier)._baseCost, 2, 2))
+        .join(", ")}
 <br>
 <b>Base per ${formatInt(10)} bought dimension price increases:</b> ${Array.range(1, 8)
-  .map(tier => format(AntimatterDimension(tier)._baseCostMultiplier, 2, 2))
-  .join(", ")}
+        .map((tier) => format(AntimatterDimension(tier)._baseCostMultiplier, 2, 2))
+        .join(", ")}
 <br>
 <br>
 <b>Hotkeys: 1, 2, 3, 4, 5, 6, 7, 8</b> for buy until ${formatInt(10)} Xth Dimension
@@ -313,8 +423,9 @@ ${formatInt(1)} instead of ${formatInt(10)}), <b>M</b> for Max all
 `,
       isUnlocked: () => true,
       tags: ["dims", "normal", "antimatter", "ad"],
-      tab: "dimensions/antimatter"
-    }, {
+      tab: "dimensions/antimatter",
+    },
+    {
       name: "Tickspeed",
       info: () => `
 Production in the game happens on each "tick", which initially occurs once per second. By buying Tickspeed Upgrades,
@@ -339,8 +450,9 @@ with your current amount of antimatter.
 `,
       isUnlocked: () => Tickspeed.isUnlocked,
       tags: ["dimension", "earlygame", "time"],
-      tab: "dimensions/antimatter"
-    }, {
+      tab: "dimensions/antimatter",
+    },
+    {
       name: "Dimension Boosts",
       info: () => `
 <b>Dimension Boost:</b> This resets your antimatter and all of your Antimatter Dimensions, but unlocks another
@@ -361,8 +473,9 @@ the 3rd Dimension ${formatX(2)}, and all other Dimensions are unaffected.
 `,
       isUnlocked: () => true,
       tags: ["dimboost", "reset", "earlygame"],
-      tab: "dimensions/antimatter"
-    }, {
+      tab: "dimensions/antimatter",
+    },
+    {
       name: "Antimatter Galaxies",
       info: () => `
 Purchasing an Antimatter Galaxy will reset your game back to the point where only ${formatInt(4)} Dimensions are
@@ -389,8 +502,9 @@ increases by another ${formatPercents(0.002, 1)} per Galaxy, on top of Distant s
 `,
       isUnlocked: () => true,
       tags: ["8th", "reset", "galaxy", "earlygame"],
-      tab: "dimensions/antimatter"
-    }, {
+      tab: "dimensions/antimatter",
+    },
+    {
       name: "Dimensional Sacrifice",
       info: () => `
 <b>You unlock Dimensional Sacrifice after your fifth Dimension Boost.</b>
@@ -411,8 +525,9 @@ ${formatX(8)} then ${formatX(5)}; in both cases you will end up with a total sac
 `,
       isUnlocked: () => Sacrifice.isVisible,
       tags: ["8th", "reset", "earlygame", "gods", "earlygame"],
-      tab: "dimensions/antimatter"
-    }, {
+      tab: "dimensions/antimatter",
+    },
+    {
       name: "Achievements",
       info: () => `
 Each Achievement has requirements to unlock. Once unlocked, some Achievements give a reward.
@@ -429,8 +544,9 @@ Achievement will give a hint on how to attain them.
 `,
       isUnlocked: () => true,
       tags: ["earlygame", "awards", "earlygame"],
-      tab: "achievements"
-    }, {
+      tab: "achievements",
+    },
+    {
       name: "Infinity",
       info: () => `
 Once you have too much antimatter for the world to handle (${formatInt(2)}<sup>${formatInt(1024)}</sup>
@@ -458,8 +574,9 @@ You must complete the Achievement "No DLC required" to start purchasing this par
 `,
       isUnlocked: () => PlayerProgress.infinityUnlocked(),
       tags: ["crunch", "big", "upgrades", "ip", "reset", "prestige", "earlygame"],
-      tab: "infinity/upgrades"
-    }, {
+      tab: "infinity/upgrades",
+    },
+    {
       name: "Normal Challenges",
       info: () => `
 Normal Challenges are unlocked after your first Infinity; they change in-game mechanics in different ways to create more
@@ -480,8 +597,9 @@ The rightmost column of Infinity Upgrades does not work in challenges.
 `,
       isUnlocked: () => PlayerProgress.infinityUnlocked(),
       tags: ["infinity", "autobuyer", "earlygame"],
-      tab: "challenges/normal"
-    }, {
+      tab: "challenges/normal",
+    },
+    {
       name: "Autobuyers",
       info: () => `
 Autobuyers allow you to automatically purchase dimensions, upgrades, or prestiges. All autobuyer
@@ -547,8 +665,9 @@ toggle the associated autobuyer.
 `,
       isUnlocked: () => true,
       tags: ["infinity", "automation", "challenges", "rewards", "interval", "earlygame"],
-      tab: "automation/autobuyers"
-    }, {
+      tab: "automation/autobuyers",
+    },
+    {
       name: "Break Infinity",
       info: () => `
 Once you Break Infinity, you are no longer limited to ${formatPostBreak(Number.MAX_VALUE, 2)} antimatter and can start
@@ -568,8 +687,9 @@ Tickspeed Upgrade costs as well.
 `,
       isUnlocked: () => Autobuyer.bigCrunch.hasMaxedInterval || PlayerProgress.eternityUnlocked(),
       tags: ["limit", "crunch", "upgrades", "midgame"],
-      tab: "infinity/break"
-    }, {
+      tab: "infinity/break",
+    },
+    {
       name: "Infinity Dimensions",
       info: () => `
 <b>Unlocking Infinity Dimensions:</b> Infinity Dimensions are unlocked by reaching a certain amount of antimatter.
@@ -589,20 +709,20 @@ of Infinity Dimensions does not carry between crunches, all the multipliers you 
 <br>
 <br>
 <b>Infinity Dimension unlock thresholds (antimatter):</b> ${Array.range(1, 8)
-    .map(tier => formatPostBreak(InfinityDimension(tier)._unlockRequirement))
-    .join(", ")}
+        .map((tier) => formatPostBreak(InfinityDimension(tier)._unlockRequirement))
+        .join(", ")}
 <br>
 <b>Infinity Dimension purchase multipliers:</b> ${Array.range(1, 8)
-    .map(tier => format(InfinityDimension(tier)._powerMultiplier))
-    .join(", ")}
+        .map((tier) => format(InfinityDimension(tier)._powerMultiplier))
+        .join(", ")}
 <br>
 <b>Infinity Dimension base prices (IP):</b> ${Array.range(1, 8)
-    .map(tier => format(InfinityDimension(tier)._baseCost))
-    .join(", ")}
+        .map((tier) => format(InfinityDimension(tier)._baseCost))
+        .join(", ")}
 <br>
 <b>Infinity Dimension price increases:</b> ${Array.range(1, 8)
-    .map(tier => format(InfinityDimension(tier)._costMultiplier))
-    .join(", ")}
+        .map((tier) => format(InfinityDimension(tier)._costMultiplier))
+        .join(", ")}
 <br>
 <br>
 Instead of antimatter, the 1st Infinity Dimension produces Infinity Power, which gives a multiplier applied
@@ -611,8 +731,9 @@ affected by Tickspeed Upgrades.
 `,
       isUnlocked: () => Autobuyer.bigCrunch.hasMaxedInterval || PlayerProgress.eternityUnlocked(),
       tags: ["id", "power", "new", "dims", "unlock", "break", "midgame"],
-      tab: "dimensions/infinity"
-    }, {
+      tab: "dimensions/infinity",
+    },
+    {
       name: "Infinity Challenges",
       // This one could use some work!
       info: () => `
@@ -626,12 +747,14 @@ amount of antimatter before you can attempt them.
 <br>
 <br>
 <b>Infinity Challenge unlock thresholds:</b> ${GameDatabase.challenges.infinity
-    .map(ic => formatPostBreak(ic.unlockAM)).join(", ")}
+        .map((ic) => formatPostBreak(ic.unlockAM))
+        .join(", ")}
 `,
       isUnlocked: () => Autobuyer.bigCrunch.hasMaxedInterval || PlayerProgress.eternityUnlocked(),
       tags: ["rewards", "break", "ic", "midgame"],
-      tab: "challenges/infinity"
-    }, {
+      tab: "challenges/infinity",
+    },
+    {
       name: "Replicanti",
       info: () => `
 Replicanti are another resource you unlock at ${format(DC.E140)} IP. Rather
@@ -664,8 +787,9 @@ from quadratic to cubic, with the ${formatX(DC.E55)} multiplier itself increasin
 `,
       isUnlocked: () => Replicanti.areUnlocked || PlayerProgress.eternityUnlocked(),
       tags: ["interval", "chance", "infinity", "galaxy", "galaxies", "midgame"],
-      tab: "infinity/replicanti"
-    }, {
+      tab: "infinity/replicanti",
+    },
+    {
       name: "Eternity",
       info: () => `
 Upon reaching ${formatPostBreak(Number.MAX_VALUE, 2)} IP, you can Eternity. Eternities will reset everything before this
@@ -689,8 +813,9 @@ ${formatInt(2)} EP until ${formatPostBreak(DC.E349)}.
 `,
       isUnlocked: () => PlayerProgress.eternityUnlocked(),
       tags: ["eternal", "ep", "reset", "prestige", "midgame"],
-      tab: "eternity/upgrades"
-    }, {
+      tab: "eternity/upgrades",
+    },
+    {
       name: "Eternity Milestones",
       info: () => `
 To make Eternities faster and more convenient, you will unlock various buffs as you get more "Eternity". These
@@ -713,8 +838,9 @@ properly, as noted on the milestone page itself.
 `,
       isUnlocked: () => PlayerProgress.eternityUnlocked(),
       tags: ["eternities", "rewards", "automation", "midgame"],
-      tab: "eternity/milestones"
-    }, {
+      tab: "eternity/milestones",
+    },
+    {
       name: "Time Dimensions",
       info: () => `
 After your first Eternity, you unlock Time Dimensions. You buy them with Eternity Points and they produce Time Shards,
@@ -737,12 +863,12 @@ ${format(TimeDimension(1)._costIncreaseThresholds[2])} EP each dimension purchas
 purpose of cost increases, causing the price to rise much more steeply.
 <br>
 <b>Time Dimension base prices (EP):</b> ${Array.range(1, 8)
-    .map(tier => format(TimeDimension(tier)._baseCost))
-    .join(", ")}
+        .map((tier) => format(TimeDimension(tier)._baseCost))
+        .join(", ")}
 <br>
 <b>Time Dimension base price increases:</b> ${Array.range(1, 8)
-    .map(tier => format(TimeDimension(tier)._costMultiplier))
-    .join(", ")}
+        .map((tier) => format(TimeDimension(tier)._costMultiplier))
+        .join(", ")}
 <br>
 <br>
 Each threshold to gain another Tickspeed Upgrade is ${formatPercents(0.33)} more Time Shards than the previous,
@@ -752,8 +878,9 @@ per ${formatInt(50000)} upgrades (${formatX(1.000006, 0, 6)} per upgrade).
 `,
       isUnlocked: () => PlayerProgress.eternityUnlocked(),
       tags: ["dims", "td", "shards", "eternity", "midgame"],
-      tab: "dimensions/time"
-    }, {
+      tab: "dimensions/time",
+    },
+    {
       name: "Time Studies",
       info: () => `
 A Time Study is a powerful post-Eternity upgrade, which costs a new resource called Time Theorems. Time Studies can
@@ -818,8 +945,9 @@ the middle of an Eternity.
 `,
       isUnlocked: () => PlayerProgress.eternityUnlocked(),
       tags: ["eternity", "ts", "theorems", "tree", "study", "midgame"],
-      tab: "eternity/studies"
-    }, {
+      tab: "eternity/studies",
+    },
+    {
       name: "Eternity Challenges",
       info: () => `
 Eternity Challenges are another set of challenges which are unlocked by the Time Study Tree. They require a certain
@@ -848,8 +976,9 @@ if you respec your time studies.
 `,
       isUnlocked: () => PlayerProgress.eternityUnlocked(),
       tags: ["ec", "study", "time", "rewards", "completions", "midgame"],
-      tab: "challenges/eternity"
-    }, {
+      tab: "challenges/eternity",
+    },
+    {
       name: "Time Dilation",
       info: () => `
 Time Dilation is unlocked when you purchase the Time Study to unlock it below the EC11 and EC12 studies.
@@ -882,8 +1011,9 @@ also be repeatedly bought, but eventually reaches a cap.
 `,
       isUnlocked: () => DilationTimeStudyState.studies[1].isBought || PlayerProgress.realityUnlocked(),
       tags: ["dial", "dt", "dilated", "tachyon", "particle", "study", "free", "galaxy", "galaxies", "midgame"],
-      tab: "eternity/dilation"
-    }, {
+      tab: "eternity/dilation",
+    },
+    {
       name: "Reality",
       info: () => `
 When you reach ${formatPostBreak(DC.E4000)} EP and have completed the first
@@ -933,8 +1063,9 @@ You get exactly ${formatInt(1)} Perk Point per Reality.
 `,
       isUnlocked: () => PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought,
       tags: ["rm", "machines", "glyph", "perk", "reset", "prestige", "endgame", "lategame"],
-      tab: "reality/upgrades"
-    }, {
+      tab: "reality/upgrades",
+    },
+    {
       name: "Glyphs",
       info: () => `
 A Glyph is an equippable object that has four attributes:
@@ -994,8 +1125,9 @@ in the Statistics page, your equipped Glyphs, and the Upcoming Glyph Selection t
 `,
       isUnlocked: () => PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought,
       tags: ["reality", "sacrifice", "level", "endgame", "lategame"],
-      tab: "reality/glyphs"
-    }, {
+      tab: "reality/glyphs",
+    },
+    {
       name: "Perks",
       info: () => `
 Perks are a type of upgrade unlocked upon Reality. Each Perk effect varies, but most are QoL (quality of life)
@@ -1014,8 +1146,9 @@ different colors, roughly indicating which part of the game they affect the most
 `,
       isUnlocked: () => PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought,
       tags: ["pp", "reality", "tree", "endgame", "lategame"],
-      tab: "reality/perks"
-    }, {
+      tab: "reality/perks",
+    },
+    {
       name: "Automator Overview",
       info: () => `
 The Automator is unlocked upon reaching a total of ${formatInt(AutomatorPoints.pointsForAutomator)} Automator Points.
@@ -1052,8 +1185,9 @@ will not be lost or overwritten.
 `,
       isUnlocked: () => Player.automatorUnlocked,
       tags: ["automation", "reality", "code", "script", "endgame", "lategame"],
-      tab: "automation/automator"
-    }, {
+      tab: "automation/automator",
+    },
+    {
       name: "Automator Technical Details",
       info: () => `
 <b>Technical Limits</b>
@@ -1108,8 +1242,9 @@ Additionally, the PAUSE command may behave oddly due to it also being based on r
 `,
       isUnlocked: () => Player.automatorUnlocked,
       tags: ["automation", "reality", "code", "script", "endgame", "lategame"],
-      tab: "automation/automator"
-    }, {
+      tab: "automation/automator",
+    },
+    {
       name: "Black Hole",
       info: () => `
 The Black Hole is a feature which speeds up how fast the game runs, on a periodic cycle.
@@ -1195,8 +1330,9 @@ but the same cost multipliers.
 `,
       isUnlocked: () => player.blackHole[0].unlocked,
       tags: ["reality", "time", "speed", "duration", "interval", "rm", "endgame", "lategame"],
-      tab: "reality/hole"
-    }, {
+      tab: "reality/hole",
+    },
+    {
       name: "Celestials",
       info: () => `
 Once you get all of the Reality Upgrades, the first Celestial is unlocked. This opens up a new tab for Celestials, next
@@ -1218,8 +1354,9 @@ by game speed multipliers and instead refer specifically to real time instead of
 `,
       isUnlocked: () => Teresa.isUnlocked,
       tags: ["reality", "challenges", "endgame", "lategame"],
-      tab: "celestials/celestial-navigation"
-    }, {
+      tab: "celestials/celestial-navigation",
+    },
+    {
       name: "Teresa, Celestial of Reality",
       alias: "Teresa",
       info: () => `
@@ -1232,22 +1369,27 @@ When you reach ${format(TeresaUnlocks.run.price)} RM inside of the container, yo
 <br>
 <br>
 When you complete Teresa's Reality,
-${Teresa.runCompleted
+${
+  Teresa.runCompleted
     ? "your Glyph Sacrifice is multiplied based on the amount of antimatter gained during the run"
-    : "<div style='color: var(--color-bad);'>(complete Teresa's Reality to see the reward)</div>"}.
+    : "<div style='color: var(--color-bad);'>(complete Teresa's Reality to see the reward)</div>"
+}.
 Completing Teresa's Reality is only part of the story; you need to keep pouring RM in order to progress. Once
 you are at ${format(TeresaUnlocks.effarig.price)} RM in the container, you will unlock the next Celestial.
 <br>
 <br>
-${Teresa.runCompleted
+${
+  Teresa.runCompleted
     ? "Teresa's Reality can be entered again after completing it, and its reward will become stronger if you " +
       "reach a higher amount of antimatter on this repeat run."
-    : "(More information available - complete Teresa's Reality)"}
+    : "(More information available - complete Teresa's Reality)"
+}
 `,
       isUnlocked: () => Teresa.isUnlocked,
       tags: ["rm", "endgame", "lategame", "perks", "sacrifice", "boo", "ghost", "celestial"],
-      tab: "celestials/teresa"
-    }, {
+      tab: "celestials/teresa",
+    },
+    {
       name: "Effarig, Celestial of Ancient Relics",
       alias: "Effarig",
       info: () => `
@@ -1267,7 +1409,8 @@ allow you to filter them based on their effects and rarity when you are doing fu
 <br>
 Effarig's final unlock is their own Reality at ${format(GameDatabase.celestials.effarig.unlocks.run.cost)} Relic
 Shards.
-${EffarigUnlock.run.isUnlocked
+${
+  EffarigUnlock.run.isUnlocked
     ? "Their Reality is divided into three layers: Infinity, Eternity, and Reality. You must complete each layer " +
       "before getting access to the next one. Completing Effarig's Eternity unlocks the next Celestial."
     : "<div style='color: var(--color-effarig--base);'>(unlock Effarig's Reality to see details about it)</div>"
@@ -1275,23 +1418,28 @@ ${EffarigUnlock.run.isUnlocked
 <br>
 <br>
 Completing Effarig's Reality unlocks
-${EffarigUnlock.reality.isUnlocked
+${
+  EffarigUnlock.reality.isUnlocked
     ? `a new Glyph type, <span style='color: var(--color-effarig--base);'>Effarig</span> Glyphs. Effarig Glyphs have
       ${formatInt(7)} different possible effects, which you can view in the Glyph filter settings. You can only
       have one Effarig Glyph equipped at a time.
-${Ra.unlocks.glyphEffectCount.canBeApplied
+${
+  Ra.unlocks.glyphEffectCount.canBeApplied
     ? `Due to having Effarig at level 10 within Ra, there are no longer any restrictions on effects that appear on
       Effarig Glyphs. Any given Effarig Glyph can now have up to all ${formatInt(7)} effects at the same time.`
     : `Effarig Glyphs can only have at most ${formatInt(4)} effects, and the RM multiplier and Glyph instability
-      effects cannot appear together on the same Glyph.`}`
-    : "<span style='color: var(--color-effarig--base);'>(complete Effarig's Reality to see reward details)</span>"}
+      effects cannot appear together on the same Glyph.`
+}`
+    : "<span style='color: var(--color-effarig--base);'>(complete Effarig's Reality to see reward details)</span>"
+}
 <br>
 <br>
 `,
       isUnlocked: () => TeresaUnlocks.effarig.canBeApplied,
       tags: ["glyph", "sacrifice", "shards", "reality", "spectralflame", "lategame", "endgame", "celestial"],
-      tab: "celestials/effarig"
-    }, {
+      tab: "celestials/effarig",
+    },
+    {
       name: "Advanced Glyph Mechanics",
       info: () => `
 Glyph level Adjustment is purchasable for ${format(GameDatabase.celestials.effarig.unlocks.adjuster.cost)} Relic
@@ -1359,10 +1507,22 @@ will always be the one equipped. Just like other groups of circular Glyphs, you 
 in order to bring up a modal summarizing the whole set of Glyphs.
 `,
       isUnlocked: () => EffarigUnlock.adjuster.isUnlocked,
-      tags: ["glyph", "weight", "adjustment", "sacrifice", "filter", "threshold", "set", "save", "reality", "lategame",
-        "endgame"],
-      tab: "celestials/glyphfilter"
-    }, {
+      tags: [
+        "glyph",
+        "weight",
+        "adjustment",
+        "sacrifice",
+        "filter",
+        "threshold",
+        "set",
+        "save",
+        "reality",
+        "lategame",
+        "endgame",
+      ],
+      tab: "celestials/glyphfilter",
+    },
+    {
       name: "The Nameless Ones, Celestial of Time",
       alias: "Nameless Ones",
       info: () => `
@@ -1400,27 +1560,41 @@ lasted ${format(0.2, 2, 2)} seconds, you will use ${formatInt(200)} seconds to s
 You can toggle a setting to automatically store offline time as stored real time.
 <br>
 <br>
-Their first unlock costs ${format(TimeSpan.fromMilliseconds(new Decimal(ENSLAVED_UNLOCKS.FREE_TICKSPEED_SOFTCAP.price)).totalYears)}
+Their first unlock costs ${format(
+        TimeSpan.fromMilliseconds(new Decimal(ENSLAVED_UNLOCKS.FREE_TICKSPEED_SOFTCAP.price)).totalYears
+      )}
 years of stored game time. It increases the softcap to Tickspeed Upgrades gained from Time Dimensions
 (the point at which their cost starts increasing faster)
 by ${format(1e5)} Tickspeed Upgrades.
 <br>
 <br>
-At ${format(TimeSpan.fromMilliseconds(new Decimal(ENSLAVED_UNLOCKS.RUN.price)).totalYears)} years of stored game time, you are able
+At ${format(
+        TimeSpan.fromMilliseconds(new Decimal(ENSLAVED_UNLOCKS.RUN.price)).totalYears
+      )} years of stored game time, you are able
 to finally unlock their Reality. The reward for completing The Nameless Ones' Reality is
-${Enslaved.isCompleted
+${
+  Enslaved.isCompleted
     ? "unlocking Tesseracts, which have their own How To Play entry."
-    : "<span style='color: var(--color-bad);'>(complete The Nameless Ones' Reality to see reward details)</span>"}
+    : "<span style='color: var(--color-bad);'>(complete The Nameless Ones' Reality to see reward details)</span>"
+}
 <br>
 <br>
 The Nameless Ones will not directly unlock the next Celestial.
 `,
       isUnlocked: () => EffarigUnlock.eternity.isUnlocked,
-      tags: ["reality", "time", "blackhole", "lategame", "endgame", "testers", "celestial",
-        ...credits.people.map(p => p.name)
+      tags: [
+        "reality",
+        "time",
+        "blackhole",
+        "lategame",
+        "endgame",
+        "testers",
+        "celestial",
+        ...credits.people.map((p) => p.name),
       ],
-      tab: "celestials/enslaved"
-    }, {
+      tab: "celestials/enslaved",
+    },
+    {
       name: "Tesseracts",
       info: () => `
 Tesseracts are a new resource you unlock for completing The Nameless Ones' Reality.
@@ -1442,8 +1616,9 @@ If affordable, the Infinity button itself will visually change and bring you to 
 `,
       isUnlocked: () => Enslaved.isCompleted,
       tags: ["reality", "lategame", "endgame", "tesseract", "id", "celestial"],
-      tab: "celestials/tesseract"
-    }, {
+      tab: "celestials/tesseract",
+    },
+    {
       name: "V, Celestial of Achievements",
       alias: "V",
       info: () => `
@@ -1463,7 +1638,8 @@ ${format(GameDatabase.celestials.v.mainUnlock.replicanti.requirement)} Replicant
 <br>
 <br>
 When you meet all of those requirements, you will be able to access V's Reality.
-${VUnlocks.vAchievementUnlock.isUnlocked
+${
+  VUnlocks.vAchievementUnlock.isUnlocked
     ? `However, completing the Reality itself is only the beginning. V has six different requirements, each of which
       require you to make a certain amount of progress within V's Reality. Completing a requirement rewards you with a
       V-Achievement.
@@ -1493,13 +1669,26 @@ ${VUnlocks.vAchievementUnlock.isUnlocked
       <br>
       Reaching ${formatInt(36)} V-Achievements (and therefore completing all of V's Achievements) unlocks the next
       Celestial.`
-    : "<span style='color: var(--color-bad);'>(unlock V's Reality to see further details)</span>"}
+    : "<span style='color: var(--color-bad);'>(unlock V's Reality to see further details)</span>"
+}
 `,
       isUnlocked: () => Achievement(151).isUnlocked,
-      tags: ["reality", "lategame", "endgame", "girlfriend", "challenges", "achievement", "space", "theorems",
-        "study", "triad", "celestial"],
-      tab: "celestials/v"
-    }, {
+      tags: [
+        "reality",
+        "lategame",
+        "endgame",
+        "girlfriend",
+        "challenges",
+        "achievement",
+        "space",
+        "theorems",
+        "study",
+        "triad",
+        "celestial",
+      ],
+      tab: "celestials/v",
+    },
+    {
       name: "Ra, Celestial of the Forgotten",
       alias: "Ra",
       info: () => `
@@ -1526,32 +1715,51 @@ improve your Glyph effects once you reach certain thresholds in Glyph sacrifice 
 <br>
 <br>
 At level ${formatInt(2)}, Effarig unlocks
-${Ra.unlocks.effarigUnlock.canBeApplied
+${
+  Ra.unlocks.effarigUnlock.canBeApplied
     ? "a new mechanic called Glyph Alchemy and later on also makes Effarig Glyphs stronger while gradually removing " +
       "almost all random elements of Glyph generation. Glyph Alchemy also has its own How To Play entry."
-    : "<span style='color: var(--color-bad);'>(unlock Effarig within Ra to see unlock details)</span>"}
+    : "<span style='color: var(--color-bad);'>(unlock Effarig within Ra to see unlock details)</span>"
+}
 <br>
 <br>
 The Nameless Ones unlocks
-${Ra.unlocks.enslavedUnlock.canBeApplied
+${
+  Ra.unlocks.enslavedUnlock.canBeApplied
     ? "additional mechanics related to charging the Black Holes, as well as making them significantly stronger."
-    : "<span style='color: var(--color-bad);'>(unlock The Nameless Ones within Ra to see unlock details)</span>"}
+    : "<span style='color: var(--color-bad);'>(unlock The Nameless Ones within Ra to see unlock details)</span>"
+}
 <br>
 <br>
 V unlocks
-${Ra.unlocks.vUnlock.canBeApplied
+${
+  Ra.unlocks.vUnlock.canBeApplied
     ? "Triad Studies, which are new studies near the bottom of the tree which cost Space Theorems. Each Triad Study " +
       "requires you to also have the three nearby studies as well in order to purchase them. They also unlock a " +
       "smaller set of more difficult V-Achievements to complete for additional Space Theorems."
-    : "<span style='color: var(--color-bad);'>(unlock V within Ra to see unlock details)</span>"}
+    : "<span style='color: var(--color-bad);'>(unlock V within Ra to see unlock details)</span>"
+}
 <br>
 <br>
 Ra will not directly unlock the next Celestial.`,
       isUnlocked: () => VUnlocks.raUnlock.isUnlocked,
-      tags: ["reality", "memories", "razenpok", "levels", "glyphs", "lategame", "endgame",
-        "effarig", "teresa", "nameless", "v", "celestial"],
-      tab: "celestials/ra"
-    }, {
+      tags: [
+        "reality",
+        "memories",
+        "razenpok",
+        "levels",
+        "glyphs",
+        "lategame",
+        "endgame",
+        "effarig",
+        "teresa",
+        "nameless",
+        "v",
+        "celestial",
+      ],
+      tab: "celestials/ra",
+    },
+    {
       name: "Glyph Alchemy Resources",
       info: () => `
 Glyph Alchemy is a mechanic unlocked by reaching Effarig level ${formatInt(2)} in Ra. It unlocks the ability to
@@ -1578,12 +1786,37 @@ with a higher refinement value.
 `,
       isUnlocked: () => Ra.unlocks.unlockGlyphAlchemy.canBeApplied,
       // Oh god I'm so sorry this is so many words
-      tags: ["reality", "lategame", "endgame", "ra", "effarig", "alchemy", "power", "infinity", "time", "replication",
-        "dilation", "cardinality", "eternity", "dimensionality", "inflation", "alternation", "synergism", "momentum",
-        "decoherence", "force", "exponential", "uncountability", "boundless", "unpredictability", "multiversal",
-        "reaction"],
-      tab: "reality/alchemy"
-    }, {
+      tags: [
+        "reality",
+        "lategame",
+        "endgame",
+        "ra",
+        "effarig",
+        "alchemy",
+        "power",
+        "infinity",
+        "time",
+        "replication",
+        "dilation",
+        "cardinality",
+        "eternity",
+        "dimensionality",
+        "inflation",
+        "alternation",
+        "synergism",
+        "momentum",
+        "decoherence",
+        "force",
+        "exponential",
+        "uncountability",
+        "boundless",
+        "unpredictability",
+        "multiversal",
+        "reaction",
+      ],
+      tab: "reality/alchemy",
+    },
+    {
       name: "Glyph Alchemy Reactions",
       info: () => `
 Alchemy Resources can be combined together in certain combinations in order to create new compound resources, which
@@ -1606,12 +1839,37 @@ be applied, moving lines will be shown from all reagents to the product. If a co
 that the reaction cannot proceed due to not having enough of that reagent to get more of the product due to its cap.
 `,
       isUnlocked: () => Ra.unlocks.unlockGlyphAlchemy.canBeApplied,
-      tags: ["reality", "lategame", "endgame", "ra", "effarig", "alchemy", "power", "infinity", "time", "replication",
-        "dilation", "cardinality", "eternity", "dimensionality", "inflation", "alternation", "synergism", "momentum",
-        "decoherence", "force", "exponential", "uncountability", "boundless", "unpredictability", "multiversal",
-        "reaction"],
-      tab: "reality/alchemy"
-    }, {
+      tags: [
+        "reality",
+        "lategame",
+        "endgame",
+        "ra",
+        "effarig",
+        "alchemy",
+        "power",
+        "infinity",
+        "time",
+        "replication",
+        "dilation",
+        "cardinality",
+        "eternity",
+        "dimensionality",
+        "inflation",
+        "alternation",
+        "synergism",
+        "momentum",
+        "decoherence",
+        "force",
+        "exponential",
+        "uncountability",
+        "boundless",
+        "unpredictability",
+        "multiversal",
+        "reaction",
+      ],
+      tab: "reality/alchemy",
+    },
+    {
       name: "Imaginary Machines",
       info: () => `
 Once you are able to gain at least ${format(MachineHandler.baseRMCap)} Reality Machines in a single Reality, you
@@ -1640,8 +1898,9 @@ Imaginary Machine upgrades will unlock the final two Celestials.
 `,
       isUnlocked: () => MachineHandler.isIMUnlocked,
       tags: ["imaginary", "machines", "reality", "lategame", "endgame"],
-      tab: "reality/imag_upgrades"
-    }, {
+      tab: "reality/imag_upgrades",
+    },
+    {
       name: "Lai'tela, Celestial of Dimensions",
       alias: "Lai'tela",
       info: () => `
@@ -1689,8 +1948,9 @@ Lai'tela will not directly unlock the next Celestial.
 `,
       isUnlocked: () => Laitela.isUnlocked,
       tags: ["omsi", "reality", "dark", "matter", "dimensions", "lategame", "endgame", "ascend", "celestial"],
-      tab: "celestials/laitela"
-    }, {
+      tab: "celestials/laitela",
+    },
+    {
       name: "Continuum",
       info: () => `
 When you unlock Lai'tela, your Antimatter Dimensions and Tickspeed Upgrades switch to a new mode of production
@@ -1716,8 +1976,9 @@ so all the related autobuyer settings for these autobuyers are now hidden on tha
       // Things break, so we check for the iMU instead.
       isUnlocked: () => ImaginaryUpgrade(15).isBought,
       tags: ["continuum", "purchase", "reality", "lategame", "endgame"],
-      tab: ""
-    }, {
+      tab: "",
+    },
+    {
       name: "Singularities",
       info: () => `
 Singularities are a new resource which you can obtain using features within Lai'tela.
@@ -1751,8 +2012,9 @@ Independently of the milestone type, milestones also have an icon indicating wha
 `,
       isUnlocked: () => Laitela.isUnlocked,
       tags: ["reality", "lategame", "endgame", "laitela", "dark"],
-      tab: ""
-    }, {
+      tab: "",
+    },
+    {
       name: "Pelle, Celestial of Antimatter",
       alias: "Pelle",
       info: () => `
@@ -1761,7 +2023,8 @@ When you purchase the last Imaginary Upgrade and unlock Pelle, you unlock their 
 available to you at this point, and attained ${formatInt(25000)} of each Alchemy Resource.
 <br>
 <br>
-${Pelle.isDoomed
+${
+  Pelle.isDoomed
     ? `Dooming your Reality will start a new <b>Doomed Reality</b>, resetting almost the entire game up to
       Reality, not giving you any rewards from your progress in your current Reality.
       <br>
@@ -1795,8 +2058,9 @@ ${Pelle.isDoomed
 `,
       isUnlocked: () => Pelle.isUnlocked,
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "hevipelle", "celestial", "doom"],
-      tab: "celestials/pelle"
-    }, {
+      tab: "celestials/pelle",
+    },
+    {
       name: "Pelle Strikes",
       info: () => `
 Pelle Strikes are encountered on different events in the Doomed Reality. You have encountered the first Pelle Strike by
@@ -1808,16 +2072,19 @@ Each Pelle Strike also unlocks a Rift bar.
 Rift bars can be filled by clicking them to toggle between "Idle" and "Filling", although only two Rifts can be
 "Filling" at any given time. When active, Rifts consume ${formatInt(3)}% of a Rift-specific resource per second. Each
 Rift offers a Rift-specific effect which are based on the total amount filled.
-${PelleStrikes.eternity.hasStrike
+${
+  PelleStrikes.eternity.hasStrike
     ? `An exception for this is Decay/Collapse/Disarray, whose effect gets capped once you have drained a total of
     ${formatPostBreak(DC.E2000)} Replicanti.`
-    : ""}
+    : ""
+}
 In addition, each Rift offers three milestone rewards for filling them up to a certain percentage.
 `,
       isUnlocked: () => PelleStrikes.infinity.hasStrike,
       tags: ["reality", "antimatter", "lategame", "endgame", "final", "pelle", "strike", "rift", "celestial"],
-      tab: "celestials/pelle"
-    }, {
+      tab: "celestials/pelle",
+    },
+    {
       name: "The Galaxy Generator",
       info: () => `
 When you reach ${formatInt(100)}% Recursion/Dispersion/Destruction, you unlock the <b>Galaxy Generator</b>, which can
@@ -1831,14 +2098,24 @@ Generated Galaxies. Replicanti or Tachyon Galaxies cannot be spent for purchasin
 The <b>Galaxy Generator</b> has a maximum number of Galaxies it can generate, which can only be increased by draining
 Rifts once the current cap has been reached.`,
       isUnlocked: () => Pelle.hasGalaxyGenerator,
-      tags: ["reality", "antimatter", "lategame", "endgame", "final", "pelle", "galaxy",
-        "galaxies", "generator", "celestial"],
-      tab: "celestials/pelle"
-    }
-  ]
+      tags: [
+        "reality",
+        "antimatter",
+        "lategame",
+        "endgame",
+        "final",
+        "pelle",
+        "galaxy",
+        "galaxies",
+        "generator",
+        "celestial",
+      ],
+      tab: "celestials/pelle",
+    },
+  ],
 };
 
-(function() {
+(function () {
   for (let i = 0; i < h2p.tabs.length; i++) {
     const tab = h2p.tabs[i];
     tab.id = i;
@@ -1891,7 +2168,7 @@ Rifts once the current cap has been reached.`,
     addPhrase(tab.alias, tab);
   }
 
-  const map2dToObject = function(arr, keyFun, valueFun) {
+  const map2dToObject = function (arr, keyFun, valueFun) {
     const out = {};
     for (let idx1 = 0; idx1 < arr.length; idx1++) {
       for (let idx2 = 0; idx2 < arr[idx1].length; idx2++) {
@@ -1902,8 +2179,12 @@ Rifts once the current cap has been reached.`,
   };
 
   // Very suboptimal code coming up. If anybody has a better solution, PLEASE, implement it.
-  const keyboardify = keybrd => map2dToObject(keybrd.split(",").map(str => str.split("")),
-    key => key, (_key, x, y) => ({ x, y }));
+  const keyboardify = (keybrd) =>
+    map2dToObject(
+      keybrd.split(",").map((str) => str.split("")),
+      (key) => key,
+      (_key, x, y) => ({ x, y })
+    );
 
   const qwerty = keyboardify(`1234567890,qwertyuiop,asdfghjkl,zxcvbnm`);
   const qwertz = keyboardify(`1234567890,qwertzuiop,asdfghjkl,yxcvbnm`);
@@ -1915,8 +2196,9 @@ Rifts once the current cap has been reached.`,
 
   const keyboards = [qwerty, qwertz, azerty, dvorak, colemak, workman, qwprf];
 
-  const keyboardDist = function(a, b, keyboard) {
-    const aPos = keyboard[a], bPos = keyboard[b];
+  const keyboardDist = function (a, b, keyboard) {
+    const aPos = keyboard[a],
+      bPos = keyboard[b];
     if (!aPos || !bPos) return 100;
     return Math.max(Math.abs(aPos.x - bPos.x), Math.abs(aPos.y - bPos.y));
   };
@@ -1926,7 +2208,7 @@ Rifts once the current cap has been reached.`,
   // to a function which roughly estimates how likely the user is to mispress the key based on its
   // minimum distance from several common keyboard layouts.
   // I have no idea how the actual "distance" calculation works but as long as it does don't touch it.
-  const howBadlyTypoedWithKeyboard = function(a, b, keyboard) {
+  const howBadlyTypoedWithKeyboard = function (a, b, keyboard) {
     // If they're the same, skip all calculations
     if (a === b) return 0;
     const aLen = a.length;
@@ -1947,17 +2229,13 @@ Rifts once the current cap has been reached.`,
       for (let j = 1; j <= bLen; j++) {
         const distance = keyboardDist(a[i - 1], b[j - 1], keyboard);
         const cost = distance === 0 ? 0 : 0.3 + distance * distance * 0.25;
-        d[i][j] = Math.min(
-          d[i - 1][j] + 0.55,
-          d[i][j - 1] + 0.7,
-          d[i - 1][j - 1] + cost
-        );
+        d[i][j] = Math.min(d[i - 1][j] + 0.55, d[i][j - 1] + 0.7, d[i - 1][j - 1] + cost);
       }
     }
     return d[aLen][bLen];
   };
 
-  const howBadlyTypoed = function(a, b) {
+  const howBadlyTypoed = function (a, b) {
     // Arbitrarily large number
     let minTypoed = 1e10;
     for (const keyboard of keyboards) {
@@ -1966,9 +2244,9 @@ Rifts once the current cap has been reached.`,
     return minTypoed;
   };
 
-  const specialChars = ["'", "\"", ",", "-", ".", "_"];
+  const specialChars = ["'", '"', ",", "-", ".", "_"];
 
-  const replaceSpecialChars = function(str) {
+  const replaceSpecialChars = function (str) {
     let result = str;
     for (const i of specialChars) {
       result = result.replaceAll(i, "");
@@ -1979,10 +2257,13 @@ Rifts once the current cap has been reached.`,
   // There are a LOT of magic numbers in this code, mostly from arbitrary choices for "What number is large enough to
   // act as a placeholder for 'basically not found'?"
   // This will need some cleanup if possible.
-  h2p.search = query => {
+  h2p.search = (query) => {
     const truncatedQuery = replaceSpecialChars(query);
-    if (truncatedQuery === "") return h2p.tabs.map(x => ({ tab: x, relevance: 1.5 }));
-    const searchTerms = truncatedQuery.toLowerCase().split(" ").filter(str => str !== "");
+    if (truncatedQuery === "") return h2p.tabs.map((x) => ({ tab: x, relevance: 1.5 }));
+    const searchTerms = truncatedQuery
+      .toLowerCase()
+      .split(" ")
+      .filter((str) => str !== "");
 
     // A higher "Relevance" value actually means it's further away from the search, important to keep in mind
     const relevances = Array.repeat(1e4, h2p.tabs.length);
@@ -1999,8 +2280,9 @@ Rifts once the current cap has been reached.`,
         }
       }
     }
-    const results = h2p.tabs.filter(x => relevances[x.id] < 0.9)
-      .map(x => ({ tab: x, relevance: relevances[x.id] }));
+    const results = h2p.tabs
+      .filter((x) => relevances[x.id] < 0.9)
+      .map((x) => ({ tab: x, relevance: relevances[x.id] }));
     // Provide both the relevance and the tab itself
 
     // Sort by id first, then push more relevant results to top.
@@ -2008,4 +2290,4 @@ Rifts once the current cap has been reached.`,
     // Provide both the relevance and the tab itself
     return results;
   };
-}());
+})();

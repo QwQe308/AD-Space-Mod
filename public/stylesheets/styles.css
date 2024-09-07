@@ -104,6 +104,12 @@ html {
 
   --color-pelle--base: crimson;
   --color-pelle--secondary: #00bcd4;
+  
+  --color-space: #cccccc;
+  --color-space-inverted: #333333;
+
+  --color-mirror: #bffbff;
+  --color-mirror-complete: #e4eeaa;
 }
 
 :root .t-metro,
@@ -294,6 +300,10 @@ body {
   background-color: #ffffff;
   margin: 0;
   padding: 0;
+  
+  /* Yes from incremental_gamer, disables double tap zoom for mobile players
+  Though I thought playing on mobile is not suitable */
+  touch-action: manipulation;
 }
 
 ._kong-test body {
@@ -752,6 +762,16 @@ button:focus {
 
 .o-tab-btn--celestial:hover {
   background: var(--color-celestials);
+}
+
+.o-tab-btn--space {
+  color: var(--color-space);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-space);
+}
+
+.o-tab-btn--space:hover {
+  background: var(--color-space);
 }
 
 /* #endregion tab buttons */
@@ -3428,6 +3448,14 @@ br {
   color: var(--color-text);
   background-color: var(--color-prestige--accent);
   border-color: var(--color-eternity);
+  border-radius: var(--var-border-radius, 1rem);
+}
+
+.c-challenge-box--space {
+  height: 18rem;
+  color: var(--color-text);
+  background-color: var(--color-prestige--accent);
+  border-color: var(--color-space);
   border-radius: var(--var-border-radius, 1rem);
 }
 

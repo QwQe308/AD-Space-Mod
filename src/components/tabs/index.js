@@ -42,6 +42,10 @@ import TimeDimensionsTab from "./time-dimensions/TimeDimensionsTab";
 import TimeStudiesTab from "./time-studies/TimeStudiesTab";
 import VTab from "./celestial-v/VTab";
 
+import SpaceResearchTab from "./_MOD/space-researches/SpaceResearchTab";
+import SpaceChallengesTab from "./_MOD/space-challenges/SpaceChallengesTab";
+import MirrorTab from "./_MOD/mirror/mirrorTab";
+
 const TabComponents = {
   AntimatterDimensionsTab,
   InfinityDimensionsTab,
@@ -84,7 +88,12 @@ const TabComponents = {
   AlchemyTab,
   CelestialNavigationTab,
   ShopTab,
-  MultiplierBreakdownTab
+  MultiplierBreakdownTab,
+
+  //mod
+  SpaceResearchTab,
+  SpaceChallengesTab,
+  MirrorTab,
 };
 
 export default TabComponents;

@@ -33,7 +33,9 @@ export class DimBoost {
         Achievement(142),
         GlyphEffect.dimBoostPower,
         PelleRifts.recursion.milestones[0]
-      ).powEffectsOf(InfinityUpgrade.dimboostMult.chargedEffect);
+      )
+      .mul(light.green.effectValue())//green light
+      .powEffectsOf(InfinityUpgrade.dimboostMult.chargedEffect);
     if (GlyphAlteration.isAdded("effarig")) boost = boost.pow(getSecondaryGlyphEffect("effarigforgotten"));
     return boost;
   }
@@ -46,6 +48,8 @@ export class DimBoost {
   }
 
   static get maxDimensionsUnlockable() {
+    if (isSCRunningOnTier(2, 2)) return 4;
+    if (isSCRunningOnTier(2, 1)) return 4;
     return NormalChallenge(10).isRunning ? 6 : 8;
   }
 
@@ -149,7 +153,7 @@ export class DimBoost {
     const areDimensionsKept = (Perk.antimatterNoReset.isBought || Achievement(111).canBeApplied) &&
       (!Pelle.isDoomed || PelleUpgrade.dimBoostResetsNothing.isBought);
     if (areDimensionsKept) return boostEffects[0].toUpperCase() + boostEffects.substring(1);
-    return `Reset your Dimensions to ${boostEffects}`;
+    return `Reset your AD & T0 Res to ${boostEffects}`;
   }
 
   static get purchasedBoosts() {
@@ -157,9 +161,12 @@ export class DimBoost {
   }
 
   static get imaginaryBoosts() {
+    let imaginaryBoosts = ImaginaryUpgrade(12).effectOrDefault(DC.D0)
+    imaginaryBoosts = imaginaryBoosts.add(SpaceResearchRifts.r21.effectValue[0])
+    let multplier = ImaginaryUpgrade(23).effectOrDefault(DC.D1)
     return Ra.isRunning
       ? DC.D0
-      : ImaginaryUpgrade(12).effectOrDefault(DC.D0).mul(ImaginaryUpgrade(23).effectOrDefault(DC.D1));
+      : imaginaryBoosts.mul(multplier);
   }
 
   static get totalBoosts() {
@@ -200,6 +207,11 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
     Currency.antimatter.reset();
   }
   EventHub.dispatch(GAME_EVENT.DIMBOOST_AFTER, bulk);
+  
+  //MOD
+  player.space = new Decimal(0);
+  SpaceResearchTierDetail[0].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].refresh());
 }
 
 export function skipResetsIfPossible(enteringAntimatterChallenge) {

@@ -19,7 +19,8 @@ export function infinityDimensionCommonMultiplier() {
       AlchemyResource.dimensionality,
       ImaginaryUpgrade(8),
       PelleRifts.recursion.milestones[1]
-    );
+      )
+      .mul(light.yellow.effectValue());
 
   if (Replicanti.areUnlocked && Replicanti.amount.gt(1)) {
     mult = mult.times(replicantiMult());
@@ -40,9 +41,9 @@ class InfinityDimensionState extends DimensionState {
     super(() => player.dimensions.infinity, tier);
     const UNLOCK_REQUIREMENTS = [
       undefined,
-      DC.E1100,
-      DC.E1900,
-      DC.E2400,
+      DC.E1000,
+      DC.E1800,
+      DC.E2350,
       DC.E10500,
       DC.E30000,
       DC.E45000,
@@ -54,7 +55,7 @@ class InfinityDimensionState extends DimensionState {
     this._costMultiplier = COST_MULTS[tier];
     const POWER_MULTS = [null, 50, 30, 10, 5, 5, 5, 5, 5];
     this._powerMultiplier = POWER_MULTS[tier];
-    const BASE_COSTS = [null, 1e8, 1e9, 1e10, 1e20, 1e140, 1e200, 1e250, 1e280];
+    const BASE_COSTS = [null, 1e7, 1e9, 1e12, 1e20, 1e140, 1e200, 1e250, 1e280];
     this._baseCost = new Decimal(BASE_COSTS[tier]);
     this.ipRequirement = BASE_COSTS[1];
   }
@@ -244,6 +245,7 @@ class InfinityDimensionState extends DimensionState {
     if (this.isUnlocked) return true;
     if (!this.canUnlock) return false;
     this.isUnlocked = true;
+    if (this.tier === 4) TabNotification.ID4Unlock.tryTrigger();
     EventHub.dispatch(GAME_EVENT.INFINITY_DIMENSION_UNLOCKED, this.tier);
     if (this.tier === 1 && !PlayerProgress.eternityUnlocked()) {
       Tab.dimensions.infinity.show();
@@ -326,7 +328,7 @@ export const InfinityDimensions = {
    * @type {InfinityDimensionState[]}
    */
   all: InfinityDimension.index.compact(),
-  HARDCAP_PURCHASES: new Decimal(2000000),
+  HARDCAP_PURCHASES: new Decimal(16),
 
   unlockNext() {
     if (InfinityDimension(8).isUnlocked) return;
@@ -410,7 +412,9 @@ export const InfinityDimensions = {
   },
 
   get powerConversionRate() {
-    return getAdjustedGlyphEffect("infinityrate").add(7)
-      .add(PelleUpgrade.infConversion.effectOrDefault(0)).mul(PelleRifts.paradox.milestones[2].effectOrDefault(1));
+    let base = getAdjustedGlyphEffect("infinityrate").add(7).add(PelleUpgrade.infConversion.effectOrDefault(0))
+    base = base.add(SpaceResearchRifts.r45.effectValue)
+    let multplier = PelleRifts.paradox.milestones[2].effectOrDefault(1)
+    return base.mul(multplier)
   }
 };
