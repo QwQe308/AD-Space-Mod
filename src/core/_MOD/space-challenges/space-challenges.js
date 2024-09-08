@@ -53,6 +53,7 @@ export class SpaceChallengeState extends GameMechanicState {
   }
 
   complete() {
+    GameUI.notify.info("Space Challenge Completed!");
     this.exit();
     if (!this.isFullyCompleted) player.spaceChalls[this.id] += 1;
   }
@@ -94,8 +95,12 @@ export class SpaceChallengeState extends GameMechanicState {
     return this.currentTier.canComplete();
   }
 
+  get effectValue() {
+    return this.currentTier.effectValue()
+  }
+
   exit() {
-    if (this.goal !== "Big Crunch") this.currentTier.reset();
+    this.currentTier.exit()
     player.challenge.space.current = 0;
   }
 }

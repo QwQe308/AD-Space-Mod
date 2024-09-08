@@ -147,6 +147,7 @@ class SpaceResearchRift extends GameMechanicState {
   }
 
   refresh() {
+    if(this.config.levelUP && this.pendingLevel.gt(this.level)) this.config.levelUP(this.level, this.pendingLevel)
     this.rift.progress = this.rift.pendingProgress
   }
 
@@ -184,8 +185,11 @@ class SpaceResearchRift extends GameMechanicState {
 
     let res = spd.mul(diff.div(1000))
 
-    this.pendingProgress = this.pendingProgress.add(res).max(this.progress)
-    if(this.resetsNothing) this.progress = this.progress.add(res)
+    this.pendingProgress = this.pendingProgress.max(this.progress).add(res)
+    if(this.resetsNothing){
+      if(this.config.levelUP && this.pendingLevel.gt(this.level)) this.config.levelUP(this.level, this.pendingLevel)
+      this.progress = this.progress.add(res)
+    }
   }
 }
 

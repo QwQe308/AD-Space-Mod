@@ -189,7 +189,7 @@ const EP_BUTTON_DISPLAY_TYPE = {
     v-if="isVisible"
     :class="buttonClassObject"
     class="o-prestige-button"
-    onclick="/*eternityResetRequest()*/"
+    onclick="eternityResetRequest()"
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >

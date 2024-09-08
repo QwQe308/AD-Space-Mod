@@ -27,6 +27,7 @@ import { T0AutoResearcherState } from "./_MOD/t0-auto-researcher";
 import { T1AutoResearcherState } from "./_MOD/t1-auto-researcher";
 import { T2AutoResearcherState } from "./_MOD/t2-auto-researcher";
 import { T3AutoResearcherState } from "./_MOD/t3-auto-researcher";
+import { T4AutoResearcherState } from "./_MOD/t4-auto-researcher";
 
 export const Autobuyer = {
   annihilation: new AnnihilationAutobuyerState(),
@@ -58,6 +59,7 @@ export const Autobuyer = {
   T1AutoResearcher: new T1AutoResearcherState(),
   T2AutoResearcher: new T2AutoResearcherState(),
   T3AutoResearcher: new T3AutoResearcherState(),
+  T4AutoResearcher: new T4AutoResearcherState(),
 };
 
 export const Autobuyers = (function() {
@@ -105,6 +107,7 @@ export const Autobuyers = (function() {
     Autobuyer.T1AutoResearcher,
     Autobuyer.T2AutoResearcher,
     Autobuyer.T3AutoResearcher,
+    Autobuyer.T4AutoResearcher,
   ];
 
   const all = dimensions.concat(prestige, singleComplex, arrays, others);

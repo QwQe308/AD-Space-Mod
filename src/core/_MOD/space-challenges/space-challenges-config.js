@@ -13,6 +13,7 @@ export const spaceChallenges = [
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.infinityUnlocked();
@@ -26,6 +27,7 @@ export const spaceChallenges = [
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.hasBroken();
@@ -45,6 +47,7 @@ export const spaceChallenges = [
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.infinityUnlocked();
@@ -58,6 +61,7 @@ export const spaceChallenges = [
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.hasBroken();
@@ -77,6 +81,7 @@ export const spaceChallenges = [
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.infinityUnlocked();
@@ -94,6 +99,7 @@ export const spaceChallenges = [
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.hasBroken();
@@ -108,15 +114,65 @@ export const spaceChallenges = [
       {
         description: `Only multpliers affecting every AD works. (i.e. IU11)`,
         goal: `Big Crunch`,
-        reward: `Unlocks T3 Auto Researcher & T3 Auto Researcher works at 200% efficiency.`,
+        reward: `Unlocks T3 Auto Researcher.`,
         rewardDisplayOrder: 7,
         reset() {
           bigCrunchReset(true, true);
         },
+        exit() {},
         resetDescription: `Calls a Big Crunch Reset on entering.`,
         isUnlocked() {
           return PlayerProgress.hasBroken();
         },
+      },
+      {
+        description: `Only multpliers affecting every single AD works. (i.e. Buymult)`,
+        goal: `Big Crunch`,
+        reward: `T3 Research no longer requires reset.`,
+        rewardDisplayOrder: 9,
+        reset() {
+          eternity(true, true);
+        },
+        exit() {
+          eternity(true, true);
+        },
+        resetDescription: `Calls a Eternity Reset on entering.`,
+        isUnlocked() {
+          return PlayerProgress.eternityUnlocked();
+        },
+      },
+    ],
+  },
+
+  {
+    //SC5
+    id: 5,
+    data: [
+      {
+        description: `Infinity cannot be broken. All NC and Infinity / Break Upgrades are reseted. /1e12 Research Speed. Completing any NC will x4 Research Speed. Also start with 2 IP.`,
+        goal: `Complete all NC`,
+        reward: `Unlocks T4 Auto Researcher.`,
+        rewardDisplayOrder: 8,
+        reset() {
+          eternity(true, true)
+          player.infinityPoints = new Decimal(2)
+          player.break = false
+          NormalChallenges.clearCompletions()
+          player.infinityUpgrades = new Set()
+        },
+        exit() {
+          eternity(true, true);
+        },
+        resetDescription: `Calls a Eternity Reset on entering.`,
+        isUnlocked() {
+          return PlayerProgress.eternityUnlocked();
+        },
+        canComplete() {
+          return player.challenge.normal.completedBits === 8191
+        },
+        effectValue() {
+          return 1e12 / 4 ** NormalChallenges.all.filter(x => x.isCompleted).length
+        }
       },
     ],
   },

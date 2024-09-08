@@ -3,6 +3,7 @@ import Mousetrap from "mousetrap";
 import { ElectronRuntime } from "@/steam";
 
 import { GameKeyboard } from "./keyboard";
+import { DEV } from "../env";
 
 // Add your hotkeys and combinations here
 // GameKeyboard.bind for single press combinations
@@ -99,7 +100,7 @@ export const shortcuts = [
     name: "Eternity",
     keys: ["e"],
     type: "bindRepeatableHotkey",
-    function: () => false,//eternityResetRequest(), No Eter Hotkey plz
+    function: () => {if(DEV) eternityResetRequest()},//dev lock
     visible: () => PlayerProgress.eternityUnlocked() || Player.canEternity
   }, {
     name: "Toggle Time Study respec",

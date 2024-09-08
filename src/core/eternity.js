@@ -1,6 +1,7 @@
 import { GameMechanicState, SetPurchasableMechanicState } from "./game-mechanics";
 import { DC } from "./constants";
 import FullScreenAnimationHandler from "./full-screen-animation-handler";
+import { DEV } from "../env";
 
 function giveEternityRewards(auto) {
   player.records.bestEternity.time = Decimal.min(player.records.thisEternity.time, player.records.bestEternity.time);
@@ -61,6 +62,7 @@ export function eternityAnimation() {
 }
 
 export function eternityResetRequest() {
+  if (!DEV) return //dev lock
   if (!Player.canEternity) return;
   if (GameEnd.creditsEverClosed) return;
   askEternityConfirmation();
@@ -144,6 +146,20 @@ export function eternity(force, auto, specialConditions = {}) {
   PelleStrikes.eternity.trigger();
 
   EventHub.dispatch(GAME_EVENT.ETERNITY_RESET_AFTER);
+
+  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
+  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
+  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].reset())
+  SpaceResearchTierDetail[4].forEach(x => SpaceResearchRifts[x].refresh())
+
+  player.space = new Decimal(0)
+  Currency.antimatter.reset();
+
+  player.light.prisms = 0
+  player.light.redPercent = 0
+  player.light.greenPercent = 0
+  player.light.bluePercent = 0
+
   return true;
 }
 
@@ -235,11 +251,12 @@ function askEternityConfirmation() {
 }
 
 export function gainedEternities() {
-  return Pelle.isDisabled("eternityMults")
-    ? new Decimal(1)
-    : new Decimal(getAdjustedGlyphEffect("timeetermult"))
+  if(Pelle.isDisabled("eternityMults")) return new Decimal(1)
+  let esMult = new Decimal(getAdjustedGlyphEffect("timeetermult"))
       .timesEffectsOf(RealityUpgrade(3), Achievement(113))
-      .pow(AlchemyResource.eternity.effectValue);
+  esMult = esMult.mul(SpaceResearchRifts.r53.effectValue)
+  esMult = esMult.pow(AlchemyResource.eternity.effectValue);
+  return esMult
 }
 
 export class EternityMilestoneState {

@@ -454,8 +454,9 @@ export const migrations = {
     83: player => {
       beMigration(player);
     },
-    101: player => {
-    }
+    102: player => {
+      player.auto.bigCrunch.lastTick = 0
+    },
   },
 
   normalizeTimespans(player) {

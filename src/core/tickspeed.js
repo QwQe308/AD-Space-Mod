@@ -20,7 +20,6 @@ export function effectiveBaseGalaxies() {
 }
 
 export function getTickSpeedMultiplier() {
-  if (isSCRunningOnTier(4, 2)) return DC.D1;
   if (InfinityChallenge(3).isRunning) return DC.D1;
   if (Ra.isRunning) return DC.C1D1_1245;
   let galaxies = effectiveBaseGalaxies();

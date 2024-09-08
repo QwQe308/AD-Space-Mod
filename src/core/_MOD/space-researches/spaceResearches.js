@@ -10,6 +10,7 @@ export function globalResearchSpeed() {
   let researchFactor = SpaceResearchRifts.r21.effectValue[1]; //r21
   let achievementFactor = Achievements.power;
   let otherFactors = DC.D1.timesEffectsOf(InfinityUpgrade.totalTimeMult);
+  if(isSCRunningOnTier(5,1)) otherFactors = otherFactors.div(SpaceChallenge(5).effectValue)
   return spaceFactor.mul(dbFactor).mul(researchFactor).mul(achievementFactor).mul(otherFactors);
 }
 
@@ -276,10 +277,74 @@ export const spaceResearch = {
     },
     unlocked: () => PlayerProgress.IDUnlocked(1),
   },
+
+  //Eternity - Tier 4
+  r51: {
+    key: "r51",
+    name: "Eternal Being",
+    tier: 4,
+    costScale() {
+      return new ExponentialCostScaling({
+        baseCost: new Decimal(1e140),
+        baseIncrease: new Decimal(1e20),
+        costScale: new Decimal(1),
+        purchasesBeforeScaling: DC.BEMAX,
+      });
+    },
+    effectValue: (level) => {
+      return level.pow_base(2);
+    },
+    effect: (value) => {
+      return `x ${format(value)} EP`;
+    },
+  },
+
+  r52: {
+    key: "r52",
+    name: "Timeline Research",
+    tier: 4,
+    costScale() {
+      return new ExponentialCostScaling({
+        baseCost: new Decimal(1e125),
+        baseIncrease: new Decimal(1e15),
+        costScale: new Decimal(1),
+        purchasesBeforeScaling: DC.BEMAX,
+      });
+    },
+    effectValue: (level) => {
+      return level;
+    },
+    effect: (value) => {
+      return `+ ${format(value)} TT`;
+    },
+    levelUP: (prevLevel, newLevel) => {
+      Currency.timeTheorems.add(newLevel.sub(prevLevel))
+    }
+  },
+
+  r53: {
+    key: "r53",
+    name: "Eternal Loop",
+    tier: 4,
+    costScale() {
+      return new ExponentialCostScaling({
+        baseCost: new Decimal(1e200),
+        baseIncrease: new Decimal(1e25),
+        costScale: new Decimal(10),
+        purchasesBeforeScaling: new Decimal(0),
+      });
+    },
+    effectValue: (level) => {
+      return level.add(1).mul(level.pow_base(1.1));
+    },
+    effect: (value) => {
+      return `x ${format(value)} Eternities`;
+    },
+  },
 };
 /*  */
 
-export const maxTier = 3;
+export const maxTier = 4;
 export const SpaceResearchTierDetail = Array.range(0, maxTier + 1).map((tier) =>
   Object.keys(spaceResearch).filter((i) => spaceResearch[i].tier == tier)
 );
@@ -287,6 +352,7 @@ export const SpaceResearchResetsNothing = [
   () => true,
   () => isSCTierCompleted(2, 2),
   () => isSCTierCompleted(3, 2),
+  () => false,
   () => false,
 ];
 export function isSpaceResearchQuickResetAvailable(tier) {

@@ -21,6 +21,7 @@ export default {
       dimensionBoostUnlocked: false,
       galaxyUnlocked: false,
       hasBroken: false,
+      eternityUnlocked: false,
     };
   },
   computed: {
@@ -36,9 +37,12 @@ export default {
       //this.decayRate = Pelle.riftDrainPercent;
       //this.isCollapsed = player.celestials.pelle.collapsed.rifts;
       this.researchSpeed.copyFrom(globalResearchSpeed());
+
       this.dimensionBoostUnlocked = PlayerProgress.dimensionBoostUnlocked();
       this.galaxyUnlocked = PlayerProgress.galaxyUnlocked();
       this.hasBroken = PlayerProgress.hasBroken();
+      this.eternityUnlocked = PlayerProgress.eternityUnlocked();
+
       for (let tier = 0; tier <= maxTier; tier++) {
         this.tierResearchSpeed[tier] = tierBasedResearchSpeed(tier);
         this.resetsNothing[tier] = SpaceResearchResetsNothing[tier]();
@@ -127,6 +131,21 @@ export default {
         <SpaceResearchRift
           v-for="rift in rifts"
           v-if="SpaceResearchTierDetail[3].includes(rift.config.key) && rift.unlocked"
+          :key="rift.config.key"
+          :rift="rift"
+        />
+      </div>
+      <br /><br />
+
+      <div class="c-pelle-bar-container" v-if="eternityUnlocked">
+        <big><big>--- Eternity - T4 ---</big></big>
+        <big v-if="tierResearchSpeed[4].neq(researchSpeed)"
+          >T4 research speed: {{ format(tierResearchSpeed[4], 2) }} /s</big
+        >
+        <div v-if="!resetsNothing[4]">Leveling up these requires a Eternity reset.</div>
+        <SpaceResearchRift
+          v-for="rift in rifts"
+          v-if="SpaceResearchTierDetail[4].includes(rift.config.key) && rift.unlocked"
           :key="rift.config.key"
           :rift="rift"
         />

@@ -1,4 +1,5 @@
 <script>
+//!!! This is unused now !!!
 import SliderComponent from "@/components/SliderComponent";
 
 export default {

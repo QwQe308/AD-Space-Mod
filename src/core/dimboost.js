@@ -1,5 +1,6 @@
 import { DC } from "./constants";
 import { EternityChallenge } from "./eternity-challenge";
+import { isSCRunningOnTier } from "./globals";
 
 class DimBoostRequirement {
   constructor(tier, amount) {
@@ -41,7 +42,10 @@ export class DimBoost {
   }
 
   static multiplierToNDTier(tier) {
-    const normalBoostMult = DimBoost.power.pow(this.purchasedBoosts.add(1).sub(tier)).clampMin(1);
+    if(isSCRunningOnTier(4, 1)) tier = 8
+    const normalBoostMult = DimBoost.power.pow(
+      this.purchasedBoosts.min(isSCRunningOnTier(4, 2)? DC.BEMAX : 8).add(1).sub(tier)
+      ).clampMin(1);
     const imaginaryBoostMult = DimBoost.power.times(ImaginaryUpgrade(24).effectOrDefault(1))
       .pow(this.imaginaryBoosts).clampMin(1);
     return normalBoostMult.times(imaginaryBoostMult);

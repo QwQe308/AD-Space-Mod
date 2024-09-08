@@ -17,7 +17,7 @@ function getGlyphTypes() {
 // This is actually reassigned when importing saves
 // eslint-disable-next-line prefer-const
 window.player = {
-  version: 101,
+  version: 102,
   //MOD
   light: {
     inMirror: false,
@@ -92,6 +92,22 @@ window.player = {
       pendingProgress: DC.D0,
       active: false,
     },
+
+    r51: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r52: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
+    r53: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
   },
 
   //original
@@ -145,7 +161,7 @@ window.player = {
   auto: {
     autobuyersOn: true,
     disableContinuum: false,
-    //MOD
+    //MOD AUTO
     T0AutoResearcher: {
       isBought: false,
       isActive: true,
@@ -159,6 +175,9 @@ window.player = {
       isActive: true,
     },
     T3AutoResearcher: {
+      isActive: true,
+    },
+    T4AutoResearcher: {
       isActive: true,
     },
 

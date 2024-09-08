@@ -109,10 +109,11 @@ function applyNDMultipliers(mult, tier) {
   infinitiedMult = infinitiedMult.pow(TimeStudy(31).effectOrDefault(1));
   multiplier = multiplier.times(infinitiedMult);
 
-  if (isSCRunningOnTierOrHigher(4, 1))
+  if (isSCRunningOnTier(4, 1))
     multiplier = multiplier.div(
       Decimal.pow(AntimatterDimensions.buyTenMultiplier, buy10Value).times(DimBoost.multiplierToNDTier(tier))
     );
+  if (isSCRunningOnTier(4, 2)) multiplier = Decimal.pow(AntimatterDimensions.buyTenMultiplier, buy10Value).times(DimBoost.multiplierToNDTier(tier))
 
   if (tier === 1) {
     multiplier = multiplier

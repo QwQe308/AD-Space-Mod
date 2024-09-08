@@ -120,10 +120,8 @@ export function gainedInfinityPoints() {
 }
 
 function totalEPMult() {
-  return Pelle.isDisabled("EPMults")
-    ? Pelle.specialGlyphEffect.time.timesEffectOf(PelleRifts.vacuum.milestones[2])
-    : getAdjustedGlyphEffect("cursedEP")
-      .timesEffectsOf(
+  if(Pelle.isDisabled("EPMults")) return Pelle.specialGlyphEffect.time.timesEffectOf(PelleRifts.vacuum.milestones[2])
+  let epMult = getAdjustedGlyphEffect("cursedEP").timesEffectsOf(
         EternityUpgrade.epMult,
         TimeStudy(61),
         TimeStudy(122),
@@ -132,6 +130,8 @@ function totalEPMult() {
         RealityUpgrade(12),
         GlyphEffect.epMult
       );
+  epMult = epMult.mul(SpaceResearchRifts.r51.effectValue)
+  return epMult
 }
 
 export function gainedEternityPoints() {
