@@ -26,7 +26,8 @@ export default {
       buy10Mult: new Decimal(0),
       currentSacrifice: new Decimal(0),
       hasRealityButton: false,
-      multiplierText: ""
+      multiplierText: "",
+      amMult: new Decimal(0)
     };
   },
   methods: {
@@ -40,7 +41,15 @@ export default {
       const sacText = this.isSacrificeUnlocked
         ? ` | Dimensional Sacrifice multiplier: ${formatX(this.currentSacrifice, 2, 2)}`
         : "";
-      this.multiplierText = `Buy 10 Dimension purchase multiplier: ${formatX(this.buy10Mult, 2, 2)}${sacText}`;
+      this.multiplierText = `Buy 10 Dimension purchase multiplier: ${formatX(this.buy10Mult, 2, 2)}`;
+
+      this.amMult.copyFrom(getAMMultplier())
+      if (this.amMult.neq(1)) {
+        const amMultText = ` | Direct Antimatter multiplier: ${formatX(this.amMult, 2, 2)}`
+        this.multiplierText += amMultText;
+      }
+
+      this.multiplierText += sacText
     },
     quickReset() {
       softReset(-1, true, true);
