@@ -44,7 +44,7 @@ export class DimBoost {
   static multiplierToNDTier(tier) {
     if(isSCRunningOnTier(4, 1)) tier = 8
     const normalBoostMult = DimBoost.power.pow(
-      this.purchasedBoosts.min(isSCRunningOnTier(4, 2)? DC.BEMAX : 8).add(1).sub(tier)
+      this.purchasedBoosts.min(isSCRunningOnTier(4, 2)? 8 : DC.BEMAX).add(1).sub(tier)
       ).clampMin(1);
     const imaginaryBoostMult = DimBoost.power.times(ImaginaryUpgrade(24).effectOrDefault(1))
       .pow(this.imaginaryBoosts).clampMin(1);
