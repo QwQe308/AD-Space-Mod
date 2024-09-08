@@ -465,151 +465,149 @@ window.LinearCostScaling = class LinearCostScaling {
 window.ExponentialCostScaling = class ExponentialCostScaling {
   /**
   * @param {Object} param configuration object with the following fields
-  * @param {Decimal} param.baseCost the cost of the first purchase
-  * @param {Decimal} param.baseIncrease the baseline increase in price
-  * @param {Decimal} param.costScale the amount by which the cost scaling increases;
+  * @param {number|Decimal} param.baseCost the cost of the first purchase
+  * @param {number|Decimal} param.baseIncrease the baseline increase in price
+  * @param {number|Decimal} param.costScale the amount by which the cost scaling increases;
   *  e.g. if it is 10, then the ratio between successive prices goes up by 10
-  * @param {Decimal} [param.purchasesBeforeScaling] the number of purchases that can
+  * @param {number|Decimal} [param.purchasesBeforeScaling] the number of purchases that can
   *  be made before scaling begins. If baseCost is B, baseIncrease is C, and costScale is S,
   *  and purchasesBeforeScaling is 0, the prices will go: B, B C, B C^2 S, B C^3 S^3, B C^4 S^6, etc.
-  * @param {Decimal} [param.scalingCostThreshold] an alternative way of specifying
+  * @param {number|Decimal} [param.scalingCostThreshold] an alternative way of specifying
   *  when scaling begins; once the cost is >= this threshold, scaling applies. Using the same
   *  notation: B BC BC^2 .... BC^n <threshold> BC^(n+1) BC^(n+2)S BC^(n+3)S^3 etc. So, the first
   *  price past the threshold has no costScale in it, but everything past that does.
   */
 
-  constructor(param) {
-    this._baseCost = param.baseCost;
-    this._baseIncrease = param.baseIncrease;
-    this._costScale = param.costScale;
-    if (param.purchasesBeforeScaling === undefined && param.scalingCostThreshold === undefined) {
-      throw new Error("purchasesBeforeScaling or scalingCostThreshold must be defined");
+   constructor(param) {
+    this._baseCost = new Decimal(param.baseCost);
+    this._baseIncrease = new Decimal(param.baseIncrease);
+    this._costScale = new Decimal(param.costScale);
+    this._logBaseCost = ExponentialCostScaling.log10(param.baseCost);
+    this._logBaseIncrease = ExponentialCostScaling.log10(param.baseIncrease);
+    this._logCostScale = ExponentialCostScaling.log10(param.costScale);
+    if (param.purchasesBeforeScaling !== undefined) {
+      this._purchasesBeforeScaling = param.purchasesBeforeScaling;
+    // eslint-disable-next-line no-negated-condition
+    } else if (param.scalingCostThreshold !== undefined) {
+      this._purchasesBeforeScaling = Decimal.ceil(
+        (ExponentialCostScaling.log10(param.scalingCostThreshold).sub(this._logBaseCost)).div(this._logBaseIncrease));
+    } else {
+      this._purchasesBeforeScaling = new Decimal(0)
     }
-    if (!(param.purchasesBeforeScaling instanceof Decimal || param.scalingCostThreshold instanceof Decimal)) {
-      throw new Error("purchasesBeforeScaling or scalingCostThreshold must be Decimal");
-    }
-    if (param.purchasesBeforeScaling instanceof Decimal) this._purchasesBeforeScaling = param.purchasesBeforeScaling;
-    if (param.scalingCostThreshold instanceof Decimal) this._purchasesBeforeScaling =
-      (param.scalingCostThreshold.log10().sub(this._baseCost.log10()).div(this._baseIncrease.log10())).ceil();
-    this.log = {
-      _baseCost: param.baseCost.log10(),
-      _baseIncrease: param.baseIncrease.log10(),
-      _costScale: param.costScale.log10(),
-    };
-  }
-
-  updateData(param) {
-    this._baseCost = param.baseCost;
-    this._baseIncrease = param.baseIncrease;
-    this._costScale = param.costScale;
-    if (param.purchasesBeforeScaling === undefined && param.scalingCostThreshold === undefined) {
-      throw new Error("purchasesBeforeScaling or scalingCostThreshold must be defined");
-    }
-    if (!(param.purchasesBeforeScainlg instanceof Decimal || param.scalingCostThreshold instanceof Decimal)) {
-      throw new Error("purchasesBeforeScaling or scalingCostThreshold must be Decimal");
-    }
-    if (param.purchasesBeforeScaling instanceof Decimal) this._purchasesBeforeScaling = param.purchasesBeforeScaling;
-    if (param.scalingCostThreshold instanceof Decimal) this._purchasesBeforeScaling =
-      (param.scalingCostThreshold.log10().sub(this._baseCost.log10()).div(this._baseIncrease.log10())).ceil();
-    this.log = {
-      _baseCost: param.baseCost.log10(),
-      _baseIncrease: param.baseIncrease.log10(),
-      _costScale: param.costScale.log10(),
-    };
+    this.updateCostScale();
   }
 
   get costScale() {
     return this._costScale;
   }
 
+  /**
+   * @param {number} value
+   */
   set costScale(value) {
-    if (!(value instanceof Decimal)) return;
+    this._logCostScale = ExponentialCostScaling.log10(value);
     this._costScale = value;
-    this.log._costScale = value.log10();
+    this.updateCostScale();
   }
 
+  updateCostScale() {
+    this._precalcDiscriminant = Decimal.pow((this._logBaseIncrease.mul(2).add(this._logCostScale)), 2)
+    .sub(this._logCostScale.mul(8).mul(this._logBaseIncrease.mul(this._purchasesBeforeScaling).add(this._logBaseCost)));
+    this._precalcCenter = this._logBaseIncrease.neg().div(this._logCostScale).add(this._purchasesBeforeScaling).add(0.5);
+  }
 
+  /**
+   * Calculates the cost of the next purchase
+   * @param {number} currentPurchases
+   */
   calculateCost(currentPurchases) {
-    // Define these here just cause theyre easier to type
-    const base = this.log._baseCost;
-    const inc = this.log._baseIncrease;
-    const scale = this.log._costScale;
-    const purchases = this._purchasesBeforeScaling;
-
-    // If it never becomes exponential cost, just return linear and stop
-    if (currentPurchases.lte(purchases)) {
-      return Decimal.pow10(base.add(inc.times(currentPurchases)));
-    }
-
-    // Calculate linear cost
-    const costBeforeExpo = base.add(inc.times(currentPurchases));
-    // How many exponential purchases?
-    const expoPurchases = currentPurchases.sub(purchases);
-    // eslint-disable-next-line max-len
-    // Since we times by scale X times per purchase past max, we can find the triangular number of expoPurchases and just mult that by scale
-    const scaleCostFinal = expoPurchases.pow(2).add(expoPurchases).div(2).times(scale);
-    // Add and pow10
-    return Decimal.pow10(costBeforeExpo.add(scaleCostFinal));
+    const logMult = this._logBaseIncrease;
+    const logBase = this._logBaseCost;
+    const excess = currentPurchases.sub(this._purchasesBeforeScaling);
+    const logCost = excess.sign > 0
+      ? currentPurchases.mul(logMult).add(logBase).add(excess.mul(excess.add(1)).mul(this._logCostScale).mul(0.5))
+      : currentPurchases.mul(logMult).add(logBase);
+    return DC.E1.pow(logCost);
   }
 
-  getMaxBought(currentPurchases, currency, purchasesPerIncrease, roundDown = true) {
-    // Copypaste
-    const base = this.log._baseCost;
-    const inc = this.log._baseIncrease;
-    const scale = this.log._costScale;
-    const purchases = this._purchasesBeforeScaling;
-    const ppIlog = purchasesPerIncrease.log10();
-    let logMoney = currency.log10().sub(ppIlog);
-    // A console.log(logMoney);
-    // First, is the currency before the cost of Exponential? If so we solve it here and return
-    if (logMoney.lte(base.add(inc.times(purchases.floor())))) {
-      let purchaseAmount = logMoney.sub(base).div(inc);
-      // A console.log(purchaseAmount);
-      // Round value DOWN
-      if (roundDown) purchaseAmount = purchaseAmount.floor();
-      // Return null if its less than the purchases we already have
-      if (purchaseAmount.add(1).lte(currentPurchases)) return null;
-      const cost = this.calculateCost(purchaseAmount).log10().add(ppIlog);
-      purchaseAmount = purchaseAmount.sub(currentPurchases).add(1);
-      purchaseAmount = purchaseAmount.times(purchasesPerIncrease);
-      return { quantity: purchaseAmount,
-        logPrice: cost };
-      // We invert the calc after the floor to find the highest cost
+  /**
+   * Figure out how much of this can be bought.
+   * This returns the maximum new number of this thing; If you have 51 and can
+   * afford to buy 10 more, this will return 61. NOTE! this assumes you only
+   * have to pay for the most expensive thing you get when you buy in bulk. This
+   * means it's not suitable for accurate caclulation of cumulative prices if the
+   * multiplier is small.
+   * @param {number} currentPurchases amount already possessed
+   * @param {Decimal} money
+   * @returns {QuantityAndPrice|null} maximum value of bought that money can buy up to
+   */
+  getMaxBought(currentPurchases, rawMoney, numberPerSet) {
+    // We need to divide money by the number of things we need to buy per set
+    // so that we don't, for example, buy all of a set of 10 dimensions
+    // when we can only afford 1.
+    const money = rawMoney.div(numberPerSet);
+    const logMoney = money.log10();
+    const logMult = this._logBaseIncrease;
+    const logBase = this._logBaseCost;
+    // The 1 + is because the multiplier isn't applied to the first purchase
+    let newPurchases = Decimal.floor(logMoney.sub(logBase).div(logMult).add(1));
+    // We can use the linear method up to one purchase past the threshold, because the first purchase
+    // past the threshold doesn't have cost scaling in it yet.
+    if (newPurchases.gt(this._purchasesBeforeScaling)) {
+      const discrim = this._precalcDiscriminant.add(logMoney.mul(8).mul(this._logCostScale));
+      if (discrim.sign < 0) {
+        return null;
+      }
+      newPurchases = Decimal.floor(this._precalcCenter.add(Decimal.sqrt(discrim).div(this._logCostScale.mul(2))));
     }
-
-    // Deduct the cost up to the linear limit
-    let purchaseAmount = purchases;
-    logMoney = logMoney.sub(base.add(inc.times(purchases)));
-
-    // Where does this equation come from?
-    // Well it comes from the fact that if we subtract all preScaling costs, the cost is equal to:
-    // 0.5s(p^2 + p) + ip (i = log(inc), s = log(scale), p = purchases)
-    // Solving for p there gives us a quadratic with -0.5s as a, (-0.5s - i) as b and cost as c
-    // Put that into the quadratic (-b - sqrt(b^2 - 4ac))/2a and you get purchases
-
-    logMoney = logMoney.sub(ppIlog);
-    const a = new Decimal(0).sub(scale).div(2);
-    const b = a.sub(inc);
-    const c = logMoney;
-
-    purchaseAmount = purchaseAmount.add(decimalQuadraticSolution(a, b, c, true));
-
-    // Technically this only buys up to the nearest set, but post exponential thats a minor flaw at most (and correct?)
-    if (roundDown) purchaseAmount = purchaseAmount.floor();
-
-    if (purchaseAmount.add(1).lte(currentPurchases)) return null;
-
-    const purchaseCost = this.calculateCost(purchaseAmount).log10().add(ppIlog);
-    purchaseAmount = purchaseAmount.sub(currentPurchases);
-    if (roundDown) purchaseAmount = purchaseAmount.floor();
-
-    purchaseAmount = purchaseAmount.add(1).times(purchasesPerIncrease);
-    return { quantity: purchaseAmount, logPrice: purchaseCost };
+    if (newPurchases.lte(currentPurchases)) return null;
+    // There's a narrow edge case where the linear method returns > this._purchasesBeforeScaling + 1
+    // but the quadratic method returns less than that. Having this be a separate check covers that
+    // case:
+    let logPrice;
+    if (newPurchases.lte(this._purchasesBeforeScaling.add(1))) {
+      logPrice = (newPurchases.sub(1)).mul(logMult).add(logBase);
+    } else {
+      const pExcess = newPurchases.sub(this._purchasesBeforeScaling);
+      logPrice = (newPurchases.sub(1)).mul(logMult).add(logBase).add(this._logCostScale.mul(0.5).mul(pExcess).mul(pExcess.sub(1)));
+    }
+    return { quantity: newPurchases.sub(currentPurchases), logPrice: logPrice.add(Decimal.log10(numberPerSet)) };
   }
 
-  getContinuumValue(money, perSet) {
-    const continuumBase = this.getMaxBought(0, money, perSet, false);
-    return continuumBase ? continuumBase.quantity : continuumBase;
+  /**
+   * Determines the number of purchases that would be possible, if purchase count was continuous. Might
+   * have some odd behavior right at e308, but otherwise should work. It's mostly a copy-paste from
+   * getMaxBought() above but with unnecessary extra code removed.
+   * @param {Decimal} money
+   * @returns {number} maximum value of bought that money can buy up to
+   */
+  getContinuumValue(rawMoney, numberPerSet) {
+    // We need to divide money by the number of things we need to buy per set
+    // so that we don't, for example, buy all of a set of 10 dimensions
+    // when we can only afford 1. In the specific case of continuum this means,
+    // for example, that 10 AM buys 2/3 of a set of 10 first dimensions rather than
+    // buying the whole set of 10, which at least feels more correct.
+    const money = rawMoney.div(numberPerSet);
+    const logMoney = money.log10();
+    const logMult = this._logBaseIncrease;
+    const logBase = this._logBaseCost;
+    // The 1 + is because the multiplier isn't applied to the first purchase
+    let contValue = (logMoney.sub(logBase).div(logMult).add(1));
+    // We can use the linear method up to one purchase past the threshold, because the first purchase
+    // past the threshold doesn't have cost scaling in it yet.
+    if (contValue.gt(this._purchasesBeforeScaling)) {
+      const discrim = this._precalcDiscriminant.add(logMoney.mul(8).mul(this._logCostScale));
+      if (discrim.lt(0)) {
+        return DC.D0;
+      }
+      contValue = this._precalcCenter.add(Decimal.sqrt(discrim).div(this._logCostScale.mul(2)));
+    }
+    return Decimal.clampMin(contValue, 0);
+  }
+
+  static log10(value) {
+    if (value instanceof Decimal) return value.log10();
+    return new Decimal(Math.log10(value));
   }
 };
 

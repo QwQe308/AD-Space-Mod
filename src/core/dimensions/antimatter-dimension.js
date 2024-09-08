@@ -325,15 +325,17 @@ export function buyMaxDimension(tier, bulk = Infinity) {
 
   // This is the bulk-buy math, explicitly ignored if abnormal cost increases are active
   const maxBought = dimension.costScale.getMaxBought(
-    Decimal.floor(dimension.bought.div(10)).add(dimension.costBumps), dimension.currencyAmount, DC.E1
+    Decimal.floor(dimension.bought.div(10)).add(dimension.costBumps), 
+    dimension.currencyAmount,
+    DC.E1
   );
   if (maxBought === null) {
     return;
   }
   let buying = maxBought.quantity;
-  if (buying.gt(bulkLeft)) buying = new Decimal(bulkLeft).times(10);
-  dimension.amount = dimension.amount.plus(buying);
-  dimension.bought = dimension.bought.add(buying);
+  if (buying.gt(bulkLeft)) buying = new Decimal(bulkLeft);
+  dimension.amount = dimension.amount.plus(buying.times(10)).round();
+  dimension.bought = dimension.bought.add(buying.times(10));
   dimension.currencyAmount = dimension.currencyAmount.minus(Decimal.pow10(maxBought.logPrice)).max(0);
 }
 
@@ -494,7 +496,7 @@ class AntimatterDimensionState extends DimensionState {
     // It's safe to use dimension.currencyAmount because this is
     // a dimension-only method (so don't just copy it over to tickspeed).
     // We need to use dimension.currencyAmount here because of different costs in NC6.
-    const contVal = this.costScale.getContinuumValue(this.currencyAmount, DC.E1);
+    const contVal = this.costScale.getContinuumValue(this.currencyAmount, DC.E1).mul(10);
     return contVal ? contVal.times(Laitela.matterExtraPurchaseFactor) : DC.D0;
   }
 

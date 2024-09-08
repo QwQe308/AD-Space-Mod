@@ -35,7 +35,7 @@ export const light = {
       let eff = amount.mul(4).pow(0.9).pow_base(1.01);
       return player.light.inMirror ? eff.recip() : eff;
     },
-    effect: (eff) => `Dimension Shift base ${formatMultplier(eff, 2, 2)}`,
+    effect: (eff) => `Dimension Boost base ${formatMultplier(eff, 2, 2)}`,
   },
   blue: {
     amount: () => calcBaseLight(player.light.bluePercent),

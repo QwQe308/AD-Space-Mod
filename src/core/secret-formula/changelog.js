@@ -9,6 +9,18 @@ export const changelog = [
    * }
    */
    {
+    date: [2024, 9, 8],
+    name: "v0.41 Bug Fixing",
+    info: `
+Changes:
+<ul>
+<li>Fixed various bugs.</li>
+</ul>
+Content up to Eternity.
+<br>
+`,
+  },
+   {
     date: [2024, 9, 7],
     name: "v0.4 BE Migration",
     info: `
@@ -21,7 +33,8 @@ There might be some new Bugs in game, please report them if any.
 Content up to Eternity.
 <br>
 `,
-  },{
+  },
+  {
     date: [2024, 8, 17],
     name: "v0.32 Small fixes #2",
     info: `
@@ -30,7 +43,7 @@ Changes:
 <li>Fixed Break Research Speed multpliers not working, now their related effect are removed XD</li>
 <li>Added H2P button for Research / Mirror.</li>
 <li>Fixed orginal sliders' color.</li>
-<li>Removes "Leveling up these requires a X reset" if it's needn't.</li>
+<li>Removes "Leveling up these requires a X reset" if needn't.</li>
 </ul>
 Content up to Eternity.
 <br>
