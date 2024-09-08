@@ -8,6 +8,10 @@ export const eternityMilestones = {
     eternities: 2,
     reward: "You start Eternity with all Normal Challenges complete, all normal autobuyers, and infinity broken"
   },
+  autobuyMaxGalaxies: {
+    eternities: 3,
+    reward: "Unlock the buy max Antimatter Galaxies Autobuyer mode"
+  },
   autobuyerReplicantiGalaxy: {
     eternities: 3,
     reward: "Unlock the Replicanti Galaxy Autobuyer"
@@ -52,10 +56,6 @@ export const eternityMilestones = {
     reward: "You start Eternity with all Break Infinity Upgrades",
     givenByPelle: () => PelleUpgrade.keepBreakInfinityUpgrades.isBought,
     pelleUseless: true
-  },
-  autobuyMaxGalaxies: {
-    eternities: 9,
-    reward: "Unlock the buy max Antimatter Galaxies Autobuyer mode"
   },
   unlockReplicanti: {
     eternities: 10,
@@ -112,7 +112,7 @@ export const eternityMilestones = {
     pelleUseless: true
   },
   autoUnlockID: {
-    eternities: 25,
+    eternities: 20,
     reward: "You automatically unlock Infinity Dimensions upon reaching them"
   },
   unlockAllND: {

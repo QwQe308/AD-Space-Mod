@@ -589,6 +589,7 @@ window.ExponentialCostScaling = class ExponentialCostScaling {
     // buying the whole set of 10, which at least feels more correct.
     const money = rawMoney.div(numberPerSet);
     const logMoney = money.log10();
+    if(Decimal.isNaN(logMoney)) return DC.D0
     const logMult = this._logBaseIncrease;
     const logBase = this._logBaseCost;
     // The 1 + is because the multiplier isn't applied to the first purchase

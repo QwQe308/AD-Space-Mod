@@ -55,7 +55,7 @@ export default {
   methods: {
     update() {
       this.hasInfinity = PlayerProgress.infinityUnlocked();
-      this.hasContinuum = Laitela.continuumActive;
+      this.hasContinuum = Laitela.continuumActive && player.auto.tickspeed.isBought && player.auto.tickspeed.interval <= 100;
       this.checkADAutoStatus();
     },
     checkADAutoStatus() {

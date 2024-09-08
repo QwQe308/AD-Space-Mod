@@ -144,21 +144,10 @@ export function eternity(force, auto, specialConditions = {}) {
   ECTimeStudyState.invalidateCachedRequirements();
 
   PelleStrikes.eternity.trigger();
+  
+  secondSoftReset()
 
   EventHub.dispatch(GAME_EVENT.ETERNITY_RESET_AFTER);
-
-  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
-  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
-  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].reset())
-  SpaceResearchTierDetail[4].forEach(x => SpaceResearchRifts[x].refresh())
-
-  player.space = new Decimal(0)
-  Currency.antimatter.reset();
-
-  player.light.prisms = 0
-  player.light.redPercent = 0
-  player.light.greenPercent = 0
-  player.light.bluePercent = 0
 
   return true;
 }
@@ -221,6 +210,19 @@ export function initializeResourcesAfterEternity() {
   player.eterc8ids = 50;
   player.eterc8repl = 40;
   Player.resetRequirements("eternity");
+  //MOD
+  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
+  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
+  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].reset())
+  SpaceResearchTierDetail[4].forEach(x => SpaceResearchRifts[x].refresh())
+
+  player.space = new Decimal(0)
+  Currency.antimatter.reset();
+
+  player.light.prisms = 0
+  player.light.redPercent = 0
+  player.light.greenPercent = 0
+  player.light.bluePercent = 0
 }
 
 export function applyEU1() {
