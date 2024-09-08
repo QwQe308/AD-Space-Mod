@@ -107,9 +107,6 @@ html {
   
   --color-space: #cccccc;
   --color-space-inverted: #333333;
-
-  --color-mirror: #bffbff;
-  --color-mirror-complete: #e4eeaa;
 }
 
 :root .t-metro,

@@ -90,7 +90,7 @@ export default {
 export const AutobuyerInputFunctions = {
   decimal: {
     areEqual: (value, other) => Decimal.eq(value, other),
-    formatValue: value => Notation.scientific.format(value, 2, 2),
+    formatValue: value => Notation.scientific.format(value, 0, 0),
     copyValue: value => new Decimal(value),
     tryParse: input => {
       if (!input) return undefined;
