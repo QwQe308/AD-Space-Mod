@@ -31,6 +31,7 @@ export default {
       isContinuumActive: false,
       multiplierText: "",
       isFullyAutomated: false,
+      amMult: new Decimal(0),
     };
   },
   computed: {
@@ -85,6 +86,13 @@ export default {
       this.buy10Mult.copyFrom(AntimatterDimensions.buyTenMultiplier);
 
       this.multiplierText = `Buy 10 Dimension purchase multiplier: ${formatX(this.buy10Mult, 2, 2)}`;
+      
+      this.amMult.copyFrom(getAMMultplier())
+      if (this.amMult.neq(1)) {
+        const amMultText = ` | Direct Antimatter multiplier: ${formatX(this.amMult, 2, 2)}`
+        this.multiplierText += amMultText;
+      }
+      
       if (!isSacrificeUnlocked) return;
       this.isSacrificeAffordable = Sacrifice.canSacrifice;
       this.isFullyAutomated = Autobuyer.sacrifice.isActive && Achievement(118).isEffectActive &&
