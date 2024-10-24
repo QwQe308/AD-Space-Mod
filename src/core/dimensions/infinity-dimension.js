@@ -378,7 +378,7 @@ export const InfinityDimensions = {
     }
 
     if (EternityChallenge(7).isRunning) {
-      if (!NormalChallenge(10).isRunning) {
+      if (DimBoost.maxDimensionsUnlockable === 8) {
         InfinityDimension(1).produceDimensions(AntimatterDimension(7), diff);
       }
     } else {

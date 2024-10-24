@@ -668,11 +668,9 @@ export const normalAchievements = [
   {
     id: 95,
     name: "Is this safe?",
-    get description() { return `Gain ${format(DC.NUMMAX, 1, 0)} Replicanti in ${formatInt(1)} hour.`; },
+    get description() { return `Unlock Replicanti.`; },
     get reward() { return `You keep your Replicanti and ${formatInt(1)} Replicanti Galaxy on Infinity.`; },
-    checkRequirement: () =>
-      (Replicanti.amount.eq(DC.NUMMAX) || player.replicanti.galaxies.gt()) &&
-      Time.thisInfinityRealTime.totalHours.lte(1),
+    checkRequirement: () => false,
     checkEvent: GAME_EVENT.REPLICANTI_TICK_AFTER
   },
   {

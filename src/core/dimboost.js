@@ -112,6 +112,9 @@ export class DimBoost {
       TimeStudy(211),
       TimeStudy(222)
     );
+    if (tier === 4 && (isSCRunningOnTier(2, 1) || isSCRunningOnTier(2, 2))){
+      amount = amount.add(targetResets.sub(5).mul(DC.D15.sub(discount)).round());
+    }
     if (tier === 6 && NormalChallenge(10).isRunning) {
       amount = amount.add(targetResets.sub(3).mul(DC.D20.sub(discount)).round());
     } else if (tier === 8) {
@@ -270,7 +273,7 @@ function maxBuyDimBoosts() {
   let multiplierPerDB;
   if (tier === 6) {
     multiplierPerDB = DC.D20.sub(discount);
-  } else if (tier === 8) {
+  } else {
     multiplierPerDB = DC.D15.sub(discount);
   }
 
@@ -289,7 +292,7 @@ function maxBuyDimBoosts() {
     calcBoosts = decimalCubicSolution(DC.D1, DC.D1.neg(), multiplierPerDB.add(2), ad.add(18).neg());
   }
 
-  calcBoosts = calcBoosts.add(NormalChallenge(10).isRunning ? 2 : 4);
+  if(! (isSCRunningOnTier(2,1)||isSCRunningOnTier(2,2)) ) calcBoosts = calcBoosts.add(NormalChallenge(10).isRunning ? 2 : 4);
   // Dimension boosts 1-4 dont use 8th dims, 1-2 dont use 6th dims, so add those extras afterwards.
 
   // Add one cause (x-b)/i is off by one otherwise

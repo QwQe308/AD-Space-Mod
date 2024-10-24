@@ -562,9 +562,9 @@ export const Replicanti = {
   },
   unlock(freeUnlock = false) {
     const cost = DC.E140.dividedByEffectOf(PelleRifts.vacuum.milestones[1]);
-    Achievement(95).unlock();
     if (player.replicanti.unl) return;
     if (freeUnlock || Currency.infinityPoints.gte(cost)) {
+      Achievement(95).unlock();
       if (!freeUnlock) Currency.infinityPoints.subtract(cost);
       player.replicanti.unl = true;
       player.replicanti.timer = DC.D0;
