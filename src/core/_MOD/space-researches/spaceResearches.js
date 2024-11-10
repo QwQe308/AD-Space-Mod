@@ -92,7 +92,7 @@ export const spaceResearch = {
   },
   r13: {
     key: "r13",
-    name: "Time Amplifer",
+    name: "Time Amplifier",
     tier: 0,
     costScale() {
       return new ExponentialCostScaling({
