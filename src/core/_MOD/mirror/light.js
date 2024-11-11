@@ -73,7 +73,7 @@ export const light = {
   },
   //Final color
   white: {
-    amount: () => calcComplexLight("red", "blue", "green"), // White = Red + Blue + Green
+    amount: () => calcComplexLight("red", "blue", "green").min(100), // White = Red + Blue + Green
     effectValue(amount = this.amount()) {
       if (!player.light.inMirror) amount = amount.sub(Math.max(player.light.prisms - 200, 0)).max(0);
       let eff = amount.mul(4).pow(0.9).pow_base(1.006);

@@ -10,10 +10,11 @@ import RealityAutobuyerBox from "./RealityAutobuyerBox";
 import SimpleAutobuyersMultiBox from "./SimpleAutobuyersMultiBox";
 import TickspeedAutobuyerBox from "./TickspeedAutobuyerBox";
 
-import T0AutoResearcherBox from "./_MOD/T0AutoResearcherBox"
-import T1AutoResearcherBox from "./_MOD/T1AutoResearcherBox"
-import T2AutoResearcherBox from "./_MOD/T2AutoResearcherBox"
-import T3AutoResearcherBox from "./_MOD/T3AutoResearcherBox"
+import T0AutoResearcherBox from "./_MOD/T0AutoResearcherBox";
+import T1AutoResearcherBox from "./_MOD/T1AutoResearcherBox";
+import T2AutoResearcherBox from "./_MOD/T2AutoResearcherBox";
+import T3AutoResearcherBox from "./_MOD/T3AutoResearcherBox";
+import T4AutoResearcherBox from "./_MOD/T4AutoResearcherBox";
 
 export default {
   name: "AutobuyersTab",
@@ -28,11 +29,12 @@ export default {
     TickspeedAutobuyerBox,
     DimensionAutobuyerBox,
     SimpleAutobuyersMultiBox,
-    
+
     T0AutoResearcherBox,
     T1AutoResearcherBox,
     T2AutoResearcherBox,
     T3AutoResearcherBox,
+    T4AutoResearcherBox,
   },
   data() {
     return {
@@ -50,12 +52,13 @@ export default {
     },
     gameTickLength() {
       return `${formatInt(player.options.updateRate)} ms`;
-    }
+    },
   },
   methods: {
     update() {
       this.hasInfinity = PlayerProgress.infinityUnlocked();
-      this.hasContinuum = Laitela.continuumActive && player.auto.tickspeed.isBought && player.auto.tickspeed.interval <= 100;
+      this.hasContinuum =
+        Laitela.continuumActive && player.auto.tickspeed.isBought && player.auto.tickspeed.interval <= 100;
       this.checkADAutoStatus();
     },
     checkADAutoStatus() {
@@ -63,14 +66,15 @@ export default {
       // Since you don't need to buy autobuyers in Doomed and unbought ones are hidden, we can check if only the
       // autobuyers you can see (ie, have unlocked) have been maxed.
       if (Pelle.isDoomed) {
-        this.displayADAutobuyersIndividually = !ad.zeroIndexed.filter(x => x.isUnlocked)
-          .every(x => x.hasUnlimitedBulk && x.hasMaxedInterval);
+        this.displayADAutobuyersIndividually = !ad.zeroIndexed
+          .filter((x) => x.isUnlocked)
+          .every((x) => x.hasUnlimitedBulk && x.hasMaxedInterval);
         return;
       }
       this.hasInstant = ad.hasInstant;
       this.displayADAutobuyersIndividually = !ad.collapseDisplay;
     },
-  }
+  },
 };
 </script>
 
@@ -80,14 +84,12 @@ export default {
     <OpenModalHotkeysButton />
     <div v-if="hasSeenGamespeedAlteringEffects">
       Autobuyer intervals and time-based settings are always <b>real time</b> and therefore
-      <br>
+      <br />
       unaffected by anything which may alter how fast the game itself is running.
-      <br>
-      <br>
+      <br />
+      <br />
     </div>
-    <div v-if="!hasInfinity">
-      Challenges for upgrading autobuyers are unlocked by reaching Infinity.
-    </div>
+    <div v-if="!hasInfinity">Challenges for upgrading autobuyers are unlocked by reaching Infinity.</div>
     <b>Autobuyers with no displayed bulk have unlimited bulk by default.</b>
     <b>
       Antimatter Dimension Autobuyers can have their bulk upgraded once interval is below {{ formatInt(100) }} ms.
@@ -100,17 +102,14 @@ export default {
     <DimensionBoostAutobuyerBox />
     <TickspeedAutobuyerBox v-if="!hasContinuum" />
     <template v-if="displayADAutobuyersIndividually">
-      <DimensionAutobuyerBox
-        v-for="tier in 8"
-        :key="tier"
-        :tier="tier"
-      />
+      <DimensionAutobuyerBox v-for="tier in 8" :key="tier" :tier="tier" />
     </template>
-    
+
     <T0AutoResearcherBox />
     <T1AutoResearcherBox />
     <T2AutoResearcherBox />
     <T3AutoResearcherBox />
+    <T4AutoResearcherBox />
 
     <SimpleAutobuyersMultiBox />
   </div>

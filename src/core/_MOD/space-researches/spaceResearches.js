@@ -5,12 +5,17 @@ export function updateSpaceResearches(diff) {
 }
 
 export function globalResearchSpeed() {
-  let spaceFactor = DC.E1.pow((getEffectiveSpace().add(1).log10().add(1)).pow(2.5).sub(1));
+  let spaceFactor = DC.E1.pow(getEffectiveSpace().add(1).log10().add(1).pow(2.5).sub(1));
   let dbFactor = DC.D2.pow(DimBoost.totalBoosts.pow(0.75));
   let researchFactor = SpaceResearchRifts.r21.effectValue[1]; //r21
   let achievementFactor = Achievements.power;
-  let otherFactors = DC.D1.timesEffectsOf(InfinityUpgrade.totalTimeMult);
-  if(isSCRunningOnTier(5,1)) otherFactors = otherFactors.div(SpaceChallenge(5).effectValue)
+  let otherFactors = DC.D1.timesEffectsOf(
+    InfinityUpgrade.totalTimeMult,
+    TimeStudy(91),
+    TimeStudy(92),
+    TimeStudy(102)
+  );
+  if (isSCRunningOnTier(5, 1)) otherFactors = otherFactors.div(SpaceChallenge(5).effectValue);
   return spaceFactor.mul(dbFactor).mul(researchFactor).mul(achievementFactor).mul(otherFactors);
 }
 
@@ -26,6 +31,9 @@ export function tierBasedResearchSpeed(tier) {
       break;
     case 2:
       researchSpd = researchSpd.timesEffectsOf(InfinityUpgrade.dim36mult);
+      break;
+    case 3:
+      researchSpd = researchSpd.timesEffectsOf(TimeStudy(32));
       break;
   }
   return researchSpd;
@@ -92,7 +100,7 @@ export const spaceResearch = {
   },
   r13: {
     key: "r13",
-    name: "Time Amplifer",
+    name: "Time Ampilifer",
     tier: 0,
     costScale() {
       return new ExponentialCostScaling({
@@ -117,9 +125,9 @@ export const spaceResearch = {
     tier: 1,
     costScale() {
       return new ExponentialCostScaling({
-        baseCost:new Decimal(1e6),
+        baseCost: new Decimal(1e6),
         baseIncrease: new Decimal(10),
-        costScale: new Decimal(1),        
+        costScale: new Decimal(1),
         purchasesBeforeScaling: DC.BEMAX,
       });
     },
@@ -206,6 +214,7 @@ export const spaceResearch = {
         purchasesBeforeScaling: new Decimal(0),
       });
     },
+    maxLevel: () => new Decimal(25),
     effectValue: (level) => {
       if (isSCRunningOnTier(3, 2)) return DC.D1;
       return level.pow_base(1.1);
@@ -254,6 +263,7 @@ export const spaceResearch = {
       return `+ ${format(value.mul(100), 2)}% Continuum`;
     },
     unlocked: () => isSCTierCompleted(1, 2),
+    maxLevel: () => new Decimal(15),
   },
 
   r45: {
@@ -276,6 +286,7 @@ export const spaceResearch = {
       return `+ ${format(value, 2, 2)} IPow conversion rate`;
     },
     unlocked: () => PlayerProgress.IDUnlocked(1),
+    maxLevel: () => new Decimal(15),
   },
 
   //Eternity - Tier 4
@@ -285,7 +296,7 @@ export const spaceResearch = {
     tier: 4,
     costScale() {
       return new ExponentialCostScaling({
-        baseCost: new Decimal(1e140),
+        baseCost: new Decimal(1e130),
         baseIncrease: new Decimal(1e20),
         costScale: new Decimal(1),
         purchasesBeforeScaling: DC.BEMAX,
@@ -301,25 +312,22 @@ export const spaceResearch = {
 
   r52: {
     key: "r52",
-    name: "Timeline Research",
+    name: "Time Flow",
     tier: 4,
     costScale() {
       return new ExponentialCostScaling({
         baseCost: new Decimal(1e125),
-        baseIncrease: new Decimal(1e15),
-        costScale: new Decimal(1),
-        purchasesBeforeScaling: DC.BEMAX,
+        baseIncrease: new Decimal(1e25),
+        costScale: new Decimal(1e5),
+        purchasesBeforeScaling: DC.D0,
       });
     },
     effectValue: (level) => {
-      return level;
+      return level.mul(0.25).add(1);
     },
     effect: (value) => {
-      return `+ ${format(value)} TT`;
+      return `x ${format(value, 2, 2)} Rep Speed`;
     },
-    levelUP: (prevLevel, newLevel) => {
-      Currency.timeTheorems.add(newLevel.sub(prevLevel))
-    }
   },
 
   r53: {
@@ -328,7 +336,7 @@ export const spaceResearch = {
     tier: 4,
     costScale() {
       return new ExponentialCostScaling({
-        baseCost: new Decimal(1e200),
+        baseCost: new Decimal(1e150),
         baseIncrease: new Decimal(1e25),
         costScale: new Decimal(10),
         purchasesBeforeScaling: new Decimal(0),
@@ -352,7 +360,7 @@ export const SpaceResearchResetsNothing = [
   () => true,
   () => isSCTierCompleted(2, 2),
   () => isSCTierCompleted(3, 2),
-  () => false,
+  () => isSCTierCompleted(4, 2),
   () => false,
 ];
 export function isSpaceResearchQuickResetAvailable(tier) {

@@ -13,8 +13,8 @@ export default {
   props: {
     upgrade: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -29,7 +29,7 @@ export default {
       isDisabled: false,
       showingCharged: false,
       hasTS31: false,
-      ts31Effect: new Decimal(0)
+      ts31Effect: new Decimal(0),
     };
   },
   computed: {
@@ -44,9 +44,7 @@ export default {
     },
     config() {
       const config = this.upgrade.config;
-      return this.showChargedEffect
-        ? config.charged
-        : config;
+      return this.showChargedEffect ? config.charged : config;
     },
     classObject() {
       return {
@@ -56,15 +54,15 @@ export default {
         "o-infinity-upgrade-btn--unavailable": !this.isUseless && !this.isBought && !this.canBeBought,
         "o-infinity-upgrade-btn--useless": this.isUseless,
         "o-pelle-disabled": this.isUseless,
-        "o-infinity-upgrade-btn--chargeable": !this.isCharged && this.chargePossible &&
-          (this.showingCharged || this.shiftDown),
+        "o-infinity-upgrade-btn--chargeable":
+          !this.isCharged && this.chargePossible && (this.showingCharged || this.shiftDown),
         "o-infinity-upgrade-btn--charged": this.isCharged,
-        "o-pelle-disabled-pointer": this.isUseless
+        "o-pelle-disabled-pointer": this.isUseless,
       };
     },
     isImprovedByTS31() {
       return this.hasTS31 && this.isBasedOnInfinities && !this.showChargedEffect;
-    }
+    },
   },
   methods: {
     update() {
@@ -73,8 +71,8 @@ export default {
       // seems more likely to be read).
       const upgrade = this.upgrade;
       this.isBought = upgrade.isBought || upgrade.isCapped;
-      this.chargePossible = Ra.unlocks.chargedInfinityUpgrades.canBeApplied &&
-        upgrade.hasChargeEffect && !Pelle.isDoomed;
+      this.chargePossible =
+        Ra.unlocks.chargedInfinityUpgrades.canBeApplied && upgrade.hasChargeEffect && !Pelle.isDoomed;
       this.canBeBought = upgrade.canBeBought;
       this.canBeCharged = upgrade.canCharge;
       this.isCharged = upgrade.isCharged;
@@ -91,13 +89,13 @@ export default {
       this.hasTS31 = TimeStudy(31).canBeApplied;
       if (!this.isDisabled && this.isImprovedByTS31) this.ts31Effect = Decimal.pow(upgrade.config.effect(), 4);
       if (upgrade.id !== "challengeMult") return;
-      this.showWorstChallenge = upgrade.effectValue !== upgrade.cap &&
-        player.challenge.normal.bestTimes.sum().lt(Number.MAX_VALUE);
+      this.showWorstChallenge =
+        upgrade.effectValue !== upgrade.cap && player.challenge.normal.bestTimes.sum().lt(Number.MAX_VALUE);
       const worstChallengeTime = GameCache.worstChallengeTime.value;
       const worstChallengeIndex = 2 + player.challenge.normal.bestTimes.indexOf(worstChallengeTime);
       this.worstChallengeString = `(Challenge ${worstChallengeIndex}: ${timeDisplayShort(worstChallengeTime)})`;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -109,33 +107,16 @@ export default {
     @click="upgrade.purchase()"
   >
     <span :class="{ 'o-pelle-disabled': isUseless }">
-      <DescriptionDisplay
-        :config="config"
-      />
+      <DescriptionDisplay :config="config" />
       <span v-if="showWorstChallenge">
-        <br>
+        <br />
         {{ worstChallengeString }}
       </span>
-      <EffectDisplay
-        v-if="!isDisabled"
-        br
-        :config="config"
-      />
-      <template v-if="!isDisabled && isImprovedByTS31">
-        <br>
-        After TS31: {{ formatX(ts31Effect, 2, 2) }}
-      </template>
+      <EffectDisplay v-if="!isDisabled" br :config="config" />
     </span>
-    <CostDisplay
-      v-if="!isBought"
-      br
-      :config="config"
-      name="Infinity Point"
-    />
+    <CostDisplay v-if="!isBought" br :config="config" name="Infinity Point" />
     <slot />
   </button>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

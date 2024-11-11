@@ -3,19 +3,21 @@ import { DC } from "./constants";
 export function effectiveBaseGalaxies() {
   // Note that this already includes the "50% more" active path effect
   let replicantiGalaxies = Replicanti.galaxies.bought;
-  replicantiGalaxies = replicantiGalaxies.times(1 + TimeStudy(133).effectOrDefault(0) +
-    TimeStudy(132).effectOrDefault(0));
+  replicantiGalaxies = replicantiGalaxies.times(
+    1 + TimeStudy(133).effectOrDefault(0) + TimeStudy(132).effectOrDefault(0)
+  );
   // "extra" galaxies unaffected by the passive/idle boosts come from studies 225/226 and Effarig Infinity
   replicantiGalaxies = replicantiGalaxies.add(Replicanti.galaxies.extra);
-  const nonActivePathReplicantiGalaxies = Decimal.min(Replicanti.galaxies.bought,
-    ReplicantiUpgrade.galaxies.value);
+  const nonActivePathReplicantiGalaxies = Decimal.min(Replicanti.galaxies.bought, ReplicantiUpgrade.galaxies.value);
   // Effects.sum is intentional here - if EC8 is not completed,
   // this value should not be contributed to total replicanti galaxies
-  replicantiGalaxies = replicantiGalaxies.add(nonActivePathReplicantiGalaxies
-    .times(Effects.sum(EternityChallenge(8).reward)));
+  replicantiGalaxies = replicantiGalaxies.add(
+    nonActivePathReplicantiGalaxies.times(Effects.sum(EternityChallenge(8).reward))
+  );
   let freeGalaxies = player.dilation.totalTachyonGalaxies;
-  freeGalaxies = freeGalaxies.mul(DC.D1.add(Decimal.max(0, Replicanti.amount.max(1).log10().div(1e6))
-    .times(AlchemyResource.alternation.effectValue)));
+  freeGalaxies = freeGalaxies.mul(
+    DC.D1.add(Decimal.max(0, Replicanti.amount.max(1).log10().div(1e6)).times(AlchemyResource.alternation.effectValue))
+  );
   return Decimal.max(player.galaxies.add(GalaxyGenerator.galaxies).add(replicantiGalaxies).add(freeGalaxies), 0);
 }
 
@@ -53,7 +55,7 @@ export function getTickSpeedMultiplier() {
     if (Pelle.isDoomed) galaxies.div(2);
 
     galaxies = galaxies.times(Pelle.specialGlyphEffect.power);
-    return DC.D0_01.clampMin(baseMultiplier.sub((galaxies.times(perGalaxy))));
+    return DC.D0_01.clampMin(baseMultiplier.sub(galaxies.times(perGalaxy)));
   }
   let baseMultiplier = 0.8;
   if (NormalChallenge(5).isRunning) baseMultiplier = 0.83;
@@ -112,7 +114,11 @@ export function buyMaxTickSpeed() {
     }
 
     // eslint-disable-next-line max-len
-    for (let i = 0; i < 5 && (player.antimatter.neq(Tickspeed.cost) && player.dimensions.antimatter[0].amount.neq(0)); i++) {
+    for (
+      let i = 0;
+      i < 5 && player.antimatter.neq(Tickspeed.cost) && player.dimensions.antimatter[0].amount.neq(0);
+      i++
+    ) {
       buyTickSpeed();
     }
 
@@ -124,7 +130,9 @@ export function buyMaxTickSpeed() {
     if (NormalChallenge(2).isRunning) player.chall2Pow = DC.D0;
   }
   // eslint-disable-next-line max-statements-per-line
-  if (player.dimensions.antimatter[0].amount.eq(0)) { Currency.antimatter.bumpTo(100); }
+  if (player.dimensions.antimatter[0].amount.eq(0)) {
+    Currency.antimatter.bumpTo(100);
+  }
 }
 
 export function resetTickspeed() {
@@ -133,17 +141,22 @@ export function resetTickspeed() {
 }
 
 export const Tickspeed = {
-
   get isUnlocked() {
-    return AntimatterDimension(2).bought.gt(0) || EternityMilestone.unlockAllND.isReached ||
-      PlayerProgress.realityUnlocked() || Laitela.continuumUnlocked;
+    return (
+      AntimatterDimension(2).bought.gt(0) ||
+      EternityMilestone.unlockAllND.isReached ||
+      PlayerProgress.realityUnlocked() ||
+      Laitela.continuumUnlocked
+    );
   },
 
   get isAvailableForPurchase() {
-    return this.isUnlocked &&
+    return (
+      this.isUnlocked &&
       !EternityChallenge(9).isRunning &&
       !Laitela.continuumActive &&
-      (player.break || this.cost.lt(DC.NUMMAX));
+      (player.break || this.cost.lt(DC.NUMMAX))
+    );
   },
 
   get isAffordable() {
@@ -158,7 +171,9 @@ export const Tickspeed = {
     const tickspeed = Effarig.isRunning
       ? Effarig.tickspeed
       : this.baseValue.powEffectOf(DilationUpgrade.tickspeedPower);
-    return player.dilation.active || PelleStrikes.dilation.hasStrike ? dilatedValueOf(tickspeed.recip()).recip() : tickspeed;
+    return player.dilation.active || PelleStrikes.dilation.hasStrike
+      ? dilatedValueOf(tickspeed.recip()).recip()
+      : tickspeed;
   },
 
   get cost() {
@@ -170,7 +185,7 @@ export const Tickspeed = {
       baseCost: DC.E3,
       baseIncrease: DC.E1,
       costScale: new Decimal(Player.tickSpeedMultDecrease),
-      scalingCostThreshold: DC.NUMMAX
+      scalingCostThreshold: DC.NUMMAX,
     });
   },
 
@@ -181,13 +196,9 @@ export const Tickspeed = {
   },
 
   get baseValue() {
-    return DC.E3.timesEffectsOf(
-      Achievement(36),
-      Achievement(45),
-      Achievement(66),
-      Achievement(83)
-    )
-      .times(getTickSpeedMultiplier().pow(this.totalUpgrades));
+    return DC.E3.timesEffectsOf(Achievement(36), Achievement(45), Achievement(66), Achievement(83)).times(
+      getTickSpeedMultiplier().pow(this.totalUpgrades)
+    );
   },
 
   get totalUpgrades() {
@@ -205,16 +216,15 @@ export const Tickspeed = {
     for (const dimension of AntimatterDimensions.all) {
       if (dimension.cost.e === this.cost.e) dimension.costBumps = dimension.costBumps.add(1);
     }
-  }
+  },
 };
-
 
 export const FreeTickspeed = {
   BASE_SOFTCAP: new Decimal(3e5),
   GROWTH_RATE: new Decimal(6e-6).add(1),
   GROWTH_EXP: DC.D2,
-  tickmult: () => DC.D1.add(Effects.min(1.33, TimeStudy(171)).sub(1)).mul(
-    Decimal.max(getAdjustedGlyphEffect("cursedtickspeed"), 1)),
+  tickmult: () =>
+    DC.D1.add(Effects.min(1.25, TimeStudy(171)).sub(1)).mul(Decimal.max(getAdjustedGlyphEffect("cursedtickspeed"), 1)),
 
   get amount() {
     return player.totalTickGained.add(this.extraAmount);
@@ -240,18 +250,18 @@ export const FreeTickspeed = {
 
   get tickExpo() {
     return new ExponentialCostScaling({
-      baseCost: DC.D1,
+      baseCost: DC.E2,
       baseIncrease: this.tickmult(),
       costScale: FreeTickspeed.GROWTH_RATE,
-      purchasesBeforeScaling: FreeTickspeed.softcap
+      purchasesBeforeScaling: FreeTickspeed.softcap,
     });
   },
 
   fromShards(shards) {
-    if (shards.lt(1)) {
-      return { newAmount: DC.D0, nextShards: DC.D1 };
+    if (shards.lt(100)) {
+      return { newAmount: DC.D0, nextShards: DC.E2 };
     }
     const quant = this.tickExpo.getMaxBought(DC.D0, shards, DC.D1);
     return { newAmount: quant.quantity, nextShards: this.tickExpo.calculateCost(quant.quantity.add(1)) };
-  }
+  },
 };

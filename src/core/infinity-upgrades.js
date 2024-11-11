@@ -64,11 +64,13 @@ export class InfinityUpgradeState extends SetPurchasableMechanicState {
   }
 
   get canCharge() {
-    return this.isBought &&
+    return (
+      this.isBought &&
       this.hasChargeEffect &&
       !this.isCharged &&
       Ra.chargesLeft !== 0 &&
-      !Pelle.isDisabled("chargedInfinityUpgrades");
+      !Pelle.isDisabled("chargedInfinityUpgrades")
+    );
   }
 
   charge() {
@@ -81,26 +83,26 @@ export class InfinityUpgradeState extends SetPurchasableMechanicState {
 }
 
 export function totalIPMult() {
-  if (Effarig.isRunning && Effarig.currentStage === EFFARIG_STAGES.INFINITY) {
+  if (isSCRunningOnTier(5, 1) || (Effarig.isRunning && Effarig.currentStage === EFFARIG_STAGES.INFINITY)) {
     return DC.D1;
   }
-  let ipMult = DC.D1
-    .timesEffectsOf(
-      TimeStudy(41),
-      TimeStudy(51),
-      TimeStudy(141),
-      TimeStudy(142),
-      TimeStudy(143),
-      Achievement(85),
-      Achievement(93),
-      Achievement(116),
-      Achievement(125),
-      Achievement(141).effects.ipGain,
-      InfinityUpgrade.ipMult,
-      DilationUpgrade.ipMultDT,
-      GlyphEffect.ipMult
-    );
+  let ipMult = DC.D1.timesEffectsOf(
+    TimeStudy(41),
+    TimeStudy(51),
+    TimeStudy(141),
+    TimeStudy(142),
+    TimeStudy(143),
+    Achievement(85),
+    Achievement(93),
+    Achievement(116),
+    Achievement(125),
+    Achievement(141).effects.ipGain,
+    InfinityUpgrade.ipMult,
+    DilationUpgrade.ipMultDT,
+    GlyphEffect.ipMult
+  );
   ipMult = ipMult.times(Replicanti.amount.powEffectOf(AlchemyResource.exponential));
+  ipMult = ipMult.times(SpaceResearchRifts.r41.effectValue); //MOD r41
   return ipMult;
 }
 
@@ -117,7 +119,7 @@ export function disChargeAll() {
     InfinityUpgrade.thisInfinityTimeMult,
     InfinityUpgrade.unspentIPMult,
     InfinityUpgrade.dimboostMult,
-    InfinityUpgrade.ipGen
+    InfinityUpgrade.ipGen,
   ];
   for (const upgrade of upgrades) {
     if (upgrade.isCharged) {
@@ -135,8 +137,9 @@ export function disChargeAll() {
 class InfinityIPMultUpgrade extends GameMechanicState {
   get cost() {
     if (this.purchaseCount.gte(this.purchasesAtIncrease)) {
-      return this.config.costIncreaseThreshold
-        .times(Decimal.pow(this.costIncrease, this.purchaseCount.sub(this.purchasesAtIncrease)));
+      return this.config.costIncreaseThreshold.times(
+        Decimal.pow(this.costIncrease, this.purchaseCount.sub(this.purchasesAtIncrease))
+      );
     }
     return Decimal.pow(this.costIncrease, this.purchaseCount.add(1));
   }
@@ -206,9 +209,6 @@ class InfinityIPMultUpgrade extends GameMechanicState {
   }
 }
 
-export const InfinityUpgrade = mapGameDataToObject(
-  GameDatabase.infinity.upgrades,
-  config => (config.id === "ipMult"
-    ? new InfinityIPMultUpgrade(config)
-    : new InfinityUpgradeState(config))
+export const InfinityUpgrade = mapGameDataToObject(GameDatabase.infinity.upgrades, (config) =>
+  config.id === "ipMult" ? new InfinityIPMultUpgrade(config) : new InfinityUpgradeState(config)
 );

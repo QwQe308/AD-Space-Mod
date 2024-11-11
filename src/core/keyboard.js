@@ -133,5 +133,6 @@ function executeHotkey(action) {
     document.activeElement.type === "textarea") {
     return undefined;
   }
+  if(isSCRunningOnTierOrHigher(6, 1)) return GameUI.notify.error("Hotkeys are disabled in SC6")
   return executeKey(action);
 }

@@ -6,7 +6,7 @@ export default {
   name: "HeaderChallengeDisplay",
   components: {
     FailableEcText,
-    PrimaryButton
+    PrimaryButton,
   },
   data() {
     return {
@@ -25,7 +25,7 @@ export default {
       function celestialReality(celestial, name, tab) {
         return {
           name: () => `${name} Reality`,
-          isActive: token => token,
+          isActive: (token) => token,
           activityToken: () => celestial.isRunning,
           tabName: () => tab,
         };
@@ -44,13 +44,13 @@ export default {
         },
         {
           name: () => "Time Dilation",
-          isActive: token => token,
-          activityToken: () => player.dilation.active
+          isActive: (token) => token,
+          activityToken: () => player.dilation.active,
         },
         {
-          name: token => `Eternity Challenge ${token}`,
-          isActive: token => token > 0,
-          activityToken: () => player.challenge.eternity.current
+          name: (token) => `Eternity Challenge ${token}`,
+          isActive: (token) => token > 0,
+          activityToken: () => player.challenge.eternity.current,
         },
         {
           name: () =>
@@ -61,14 +61,14 @@ export default {
           activityToken: () => player.light.inMirror,
         },
         {
-          name: token => `Infinity Challenge ${token}`,
-          isActive: token => token > 0,
-          activityToken: () => player.challenge.infinity.current
+          name: (token) => `Infinity Challenge ${token}`,
+          isActive: (token) => token > 0,
+          activityToken: () => player.challenge.infinity.current,
         },
         {
-          name: token => `${NormalChallenge(token).config.name} Challenge`,
-          isActive: token => token > 0,
-          activityToken: () => player.challenge.normal.current
+          name: (token) => `${NormalChallenge(token).config.name} Challenge`,
+          isActive: (token) => token > 0,
+          activityToken: () => player.challenge.normal.current,
         },
       ];
     },
@@ -111,7 +111,7 @@ export default {
       return this.infinityUnlocked || this.activeChallengeNames.length > 0;
     },
     isInFailableEC() {
-      return this.activeChallengeNames.some(str => str.match(/Eternity Challenge (4|12)/gu));
+      return this.activeChallengeNames.some((str) => str.match(/Eternity Challenge (4|12)/gu));
     },
     challengeDisplay() {
       if (this.inPelle && this.activeChallengeNames.length > 0) {
@@ -127,11 +127,12 @@ export default {
   methods: {
     update() {
       this.infinityUnlocked = PlayerProgress.infinityUnlocked();
-      this.activityTokens = this.parts.map(part => part.activityToken());
+      this.activityTokens = this.parts.map((part) => part.activityToken());
       // Dilation in Pelle can't be left once entered, but we still want to allow leaving more nested challenges
-      this.showExit = this.inPelle && player.dilation.active
-        ? this.activeChallengeNames.length > 1
-        : this.activeChallengeNames.length !== 0;
+      this.showExit =
+        this.inPelle && player.dilation.active
+          ? this.activeChallengeNames.length > 1
+          : this.activeChallengeNames.length !== 0;
       this.exitText = this.exitDisplay();
       this.resetCelestial = player.options.retryCelestial;
       this.inPelle = Pelle.isDoomed;
@@ -172,14 +173,12 @@ export default {
       }
 
       if (player.options.confirmations.exitChallenge) {
-        Modal.exitChallenge.show(
-          {
-            challengeName: names.chall,
-            normalName: names.normal,
-            hasHigherLayers: this.inPelle || this.activeChallengeNames.length > 1,
-            exitFn: clickFn
-          }
-        );
+        Modal.exitChallenge.show({
+          challengeName: names.chall,
+          normalName: names.normal,
+          hasHigherLayers: this.inPelle || this.activeChallengeNames.length > 1,
+          exitFn: clickFn,
+        });
       } else {
         clickFn();
       }
@@ -189,7 +188,8 @@ export default {
       if (this.activeChallengeNames.length === 0) return;
 
       // Iterating back-to-front and breaking ensures we get the innermost restriction
-      let fullName = "", celestial = "";
+      let fullName = "",
+        celestial = "";
       for (let i = this.activityTokens.length - 1; i >= 0; i--) {
         const token = this.activityTokens[i];
         const part = this.parts[i];
@@ -202,7 +202,7 @@ export default {
       // Normal challenges are matched with an end-of-string metacharacter
       if (fullName.match(" Challenge$")) Tab.challenges.normal.show(true);
       else if (fullName.match("Infinity Challenge")) Tab.challenges.infinity.show(true);
-      else if (player.light.inMirror) Tab.eternity.dilation.show(true);
+      else if (player.light.inMirror) Tab.space.mirror.show(true);
       else if (fullName.match("Eternity Challenge")) Tab.challenges.eternity.show(true);
       else if (fullName.match("Space Challenge")) Tab.challenges.space.show(true);
       else if (player.dilation.active) Tab.eternity.dilation.show(true);
@@ -221,28 +221,17 @@ export default {
         "l-challenge-display": true,
         "l-challenge-display--clickable": this.activeChallengeNames.length !== 0,
       };
-    }
+    },
   },
 };
 </script>
 
 <template>
-  <div
-    v-if="isVisible"
-    class="l-game-header__challenge-text"
-  >
-    <span
-      :class="textClassObject()"
-      @click="textClicked"
-    >
-      You are currently in {{ challengeDisplay }}
-    </span>
+  <div v-if="isVisible" class="l-game-header__challenge-text">
+    <span :class="textClassObject()" @click="textClicked"> You are currently in {{ challengeDisplay }} </span>
     <FailableEcText v-if="isInFailableEC" />
     <span class="l-padding-line" />
-    <PrimaryButton
-      v-if="showExit"
-      @click="exitButtonClicked"
-    >
+    <PrimaryButton v-if="showExit" @click="exitButtonClicked">
       {{ exitText }}
     </PrimaryButton>
   </div>

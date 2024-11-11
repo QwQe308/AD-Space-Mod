@@ -1,64 +1,83 @@
 <script>
+import { Replicanti } from "../../../core/replicanti";
+
 export default {
   name: "ReplicantiGainText",
   data() {
     return {
       remainingTimeText: "",
-      galaxyText: ""
+      galaxyText: "",
     };
   },
   methods: {
     update() {
       const updateRateMs = player.options.updateRate;
       const ticksPerSecond = 1000 / updateRateMs;
-      const logGainFactorPerTick = Decimal.divide(player.replicanti.chance.add(1).ln()
-        .mul(getGameSpeedupForDisplay().mul(updateRateMs)), getReplicantiInterval());
+      const logGainFactorPerTick = Decimal.divide(
+        player.replicanti.chance.add(1).ln().mul(getGameSpeedupForDisplay().mul(updateRateMs)),
+        getReplicantiInterval()
+      );
       const log10GainFactorPerTick = logGainFactorPerTick.dividedBy(Math.LN10);
 
       // The uncapped factor is needed for galaxy speed calculations
-      const log10GainFactorPerTickUncapped = Decimal.divide(player.replicanti.chance.add(1).ln()
-        .mul(getGameSpeedupForDisplay().mul(updateRateMs)), getReplicantiInterval(false)).dividedBy(Math.LN10);
+      const log10GainFactorPerTickUncapped = Decimal.divide(
+        player.replicanti.chance.add(1).ln().mul(getGameSpeedupForDisplay().mul(updateRateMs)),
+        getReplicantiInterval(false)
+      ).dividedBy(Math.LN10);
 
       const replicantiAmount = Replicanti.amount;
       const isAbove308 = Replicanti.isUncapped && replicantiAmount.max(1).log10().gt(DLOG10_MAXNUM);
 
       if (isAbove308) {
         const postScale = Decimal.log10(ReplicantiGrowth.scaleFactor).div(ReplicantiGrowth.scaleLog10);
-        const gainFactorPerSecond = logGainFactorPerTick.times(postScale).plus(1)
-          .pow((postScale).recip().mul(ticksPerSecond));
+        const gainFactorPerSecond = logGainFactorPerTick
+          .times(postScale)
+          .plus(1)
+          .pow(postScale.recip().mul(ticksPerSecond));
         // The calculations to estimate time to next milestone of OoM based on game state, assumes that uncapped
         // replicanti growth scales as time^1/postScale, which turns out to be a reasonable approximation.
         const milestoneStep = Pelle.isDoomed ? 100 : 1000;
-        const nextMilestone = replicantiAmount.max(1).log10().div(milestoneStep).add(1).floor().mul(milestoneStep).pow10();
+        const nextMilestone = replicantiAmount
+          .max(1)
+          .log10()
+          .div(milestoneStep)
+          .add(1)
+          .floor()
+          .mul(milestoneStep)
+          .pow10();
         const coeff = Decimal.divide(updateRateMs / 1000, logGainFactorPerTick.times(postScale));
         const timeToThousand = coeff.times(nextMilestone.divide(replicantiAmount).pow(postScale).minus(1));
         // The calculation seems to choke and return zero if the time is too large, probably because of rounding issues
         const timeEstimateText = timeToThousand.eq(0)
           ? "an extremely long time"
           : `${TimeSpan.fromSeconds(timeToThousand)}`;
-        this.remainingTimeText = `You are gaining ${formatX(gainFactorPerSecond, 2, 1)} Replicanti per second` +
+        this.remainingTimeText =
+          `You are gaining ${formatX(gainFactorPerSecond, 2, 1)} Replicanti per second` +
           ` (${timeEstimateText} until ${format(nextMilestone)})`;
       } else {
         this.remainingTimeText = "";
       }
 
       const totalTime = DLOG10_MAXNUM.div(log10GainFactorPerTick.times(ticksPerSecond));
-      let remainingTime = DLOG10_MAXNUM.sub(replicantiAmount.max(1).log10())
-        .div(log10GainFactorPerTick.times(ticksPerSecond));
+      let remainingTime = DLOG10_MAXNUM.sub(replicantiAmount.max(1).log10()).div(
+        log10GainFactorPerTick.times(ticksPerSecond)
+      );
       if (remainingTime.lt(0)) {
         // If the cap is raised via Effarig Infinity but the player doesn't have TS192, this will be a negative number
         remainingTime = new Decimal();
       }
 
-      const galaxiesPerSecond = log10GainFactorPerTickUncapped.times(new Decimal(ticksPerSecond).div(DLOG10_MAXNUM));
-      const timeFromZeroRG = galaxies => galaxies.add(49.5).div(49.5).ln().mul(50);
+      const galaxiesPerSecond = log10GainFactorPerTickUncapped.times(new Decimal(ticksPerSecond).div(Replicanti.galaxies.divisor? Replicanti.galaxies.divisor.log10() : DLOG10_MAXNUM));
+      const timeFromZeroRG = (galaxies) => galaxies.add(49.5).div(49.5).ln().mul(50);
       let baseGalaxiesPerSecond, effectiveMaxRG, effectiveCurrentRG;
       if (RealityUpgrade(6).isBought && !Pelle.isDoomed) {
         baseGalaxiesPerSecond = galaxiesPerSecond.divide(RealityUpgrade(6).effectValue);
-        effectiveMaxRG = timeFromZeroRG(Replicanti.galaxies.max.add(Replicanti.galaxies.extra))
-          .sub(timeFromZeroRG(Replicanti.galaxies.extra));
-        effectiveCurrentRG = timeFromZeroRG(Replicanti.galaxies.bought.add(Replicanti.galaxies.extra))
-          .sub(timeFromZeroRG(Replicanti.galaxies.extra));
+        effectiveMaxRG = timeFromZeroRG(Replicanti.galaxies.max.add(Replicanti.galaxies.extra)).sub(
+          timeFromZeroRG(Replicanti.galaxies.extra)
+        );
+        effectiveCurrentRG = timeFromZeroRG(Replicanti.galaxies.bought.add(Replicanti.galaxies.extra)).sub(
+          timeFromZeroRG(Replicanti.galaxies.extra)
+        );
       } else {
         baseGalaxiesPerSecond = galaxiesPerSecond;
         effectiveMaxRG = Replicanti.galaxies.max;
@@ -83,7 +102,6 @@ export default {
       if (Replicanti.galaxies.max === 0 && !isAbove308) {
         this.remainingTimeText += ` (${TimeSpan.fromSeconds(new Decimal(totalTime))} total)`;
       }
-
 
       if (Replicanti.galaxies.max.gt(0)) {
         // If the player has max RGs, don't display the "You are gaining blah" text
@@ -111,8 +129,12 @@ export default {
           const pending = Replicanti.galaxies.gain;
           let pendingTime = pending.mul(secondsPerGalaxy);
           // If popular music is unlocked add the divide amount
-          if (Achievement(126).isUnlocked && !Pelle.isDoomed) {
-            const leftPercentAfterGalaxy = replicantiAmount.max(1).log10().div(LOG10_MAX_VALUE).sub(pending);
+          if (Replicanti.galaxies.divisor) {
+            const leftPercentAfterGalaxy = replicantiAmount
+              .max(1)
+              .log10()
+              .div(Replicanti.galaxies.divisor.log10())
+              .sub(pending);
             pendingTime = pendingTime.add(secondsPerGalaxy.times(leftPercentAfterGalaxy));
           }
           const thisGalaxyTime = pending.gt(0) ? pendingTime : secondsPerGalaxy.sub(remainingTime);
@@ -122,15 +144,13 @@ export default {
       } else {
         this.galaxyText = ``;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
-  <p>{{ remainingTimeText }}<br>{{ galaxyText }}</p>
+  <p>{{ remainingTimeText }}<br />{{ galaxyText }}</p>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -4,7 +4,7 @@ import ModalWrapperChoice from "@/components/modals/ModalWrapperChoice";
 export default {
   name: "ReplicantiGalaxyModal",
   components: {
-    ModalWrapperChoice
+    ModalWrapperChoice,
   },
   data() {
     return {
@@ -21,12 +21,12 @@ export default {
       const reductionString = this.divideReplicanti
         ? `divide your Replicanti by ${format(Number.MAX_VALUE, 2, 2)} for each Replicanti Galaxy purchased
           (${format(this.replicanti, 2, 2)} to
-          ${format(this.replicanti.divide(Decimal.pow(Number.MAX_VALUE, this.canBeBought)), 2, 2)})`
+          ${format(this.replicanti.divide(Decimal.pow(1e60, this.canBeBought)), 2, 2)})`
         : `reset your Replicanti to ${formatInt(1)}`;
       return `A Replicanti Galaxy boosts Tickspeed the same way an Antimatter Galaxy does. However, it does not
         increase the cost of Antimatter Galaxies, nor is it affected by multipliers to Antimatter Galaxies specifically.
         It will ${reductionString}.`;
-    }
+    },
   },
   methods: {
     update() {
@@ -43,10 +43,7 @@ export default {
 </script>
 
 <template>
-  <ModalWrapperChoice
-    option="replicantiGalaxy"
-    @confirm="handleYesClick"
-  >
+  <ModalWrapperChoice option="replicantiGalaxy" @confirm="handleYesClick">
     <template #header>
       {{ topLabel }}
     </template>

@@ -46,8 +46,9 @@ class SubtabState {
     return this.config.id;
   }
 
-  show(manual) {
-    this._parent.show(manual, this);
+  show(manual, force = false) {
+    if(isSCRunningOnTierOrHigher(6,1) && !force) return GameUI.notify.error("Tabs cannot be switched in SC6")
+    this._parent.show(manual, this, force);
   }
 
   unhideTab() {
@@ -137,7 +138,8 @@ class TabState {
     return this.subtabs.some(tab => tab.hasNotification);
   }
 
-  show(manual, subtab = undefined) {
+  show(manual, subtab = undefined, force = false) {
+    if(isSCRunningOnTierOrHigher(6,1) && !force) return GameUI.notify.error("Tabs cannot be switched in SC6")
     if (!manual && !player.options.automaticTabSwitching || Quote.isOpen) return;
     if (subtab !== undefined) {
       if (!Enslaved.isRunning) subtab.unhideTab();
@@ -148,8 +150,8 @@ class TabState {
       this._currentSubtab = findLastOpenSubtab(this.id, this.subtabs);
     }
 
-    if (!this._currentSubtab.isUnlocked) this.resetToUnlocked();
-    if (!this._currentSubtab.isAvailable) this.resetToAvailable();
+    if (!this._currentSubtab.isUnlocked && !force) this.resetToUnlocked();
+    if (!this._currentSubtab.isAvailable && !force) this.resetToAvailable();
 
     ui.view.tab = this.key;
     ui.view.subtab = this._currentSubtab.key;

@@ -23,12 +23,6 @@ export const infinities = {
     isActive: () => Achievement(87).isUnlocked,
     icon: MultiplierTabIcons.ACHIEVEMENT,
   },
-  timeStudy: {
-    name: "Time Study 32",
-    multValue: () => TimeStudy(32).effectOrDefault(1),
-    isActive: () => TimeStudy(32).isBought,
-    icon: MultiplierTabIcons.TIME_STUDY,
-  },
   amplifierInf: {
     name: "Reality Upgrade - Boundless Amplifier",
     multValue: () => DC.D1.timesEffectsOf(RealityUpgrade(5)),

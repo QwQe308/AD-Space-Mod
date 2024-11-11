@@ -101,10 +101,22 @@ export const tabNotifications = {
       {
         parent: "dimensions",
         tab: "time"
-      }
+      },
     ],
     condition: () => !PlayerProgress.realityUnlocked() &&
       !PlayerProgress.eternityUnlocked(),
+    events: [GAME_EVENT.ETERNITY_RESET_BEFORE]
+  },
+  secondEternity: {
+    id: 18,
+    tabsToHighLight: [
+      {
+        parent: "challenges",
+        tab: "space",
+      },
+    ],
+    condition: () => !PlayerProgress.realityUnlocked() &&
+      PlayerProgress.reachedEternities(1) && !PlayerProgress.reachedEternities(2),
     events: [GAME_EVENT.ETERNITY_RESET_BEFORE]
   },
   dilationAfterUnlock: {

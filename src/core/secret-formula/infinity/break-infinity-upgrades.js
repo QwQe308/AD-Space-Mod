@@ -1,4 +1,5 @@
 import { DC } from "../../constants";
+import { dimInfinityExponent } from "./infinity-upgrades";
 
 function rebuyable(config) {
   const effectFunction = config.effect || (x => x);
@@ -51,7 +52,7 @@ export const breakInfinityUpgrades = {
     id: "infinitiedMult",
     cost: DC.E5,
     description: "Antimatter Dimensions gain a multiplier based on Infinities",
-    effect: () => Currency.infinitiesTotal.value.max(1).absLog10().times(2).pow(2).add(1),
+    effect: () => Currency.infinitiesTotal.value.max(1).absLog10().times(2).pow(2).add(1).pow(dimInfinityExponent()),
     formatEffect: value => formatX(value, 2, 2)
   },
   achievementMult: {

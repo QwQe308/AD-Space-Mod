@@ -130,7 +130,7 @@ export default {
   methods: {
     update() {
       this.isUnlocked = Replicanti.areUnlocked;
-      this.unlockCost = new Decimal(1e140).dividedByEffectOf(PelleRifts.vacuum.milestones[1]);
+      this.unlockCost = new Decimal(1e140).dividedByEffectOf(PelleRifts.vacuum.milestones[1]).dividedByEffectOf(TimeStudy(22));
       if (this.isDoomed) this.scrambledText = this.vacuumText();
       if (!this.isUnlocked) {
         this.isUnlockAffordable = Currency.infinityPoints.gte(this.unlockCost);

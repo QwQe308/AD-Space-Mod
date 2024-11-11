@@ -189,7 +189,7 @@ export const tabs = [
         name: "Automator",
         symbol: "<i class='fas fa-code'></i>",
         component: "AutomatorTab",
-        condition: () => PlayerProgress.realityUnlocked(),
+        condition: () => PlayerProgress.realityUnlocked() || isSCRunningOnTier(6, 1) || isSCTierCompleted(6, 1),
         id: 1,
         hidable: true,
       },

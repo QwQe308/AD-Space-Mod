@@ -37,14 +37,23 @@ export function getEffectiveSpaceMult() {
 export function getAMMultplier() {
   let amMult = new Decimal(1);
   amMult = amMult.mul(SpaceResearchRifts.r11.effectValue);
-  amMult = amMult.timesEffectsOf(InfinityUpgrade.dim45mult);
+  amMult = amMult.timesEffectsOf(
+    InfinityUpgrade.dim45mult,
+    TimeStudy(71),
+    TimeStudy(101)
+    );
   amMult = amMult.mul(light.red.effectValue());
   return amMult;
 }
 
 function getSpaceAmount(realAM) {
   //calc space amount
-  let baseSpace = Decimal.pow10(realAM.max(10).log10().pow(1 - getSpaceNerfExponent()))
+  let baseSpace = Decimal.pow10(
+    realAM
+      .max(10)
+      .log10()
+      .pow(1 - getSpaceNerfExponent())
+  )
     .pow(2)
     .div(100)
     .sub(1); //100 ^ lg(realAM) ^ (1-dil) /100 -1
@@ -65,13 +74,10 @@ export function produceAM(proc, diff) {
   Currency.antimatter.value = pendingAM.root(getSpaceNerf()).mul(amMult);
   player.records.totalAntimatter = player.records.totalAntimatter.max(player.antimatter);
 
-  player.amProc = player.antimatter
-    .sub(recordAM)
-    .div(diff.div(1000))
-    .max(0);
+  player.amProc = player.antimatter.sub(recordAM).div(diff.div(1000)).max(0);
 
   //some precision bugs happened after using BE and has to do so
-  if(player.dimensions.antimatter[0].amount.eq(0)) Currency.antimatter.bumpTo(10)
+  if (player.dimensions.antimatter[0].amount.eq(0)) Currency.antimatter.bumpTo(10);
 }
 
 export function updateSpaceItems(diff) {

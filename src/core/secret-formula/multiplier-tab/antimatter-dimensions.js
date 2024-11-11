@@ -261,7 +261,7 @@ export const AD = {
     name: dim => (dim ? `Time Studies (AD ${dim})` : "Time Studies"),
     multValue: dim => {
       const allMult = DC.D1.timesEffectsOf(
-        TimeStudy(91),
+        //TimeStudy(91),
         TimeStudy(101),
         TimeStudy(161),
         TimeStudy(193),

@@ -31,6 +31,13 @@ function giveEternityRewards(auto) {
     respecTimeStudies(auto);
   }
 
+  const spaceChall = SpaceChallenge.current;
+
+  if (spaceChall)
+    if (spaceChall.goal === `Eternity`) {
+      spaceChall.complete();
+    }
+
   addEternityTime(
     player.records.thisEternity.trueTime,
     player.records.thisEternity.time,
@@ -42,10 +49,14 @@ function giveEternityRewards(auto) {
   player.records.thisReality.bestEternitiesPerMs = player.records.thisReality.bestEternitiesPerMs.clampMin(
     newEternities.div(Decimal.clampMin(33, player.records.thisEternity.realTime))
   );
-  player.records.bestEternity.bestEPminReality =
-    player.records.bestEternity.bestEPminReality.max(player.records.thisEternity.bestEPmin);
+  player.records.bestEternity.bestEPminReality = player.records.bestEternity.bestEPminReality.max(
+    player.records.thisEternity.bestEPmin
+  );
 
-  player.records.bestEternity.trueTime = Math.min(player.records.bestEternity.trueTime, player.records.thisEternity.trueTime);
+  player.records.bestEternity.trueTime = Math.min(
+    player.records.bestEternity.trueTime,
+    player.records.thisEternity.trueTime
+  );
   Currency.infinitiesBanked.value = Currency.infinitiesBanked.value.plusEffectsOf(
     Achievement(131).effects.bankedInfinitiesGain,
     TimeStudy(191)
@@ -62,7 +73,7 @@ export function eternityAnimation() {
 }
 
 export function eternityResetRequest() {
-  if (!DEV) return //dev lock
+  if (!DEV && !player.options.testServer) return; //dev lock
   if (!Player.canEternity) return;
   if (GameEnd.creditsEverClosed) return;
   askEternityConfirmation();
@@ -144,8 +155,14 @@ export function eternity(force, auto, specialConditions = {}) {
   ECTimeStudyState.invalidateCachedRequirements();
 
   PelleStrikes.eternity.trigger();
-  
-  secondSoftReset()
+
+  secondSoftReset();
+
+  if (Player.automatorUnlocked && AutomatorBackend.state.forceRestart) {
+    // Make sure to restart the current script instead of using the editor script - the editor script might
+    // not be a valid script to run; this at best stops it from running and at worst causes a crash
+    AutomatorBackend.start(AutomatorBackend.state.topLevelScript);
+  }
 
   EventHub.dispatch(GAME_EVENT.ETERNITY_RESET_AFTER);
 
@@ -155,11 +172,12 @@ export function eternity(force, auto, specialConditions = {}) {
 // eslint-disable-next-line no-empty-function
 export function animateAndEternity(callback) {
   if (!Player.canEternity) return false;
-  const hasAnimation = !FullScreenAnimationHandler.isDisplaying &&
+  const hasAnimation =
+    !FullScreenAnimationHandler.isDisplaying &&
     !RealityUpgrade(10).isLockingMechanics &&
     !(RealityUpgrade(12).isLockingMechanics && EternityChallenge(1).isRunning) &&
     ((player.dilation.active && player.options.animations.dilation) ||
-    (!player.dilation.active && player.options.animations.eternity));
+      (!player.dilation.active && player.options.animations.eternity));
 
   if (hasAnimation) {
     if (player.dilation.active) {
@@ -181,7 +199,7 @@ export function animateAndEternity(callback) {
 export function initializeChallengeCompletions(isReality) {
   NormalChallenges.clearCompletions();
   if (!PelleUpgrade.keepInfinityChallenges.canBeApplied) InfinityChallenges.clearCompletions();
-  if (!isReality && EternityMilestone.keepAutobuyers.isReached || Pelle.isDoomed) {
+  if ((!isReality && EternityMilestone.keepAutobuyers.isReached) || Pelle.isDoomed) {
     NormalChallenges.completeAll();
   }
   if (Achievement(133).isUnlocked && !Pelle.isDoomed) InfinityChallenges.completeAll();
@@ -197,8 +215,8 @@ export function initializeResourcesAfterEternity() {
   player.records.thisInfinity.time = DC.D0;
   player.records.thisInfinity.lastBuyTime = DC.D0;
   player.records.thisInfinity.realTime = DC.D0;
-  player.dimensionBoosts = (EternityMilestone.keepInfinityUpgrades.isReached) ? DC.D4 : DC.D0;
-  player.galaxies = (EternityMilestone.keepInfinityUpgrades.isReached) ? DC.D1 : DC.D0;
+  player.dimensionBoosts = EternityMilestone.keepInfinityUpgrades.isReached ? DC.D4 : DC.D0;
+  player.galaxies = EternityMilestone.keepInfinityUpgrades.isReached ? DC.D1 : DC.D0;
   player.partInfinityPoint = 0;
   player.partInfinitied = 0;
   player.IPMultPurchases = DC.D0;
@@ -211,18 +229,20 @@ export function initializeResourcesAfterEternity() {
   player.eterc8repl = 40;
   Player.resetRequirements("eternity");
   //MOD
-  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
-  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
-  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].reset())
-  SpaceResearchTierDetail[4].forEach(x => SpaceResearchRifts[x].refresh())
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[2].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[3].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[4].forEach((x) => SpaceResearchRifts[x].refresh());
 
-  player.space = new Decimal(0)
+  player.space = new Decimal(0);
   Currency.antimatter.reset();
 
-  player.light.prisms = 0
-  player.light.redPercent = 0
-  player.light.greenPercent = 0
-  player.light.bluePercent = 0
+  if (!EternityMilestone.autobuyerEternity.isReached) {
+    player.light.prisms = 0;
+    player.light.redPercent = 0;
+    player.light.greenPercent = 0;
+    player.light.bluePercent = 0;
+  }
 }
 
 export function applyEU1() {
@@ -235,7 +255,7 @@ export function applyEU1() {
 // code since those run asynchronously from gameLoop
 export function applyEU2() {
   if (player.eternityUpgrades.size < 6 && Perk.autounlockEU2.canBeApplied) {
-    const secondRow = EternityUpgrade.all.filter(u => u.id > 3);
+    const secondRow = EternityUpgrade.all.filter((u) => u.id > 3);
     for (const upgrade of secondRow) {
       if (player.eternityPoints.gte(upgrade.cost / 1e10)) player.eternityUpgrades.add(upgrade.id);
     }
@@ -253,12 +273,11 @@ function askEternityConfirmation() {
 }
 
 export function gainedEternities() {
-  if(Pelle.isDisabled("eternityMults")) return new Decimal(1)
-  let esMult = new Decimal(getAdjustedGlyphEffect("timeetermult"))
-      .timesEffectsOf(RealityUpgrade(3), Achievement(113))
-  esMult = esMult.mul(SpaceResearchRifts.r53.effectValue)
+  if (Pelle.isDisabled("eternityMults")) return new Decimal(1);
+  let esMult = new Decimal(getAdjustedGlyphEffect("timeetermult")).timesEffectsOf(RealityUpgrade(3), Achievement(113));
+  esMult = esMult.mul(SpaceResearchRifts.r53.effectValue);
   esMult = esMult.pow(AlchemyResource.eternity.effectValue);
-  return esMult
+  return esMult;
 }
 
 export class EternityMilestoneState {
@@ -273,11 +292,8 @@ export class EternityMilestoneState {
     return Currency.eternities.gte(this.config.eternities);
   }
 }
-export const EternityMilestone = mapGameDataToObject(
-  GameDatabase.eternity.milestones,
-  config => (config.isBaseResource
-    ? new EternityMilestoneState(config)
-    : new EternityMilestoneState(config))
+export const EternityMilestone = mapGameDataToObject(GameDatabase.eternity.milestones, (config) =>
+  config.isBaseResource ? new EternityMilestoneState(config) : new EternityMilestoneState(config)
 );
 
 class EternityUpgradeState extends SetPurchasableMechanicState {
@@ -346,13 +362,13 @@ class EPMultiplierState extends GameMechanicState {
     }
     if (cur.gt(this.costIncreaseThresholds[2])) {
       bulk = this.costIncreaseThresholds[2].div(500).log(500).floor();
-      tempVal = (DC.E3).pow(bulk).times(500);
+      tempVal = DC.E3.pow(bulk).times(500);
       cur = cur.div(tempVal).max(1 / 1e3);
       return bulk.add(cur.log(1e3).add(1)).floor();
     }
     if (cur.gt(this.costIncreaseThresholds[1])) {
       bulk = this.costIncreaseThresholds[1].div(500).log(100).floor();
-      tempVal = (DC.E2.times(5)).pow(bulk).times(500);
+      tempVal = DC.E2.times(5).pow(bulk).times(500);
       cur = cur.div(tempVal.max(1 / 500));
       return bulk.add(cur.log(500).add(1)).floor();
     }
@@ -362,7 +378,12 @@ class EPMultiplierState extends GameMechanicState {
       cur = cur.div(tempVal.max(1 / 100));
       return bulk.add(cur.log(100).add(1)).floor();
     }
-    return cur.div(500).max(1 / 50).log(50).add(1).floor();
+    return cur
+      .div(500)
+      .max(1 / 50)
+      .log(50)
+      .add(1)
+      .floor();
   }
 
   buyMax(auto) {
@@ -371,7 +392,6 @@ class EPMultiplierState extends GameMechanicState {
       if (!auto) RealityUpgrade(15).tryShowWarningModal();
       return false;
     }
-
 
     // Technically inaccurate, but it works fine (is it inaccurate tho???)
     // Should probably use hardcoded values but im lazy so no
@@ -385,8 +405,11 @@ class EPMultiplierState extends GameMechanicState {
     Currency.eternityPoints.subtract(price);
     this.boughtAmount = this.boughtAmount.add(bulk);
     let i = 0;
-    while (Currency.eternityPoints.gt(this.costAfterCount(this.boughtAmount)) &&
-    i < 50 && this.boughtAmount.layer < 1) {
+    while (
+      Currency.eternityPoints.gt(this.costAfterCount(this.boughtAmount)) &&
+      i < 50 &&
+      this.boughtAmount.layer < 1
+    ) {
       this.boughtAmount = this.boughtAmount.add(1);
       Currency.eternityPoints.subtract(this.costAfterCount(this.boughtAmount.sub(1)));
       i += 1;
@@ -416,7 +439,7 @@ class EPMultiplierState extends GameMechanicState {
 
 export const EternityUpgrade = mapGameDataToObject(
   GameDatabase.eternity.upgrades,
-  config => new EternityUpgradeState(config)
+  (config) => new EternityUpgradeState(config)
 );
 
 EternityUpgrade.epMult = new EPMultiplierState();

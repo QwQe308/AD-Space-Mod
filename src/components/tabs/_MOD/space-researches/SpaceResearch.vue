@@ -13,6 +13,7 @@ export default {
       requirement: new Decimal(0),
       level: new Decimal(0),
       pendingLevel: new Decimal(0),
+      maxLevel: new Decimal(0),
       hasEffectiveFill: false,
       effect: "",
     };
@@ -31,12 +32,14 @@ export default {
   methods: {
     update() {
       const rift = this.SpaceResearchRift.rift;
-      this.isMaxed = rift.isMaxed;
+      this.isMaxed = this.rift.isMaxed;
       this.effect = this.rift.effect;
       this.setValue("progress", this.rift.pendingProgress.sub(this.rift.lastPendingRequirement));
       this.setValue("requirement", this.rift.pendingRequirement.sub(this.rift.lastPendingRequirement));
       this.setValue("level", this.rift.level);
       this.setValue("pendingLevel", this.rift.pendingLevel);
+      if (this.rift.maxLevel) this.setValue("maxLevel", this.rift.maxLevel);
+      else this.setValue("maxLevel", new Decimal(-1));
     },
     // One rift has a number and the others are all Decimals; this reduces boilerplate for setting multiple values
     setValue(key, value) {
@@ -66,16 +69,24 @@ export default {
           </div>
         </div>
         <div class="c-pelle-rift-column">
-          <SpaceResearchRiftBar :rift="rift" style="margin: auto 0;"/>
+          <SpaceResearchRiftBar :rift="rift" style="margin: auto 0" />
         </div>
         <div class="c-pelle-rift-rift-info-container">
           <div class="c-pelle-rift-status">
             <div class="c-pelle-rift-fill-status">
               <div class="c-pelle-rift-rift-info-container">
-                <template> Level: {{ formatRift(level) }} {{(pendingLevel.eq(level)? ``:`(-> ${formatRift(pendingLevel)})`)}}</template>
+                <template>
+                  Level: {{ formatRift(level) }}{{ maxLevel.gte(0) ? ` / ${formatRift(maxLevel)}` : `` }}
+                  {{ pendingLevel.eq(level) ? `` : `(-> ${formatRift(pendingLevel)})` }}
+                </template>
               </div>
               <div class="c-pelle-rift-rift-info-container">
-                <template v-if="!isMaxed"> Current Progress: {{ formatRift(progress) }} / {{ formatRift(requirement) }} </template>
+                <template v-if="!isMaxed">
+                  Current Progress: {{ formatRift(progress) }} / {{ formatRift(requirement) }}
+                </template>
+                <template v-else>
+                  This rift has reached its maximum level
+                </template>
               </div>
             </div>
           </div>

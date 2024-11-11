@@ -37,18 +37,17 @@ TimeStudy.allConnections = (function() {
     [TS(21), TS(31)],
     [TS(22), TS(33)],
     [TS(22), TS(32)],
+    [TS(21), TS(34)],
 
     [TS(31), TS(41)],
     [TS(32), TS(42)],
 
+    [TS(41), TS(52)],
     [TS(41), TS(51)],
     [TS(42), TS(51)],
     [TS(42), EC(5)],
 
-    [TS(42), TS(62), () => !Perk.bypassEC5Lock.isBought],
-
     [TS(51), TS(61)],
-    [EC(5), TS(62), () => Perk.bypassEC5Lock.isBought],
 
     [TS(61), TS(71)],
     [TS(61), TS(72)],

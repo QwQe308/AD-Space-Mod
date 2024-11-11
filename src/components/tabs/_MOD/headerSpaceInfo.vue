@@ -21,7 +21,7 @@ export default {
       if (this.ESMult.neq(1)) spaceInfo += ` (after *${format(this.ESMult, 2, 2)})`;
       spaceInfo += ` | AM ^ (1/${format(this.nerf, 2, 3)})`;
 
-      if(isSCRunningOnTier(5, 1)) spaceInfo += ` | SC5 Nerf: RS /${format(this.SC5nerf)}`
+      if (isSCRunningOnTier(5, 1)) spaceInfo += ` | SC5 Nerf: RS /${format(this.SC5nerf, 1, 1)}`;
       return spaceInfo;
     },
   },
@@ -32,7 +32,7 @@ export default {
       this.baseSpace.copyFrom(player.space);
       this.ESMult = getEffectiveSpaceMult();
       this.nerf = getSpaceNerf();
-      if(isSCRunningOnTier(5, 1)) this.SC5nerf = SpaceChallenge(5).effectValue
+      if (isSCRunningOnTier(5, 1)) this.SC5nerf = SpaceChallenge(5).effectValue;
     },
   },
 };

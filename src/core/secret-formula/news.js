@@ -6,12 +6,19 @@ import { DC } from "../constants";
 // P = patreon
 // AI = created with gpt2
 
+// M = Mod
+
 function newsAnimSpd(seconds) {
   return seconds / player.options.news.speed;
 }
 
 
 export const news = [
+  {
+    id: "m1",
+    text: `This mod is not good enough. Go play the perfected mod here: <a href="https://circle-gon.github.io/AntimatterDimensionsPerfectEdition/" target="_blank">AD: The Perfect Version</a>`,
+  },
+
   {
     id: "a1",
     text: "The cookie is a lie.",
@@ -2910,11 +2917,6 @@ export const news = [
     id: "l52",
     text: "Timing is key.",
     get unlocked() { return player.records.thisEternity.realTime.lt(10); }
-  },
-  {
-    id: "l53",
-    text: "If you want to farm infinities, why don't you just get the time study?",
-    get unlocked() { return !TimeStudy(32).isBought && Currency.infinities.gt(72000 * 168); }
   },
   {
     id: "l54",

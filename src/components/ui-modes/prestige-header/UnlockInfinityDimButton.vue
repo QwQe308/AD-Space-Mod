@@ -12,28 +12,35 @@ export default {
   },
   computed: {
     text() {
-      const dimensionText = `a new ${this.hasIPUnlock ? "type of Dimension" : "Infinity Dimension"}.`;
+      const dimensionText = `a new ${this.hasIPUnlock ? "type of Dimension" : "Infinity Dimension"}`;
       if (this.canUnlock) {
-        return `Unlock ${dimensionText}`;
+        if (this.amRequirement.eq("1e10500") && !PlayerProgress.eternityUnlocked())
+          return `Unlock ${dimensionText} and The Mirror.`;
+        return `Unlock ${dimensionText}.`;
       }
       const amDisplay = format(this.amRequirement);
       const ipDisplay = format(this.ipRequirement);
       if (this.hasIPUnlock) {
-        return `Reach ${ipDisplay} Infinity Points and ${amDisplay} antimatter to unlock ${dimensionText}`;
+        return `Reach ${ipDisplay} Infinity Points and ${amDisplay} antimatter to unlock ${dimensionText}.`;
       }
-      return `Reach ${amDisplay} antimatter to unlock ${dimensionText}`;
+      if (this.amRequirement.eq("1e10500") && !PlayerProgress.eternityUnlocked())
+        return `Reach ${amDisplay} antimatter to unlock ${dimensionText} and The Mirror.`;
+      return `Reach ${amDisplay} antimatter to unlock ${dimensionText}.`;
     },
     buttonClassObject() {
       return {
         "o-prestige-button": true,
         "o-infinity-button": true,
-        "o-infinity-button--unavailable": !this.canUnlock
+        "o-infinity-button--unavailable": !this.canUnlock,
       };
     },
   },
   methods: {
     update() {
-      this.isVisible = player.break && !InfinityDimension(8).isUnlocked && !Player.canEternity &&
+      this.isVisible =
+        player.break &&
+        !InfinityDimension(8).isUnlocked &&
+        !Player.canEternity &&
         !EternityMilestone.autoUnlockID.isReached;
       if (!this.isVisible) return;
       const nextDimension = InfinityDimensions.next();
@@ -43,22 +50,21 @@ export default {
       this.ipRequirement = nextDimension.ipRequirement;
     },
     tryUnlockNextInfinityDimension() {
+      if (isSCRunningOnTierOrHigher(6, 1))
+        return GameUI.notify.error(
+          `Manually unlocking ID is disabled in SC6 (use "Buy Infinity Dimensions" command instead)`
+        );
       InfinityDimensions.unlockNext();
-    }
+    },
   },
 };
 </script>
 
 <template>
-  <button
-    v-if="isVisible"
-    :class="buttonClassObject"
-    @click="tryUnlockNextInfinityDimension"
-  >
+  <button v-if="isVisible" :class="buttonClassObject" @click="tryUnlockNextInfinityDimension">
     {{ text }}
   </button>
 </template>
 
-<style scoped>
+<style scoped></style>
 
-</style>

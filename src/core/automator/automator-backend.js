@@ -17,7 +17,6 @@ export const AUTOMATOR_MODE = Object.freeze({
   SINGLE_STEP: 3,
 });
 
-
 export const AUTOMATOR_VAR_TYPES = {
   NUMBER: { id: 0, name: "number" },
   STUDIES: { id: 1, name: "studies" },
@@ -27,7 +26,7 @@ export const AUTOMATOR_VAR_TYPES = {
 
 export const AUTOMATOR_TYPE = Object.freeze({
   TEXT: 0,
-  BLOCK: 1
+  BLOCK: 1,
 });
 
 /**
@@ -70,8 +69,8 @@ class AutomatorStackEntry {
   }
 
   /**
-  * @returns {object|null} commandState used by commands to track their own data, such as remaining wait time
-  */
+   * @returns {object|null} commandState used by commands to track their own data, such as remaining wait time
+   */
   get commandState() {
     return this.persistent.commandState;
   }
@@ -168,14 +167,14 @@ export const AutomatorData = {
   redoBuffer: [],
   charsSinceLastUndoState: 0,
 
-  MAX_ALLOWED_SCRIPT_CHARACTERS: 10000,
-  MAX_ALLOWED_TOTAL_CHARACTERS: 60000,
+  MAX_ALLOWED_SCRIPT_CHARACTERS: 30000,
+  MAX_ALLOWED_TOTAL_CHARACTERS: 100000,
   MAX_ALLOWED_SCRIPT_NAME_LENGTH: 15,
   MAX_ALLOWED_SCRIPT_COUNT: 20,
   MAX_ALLOWED_CONSTANT_NAME_LENGTH: 20,
   // Note that a study string with ALL studies in unshortened form without duplicated studies is ~230 characters
   MAX_ALLOWED_CONSTANT_VALUE_LENGTH: 250,
-  MAX_ALLOWED_CONSTANT_COUNT: 30,
+  MAX_ALLOWED_CONSTANT_COUNT: 50,
   MIN_CHARS_BETWEEN_UNDOS: 10,
   MAX_UNDO_ENTRIES: 30,
 
@@ -216,7 +215,7 @@ export const AutomatorData = {
       line: AutomatorBackend.translateLineNumber(line),
       thisReality: Time.thisRealityRealTime.totalSeconds,
       timestamp: currTime,
-      timegap: currTime - this.lastEvent
+      timegap: currTime - this.lastEvent,
     });
     this.lastEvent = currTime;
     // Remove the oldest entry if the log is too large
@@ -235,15 +234,18 @@ export const AutomatorData = {
       : BlockAutomator.parseLines(BlockAutomator.lines).join("\n").length;
   },
   totalScriptCharacters() {
-    return Object.values(player.reality.automator.scripts)
-      .filter(s => s.id !== this.scriptIndex())
-      .map(s => s.content.length)
-      .reduce((sum, len) => sum + len, 0) +
-      this.singleScriptCharacters();
+    return (
+      Object.values(player.reality.automator.scripts)
+        .filter((s) => s.id !== this.scriptIndex())
+        .map((s) => s.content.length)
+        .reduce((sum, len) => sum + len, 0) + this.singleScriptCharacters()
+    );
   },
   isWithinLimit() {
-    return this.singleScriptCharacters() <= this.MAX_ALLOWED_SCRIPT_CHARACTERS &&
-      this.totalScriptCharacters() <= this.MAX_ALLOWED_TOTAL_CHARACTERS;
+    return (
+      this.singleScriptCharacters() <= this.MAX_ALLOWED_SCRIPT_CHARACTERS &&
+      this.totalScriptCharacters() <= this.MAX_ALLOWED_TOTAL_CHARACTERS
+    );
   },
 
   // This must be called every time the current script or editor mode are changed
@@ -295,7 +297,7 @@ export const AutomatorData = {
     AutomatorBackend.saveScript(this.scriptIndex(), redoContent);
     if (player.reality.automator.type === AUTOMATOR_TYPE.TEXT) AutomatorTextUI.editor.setValue(redoContent);
     else BlockAutomator.updateEditor(redoContent);
-  }
+  },
 };
 
 export const LineEnum = { Active: "active", Event: "event", Error: "error" };
@@ -344,16 +346,15 @@ export const AutomatorHighlighter = {
       }
       this.lines[lineType] = -1;
     }
-  }
+  },
 };
 
 // Manages line highlighting in a way which is agnostic to the current editor mode (line or block)
 export const AutomatorScroller = {
   // Block editor counts lines differently due to modified loop structure; this method handles that internally
   scrollToRawLine(line) {
-    const targetLine = player.reality.automator.type === AUTOMATOR_TYPE.TEXT
-      ? line
-      : AutomatorBackend.translateLineNumber(line);
+    const targetLine =
+      player.reality.automator.type === AUTOMATOR_TYPE.TEXT ? line : AutomatorBackend.translateLineNumber(line);
     this.scrollToLine(targetLine);
   },
 
@@ -382,7 +383,7 @@ export const AutomatorScroller = {
     if (player.reality.automator.type === AUTOMATOR_TYPE.BLOCK) {
       BlockAutomator.gutter.style.bottom = `${editor.scrollTop}px`;
     }
-  }
+  },
 };
 
 export const AutomatorBackend = {
@@ -400,8 +401,8 @@ export const AutomatorBackend = {
   },
 
   /**
-  * @returns {AUTOMATOR_MODE}
-  */
+   * @returns {AUTOMATOR_MODE}
+   */
   get mode() {
     return this.state.mode;
   },
@@ -416,7 +417,7 @@ export const AutomatorBackend = {
 
   findRawScriptObject(id) {
     const scripts = player.reality.automator.scripts;
-    const index = Object.values(scripts).findIndex(s => s.id === id);
+    const index = Object.values(scripts).findIndex((s) => s.id === id);
     return scripts[parseInt(Object.keys(scripts)[index], 10)];
   },
 
@@ -433,8 +434,8 @@ export const AutomatorBackend = {
   },
 
   hasDuplicateName(name) {
-    const nameArray = Object.values(player.reality.automator.scripts).map(s => s.name);
-    return nameArray.filter(n => n === name).length > 1;
+    const nameArray = Object.values(player.reality.automator.scripts).map((s) => s.name);
+    return nameArray.filter((n) => n === name).length > 1;
   },
 
   // Scripts are internally stored and run as text, but block mode has a different layout for loops that
@@ -470,12 +471,12 @@ export const AutomatorBackend = {
     const foundPresets = new Set();
     const lines = script.content.split("\n");
     for (const rawLine of lines) {
-      const matchPresetID = rawLine.match(/studies( nowait)? load id ([1-6])/ui);
+      const matchPresetID = rawLine.match(/studies( nowait)? load id ([1-6])/iu);
       if (matchPresetID) foundPresets.add(Number(matchPresetID[2]) - 1);
-      const matchPresetName = rawLine.match(/studies( nowait)? load name (\S+)/ui);
+      const matchPresetName = rawLine.match(/studies( nowait)? load name (\S+)/iu);
       if (matchPresetName) {
         // A script might pass the regex match, but actually be referencing a preset which doesn't exist by name
-        const presetID = player.timestudy.presets.findIndex(p => p.name === matchPresetName[2]);
+        const presetID = player.timestudy.presets.findIndex((p) => p.name === matchPresetName[2]);
         if (presetID !== -1) foundPresets.add(presetID);
       }
     }
@@ -545,7 +546,7 @@ export const AutomatorBackend = {
   // All numerical values are assumed to be exactly 5 characters long for consistency and since the script length limit
   // is 5 digits long.
   serializeAutomatorData(dataArray) {
-    const paddedNumber = num => `0000${num}`.slice(-5);
+    const paddedNumber = (num) => `0000${num}`.slice(-5);
     const segments = [];
     for (const data of dataArray) {
       segments.push(`${paddedNumber(data.length)}${data}`);
@@ -617,12 +618,12 @@ export const AutomatorBackend = {
     const lines = trimmed.split("\n");
     // We find just the keys first, the rest of the associated data is serialized later
     for (const rawLine of lines) {
-      const matchPresetID = rawLine.match(/studies( nowait)? load id ([1-6])/ui);
+      const matchPresetID = rawLine.match(/studies( nowait)? load id ([1-6])/iu);
       if (matchPresetID) foundPresets.add(Number(matchPresetID[2]) - 1);
-      const matchPresetName = rawLine.match(/studies( nowait)? load name (\S+)/ui);
+      const matchPresetName = rawLine.match(/studies( nowait)? load name (\S+)/iu);
       if (matchPresetName) {
         // A script might pass the regex match, but actually be referencing a preset which doesn't exist by name
-        const presetID = player.timestudy.presets.findIndex(p => p.name === matchPresetName[2]);
+        const presetID = player.timestudy.presets.findIndex((p) => p.name === matchPresetName[2]);
         if (presetID !== -1) foundPresets.add(presetID);
       }
       const availableConstants = Object.keys(player.reality.automator.constants);
@@ -738,7 +739,8 @@ export const AutomatorBackend = {
 
     player.reality.automator.execTimer += diff;
     const commandsThisUpdate = Math.min(
-      Math.floor(player.reality.automator.execTimer / this.currentInterval.toNumber()), this.MAX_COMMANDS_PER_UPDATE
+      Math.floor(player.reality.automator.execTimer / this.currentInterval.toNumber()),
+      this.MAX_COMMANDS_PER_UPDATE
     );
     player.reality.automator.execTimer -= commandsThisUpdate * this.currentInterval.toNumber();
 
@@ -848,7 +850,7 @@ export const AutomatorBackend = {
   },
 
   findScript(id) {
-    return this._scripts.find(e => e.id === id);
+    return this._scripts.find((e) => e.id === id);
   },
 
   _createDefaultScript() {
@@ -859,11 +861,11 @@ export const AutomatorBackend = {
   },
 
   initializeFromSave() {
-    const scriptIds = Object.keys(player.reality.automator.scripts).map(id => parseInt(id, 10));
+    const scriptIds = Object.keys(player.reality.automator.scripts).map((id) => parseInt(id, 10));
     if (scriptIds.length === 0) {
       scriptIds.push(this._createDefaultScript());
     } else {
-      this._scripts = scriptIds.map(s => new AutomatorScript(s));
+      this._scripts = scriptIds.map((s) => new AutomatorScript(s));
     }
     if (!scriptIds.includes(this.state.topLevelScript)) this.state.topLevelScript = scriptIds[0];
     const currentScript = this.findScript(this.state.topLevelScript);
@@ -894,7 +896,7 @@ export const AutomatorBackend = {
 
   newScript() {
     // Make sure the new script has a unique name
-    const scriptNames = AutomatorBackend._scripts.map(s => s.name);
+    const scriptNames = AutomatorBackend._scripts.map((s) => s.name);
     let newScript;
     if (scriptNames.includes("New Script")) {
       let newIndex = 2;
@@ -912,9 +914,9 @@ export const AutomatorBackend = {
   // dynamically re-indexed while the automator is running without causing a stutter from recompiling scripts.
   deleteScript(id) {
     // We need to delete scripts from two places - in the savefile and compiled AutomatorScript Objects
-    const saveId = Object.values(player.reality.automator.scripts).findIndex(s => s.id === id);
+    const saveId = Object.values(player.reality.automator.scripts).findIndex((s) => s.id === id);
     delete player.reality.automator.scripts[parseInt(Object.keys(player.reality.automator.scripts)[saveId], 10)];
-    const idx = this._scripts.findIndex(e => e.id === id);
+    const idx = this._scripts.findIndex((e) => e.id === id);
     this._scripts.splice(idx, 1);
     if (this._scripts.length === 0) {
       this._createDefaultScript();
@@ -1038,7 +1040,7 @@ export const AutomatorBackend = {
         const playerEntry = playerStack[depth];
         const newEntry = new AutomatorStackEntry(depth);
         newEntry.commands = currentCommands;
-        const foundIndex = currentCommands.findIndex(e => e.lineNumber === playerEntry.lineNumber);
+        const foundIndex = currentCommands.findIndex((e) => e.lineNumber === playerEntry.lineNumber);
         if (foundIndex === -1) {
           // Could not match stack state to script, have to reset automato
           return false;
@@ -1066,6 +1068,6 @@ export const AutomatorBackend = {
     },
     get isEmpty() {
       return this._data.length === 0;
-    }
+    },
   },
 };

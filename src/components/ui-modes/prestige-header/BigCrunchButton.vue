@@ -94,6 +94,7 @@ export default {
     },
     crunch() {
       if (!Player.canCrunch) return;
+      if(isSCRunningOnTierOrHigher(6, 1)) return GameUI.notify.error("Manually crunch is disabled in SC6")
       manualBigCrunchResetRequest();
     }
   },

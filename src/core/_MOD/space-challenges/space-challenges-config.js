@@ -22,7 +22,8 @@ export const spaceChallenges = [
       {
         description: `Pre-Infinity Space Researches are disabled.`,
         goal: `Big Crunch`,
-        reward: "Unlock continuum for AD & Tickspeed. Unlock another T3 research.",
+        reward:
+          "Unlock continuum for AD & Tickspeed.(Disabled if not having Infinity broken) Unlock another T3 research.",
         rewardDisplayOrder: 4,
         reset() {
           bigCrunchReset(true, true);
@@ -129,7 +130,7 @@ export const spaceChallenges = [
         description: `Only multpliers affecting every single AD works. (i.e. Buymult)`,
         goal: `Big Crunch`,
         reward: `T3 Research no longer requires reset.`,
-        rewardDisplayOrder: 9,
+        rewardDisplayOrder: 8,
         reset() {
           eternity(true, true);
         },
@@ -138,7 +139,7 @@ export const spaceChallenges = [
         },
         resetDescription: `Calls a Eternity Reset on entering.`,
         isUnlocked() {
-          return PlayerProgress.eternityUnlocked();
+          return PlayerProgress.reachedEternities(2);
         },
       },
     ],
@@ -149,30 +150,53 @@ export const spaceChallenges = [
     id: 5,
     data: [
       {
-        description: `Infinity cannot be broken. All NC and Infinity / Break Upgrades are reseted. /1e12 Research Speed. Completing any NC will x4 Research Speed. Also start with 2 IP.`,
+        description: `Infinity cannot be broken and disable IP & IS multplier. All NC and Infinity / Break Upgrades are reseted. /1e6 Research Speed. Completing any NC will x1.6 Research Speed. Also start with 2 IP.`,
         goal: `Complete all NC`,
         reward: `Unlocks T4 Auto Researcher.`,
-        rewardDisplayOrder: 8,
+        rewardDisplayOrder: 9,
         reset() {
-          eternity(true, true)
-          player.infinityPoints = new Decimal(2)
-          player.break = false
-          NormalChallenges.clearCompletions()
-          player.infinityUpgrades = new Set()
+          eternity(true, true);
+          player.infinityPoints = new Decimal(2);
+          player.break = false;
+          NormalChallenges.clearCompletions();
+          player.infinityUpgrades = new Set();
         },
         exit() {
           eternity(true, true);
         },
         resetDescription: `Calls a Eternity Reset on entering.`,
         isUnlocked() {
-          return PlayerProgress.eternityUnlocked();
+          return PlayerProgress.reachedEternities(2);
         },
         canComplete() {
-          return player.challenge.normal.completedBits === 8191
+          return player.challenge.normal.completedBits === 8190;
         },
         effectValue() {
-          return 1e12 / 4 ** NormalChallenges.all.filter(x => x.isCompleted).length
-        }
+          return 1e6 / 1.6 ** NormalChallenges.all.filter((x) => x.isCompleted).length;
+        },
+      },
+    ],
+  },
+
+  {
+    //SC6
+    id: 6,
+    data: [
+      {
+        description: `Temporarily unlocks Automator, and you can only use the automator to control anything except cancelling challenges.
+        Some extra codes are provided to simulate real runs.`,
+        goal: `Eternity`,
+        reward: `Unlocks Automator.`,
+        rewardDisplayOrder: 10,
+        reset() {
+          eternity(true, true);
+          Tab.automation.subtabs[1].show(true, true);
+        },
+        exit() {},
+        resetDescription: `Calls a Eternity Reset on entering.`,
+        isUnlocked() {
+          return PlayerProgress.reachedEternities(2);
+        },
       },
     ],
   },

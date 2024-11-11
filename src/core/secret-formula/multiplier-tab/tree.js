@@ -131,7 +131,7 @@ const targetedEffects = {
     TD: [11, 73, 93, 103, 151, 221, 227, 301],
     IP: [41, 51, 141, 142, 143],
     EP: [61, 121, 122, 123],
-    replicanti: [62, 132, 213],
+    replicanti: [52, 132, 213],
   },
   infinityChallenge: {
     checkFn: MultiplierTabHelper.ICDimCheck,

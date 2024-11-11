@@ -10,9 +10,10 @@ function handleChallengeCompletion() {
   const challenge = Player.antimatterChallenge;
   const spaceChall = SpaceChallenge.current;
 
-  if(spaceChall) if(spaceChall.goal === `Big Crunch`){
-    spaceChall.complete()
-  }
+  if (spaceChall)
+    if (spaceChall.goal === `Big Crunch`) {
+      spaceChall.complete();
+    }
 
   if (!challenge && !NormalChallenge(1).isCompleted) {
     NormalChallenge(1).complete();
@@ -81,10 +82,14 @@ function bigCrunchGiveRewards() {
 }
 
 function bigCrunchUpdateStatistics() {
-  player.records.bestInfinity.bestIPminEternity =
-    player.records.bestInfinity.bestIPminEternity.clampMin(player.records.thisInfinity.bestIPmin);
+  player.records.bestInfinity.bestIPminEternity = player.records.bestInfinity.bestIPminEternity.clampMin(
+    player.records.thisInfinity.bestIPmin
+  );
   player.records.thisInfinity.bestIPmin = DC.D0;
-  player.records.bestInfinity.trueTime = Math.min(player.records.bestInfinity.trueTime, player.records.thisInfinity.trueTime)
+  player.records.bestInfinity.trueTime = Math.min(
+    player.records.bestInfinity.trueTime,
+    player.records.thisInfinity.trueTime
+  );
 
   player.records.thisEternity.bestInfinitiesPerMs = player.records.thisEternity.bestInfinitiesPerMs.clampMin(
     gainedInfinities().round().dividedBy(Decimal.clampMin(33, player.records.thisInfinity.realTime))
@@ -100,18 +105,22 @@ function bigCrunchUpdateStatistics() {
     gainedInfinities().round()
   );
 
-  player.records.bestInfinity.time =
-  Decimal.min(player.records.bestInfinity.time, player.records.thisInfinity.time);
-  player.records.bestInfinity.realTime =
-    Decimal.min(player.records.bestInfinity.realTime, player.records.thisInfinity.realTime);
+  player.records.bestInfinity.time = Decimal.min(player.records.bestInfinity.time, player.records.thisInfinity.time);
+  player.records.bestInfinity.realTime = Decimal.min(
+    player.records.bestInfinity.realTime,
+    player.records.thisInfinity.realTime
+  );
 
   player.requirementChecks.reality.noInfinities = false;
 
   if (!player.requirementChecks.infinity.maxAll) {
     const bestIpPerMsWithoutMaxAll = infinityPoints.dividedBy(
-      Decimal.clampMin(33, player.records.thisInfinity.realTime));
-    player.records.thisEternity.bestIPMsWithoutMaxAll =
-      Decimal.max(bestIpPerMsWithoutMaxAll, player.records.thisEternity.bestIPMsWithoutMaxAll);
+      Decimal.clampMin(33, player.records.thisInfinity.realTime)
+    );
+    player.records.thisEternity.bestIPMsWithoutMaxAll = Decimal.max(
+      bestIpPerMsWithoutMaxAll,
+      player.records.thisEternity.bestIPMsWithoutMaxAll
+    );
   }
 }
 
@@ -123,7 +132,7 @@ function bigCrunchTabChange(firstInfinity) {
   if (firstInfinity) {
     Tab.infinity.upgrades.show();
   } else if (earlyGame || (inAntimatterChallenge && !player.options.retryChallenge)) {
-    Tab.dimensions.antimatter.show();
+    if (!isSCRunningOnTierOrHigher(6, 1)) Tab.dimensions.antimatter.show();
   }
 }
 
@@ -141,7 +150,7 @@ export function bigCrunchResetValues(enteringAntimatterChallenge) {
     remainingGalaxies = remainingGalaxies.add(Decimal.min(currentReplicantiGalaxies, 1));
   }
   if (TimeStudy(33).isBought && !Pelle.isDoomed) {
-    remainingGalaxies = remainingGalaxies.add(Decimal.floor(currentReplicantiGalaxies.div(2)));
+    remainingGalaxies = currentReplicantiGalaxies;
   }
 
   if (PelleUpgrade.replicantiGalaxyNoReset.canBeApplied) {
@@ -175,10 +184,10 @@ export function secondSoftReset(enteringAntimatterChallenge) {
   player.records.thisInfinity.realTime = DC.D0;
   Player.resetRequirements("infinity");
   AchievementTimers.marathon2.reset();
-  
-  SpaceResearchTierDetail[1].forEach(x => SpaceResearchRifts[x].reset())   
-  SpaceResearchTierDetail[2].forEach(x => SpaceResearchRifts[x].reset())   
-  SpaceResearchTierDetail[3].forEach(x => SpaceResearchRifts[x].refresh())
+
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[2].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[3].forEach((x) => SpaceResearchRifts[x].refresh());
 }
 
 export function preProductionGenerateIP(diff) {

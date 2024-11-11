@@ -81,4 +81,8 @@ export class PlayerProgress {
     return this.eternityUnlocked() ||
           InfinityDimension(id).isUnlocked
   }
+
+  static reachedEternities(count) {
+    return PlayerProgress.current.isRealityUnlocked || player.eternities.gte(count);
+  }
 }

@@ -122,6 +122,15 @@ class AutomatorParser extends Parser {
       $.CONSUME(T.AutomatorCurrency);
     });
 
+    $.RULE("colors", () => {
+      $.CONSUME1(T.NumberLiteral);
+      $.CONSUME1(T.Comma);
+      $.CONSUME2(T.NumberLiteral);
+      $.CONSUME2(T.Comma);
+      $.CONSUME3(T.NumberLiteral);
+    });
+
+
     // Very important to call this after all the rules have been setup.
     // otherwise the parser may not work correctly as it will lack information
     // derived from the self analysis.

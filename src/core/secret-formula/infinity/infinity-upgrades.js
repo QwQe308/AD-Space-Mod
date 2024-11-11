@@ -1,7 +1,13 @@
 import { DC } from "../../constants";
 
-function dimInfinityMult() {
-  return Currency.infinitiesTotal.value.times(0.2).plus(1);
+export function dimInfinityExponent() {
+  let exponent = TimeStudy(31).effectOrDefault(1)
+  return exponent
+}
+
+export function dimInfinityMult() {
+  let exponent = dimInfinityExponent()
+  return Currency.infinitiesTotal.value.times(0.2).plus(1).pow(exponent);
 }
 function chargedDimInfinityMult() {
   return Decimal.log10(Decimal.max(1, Currency.infinitiesTotal.value.pLog10()))

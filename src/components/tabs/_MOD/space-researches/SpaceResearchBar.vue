@@ -65,7 +65,7 @@ export default {
     v-tooltip="timeToNext"
     class="c-pelle-rift-bar"
     :class="{
-      'c-pelle-rift-bar-overfill-container': percentage > 1,
+      'c-pelle-rift-bar--maxed': isMaxed,
       'c-pelle-rift-bar--idle': !isActive && !isMaxed,
       'c-pelle-rift-bar--filling': isActive,
     }"
@@ -74,18 +74,27 @@ export default {
     <div class="l-overflow-hidden">
       <!-- Note: These are separate because permanent and animated fill both use the same positional attributes -->
       <div
-        class="o-pelle-rift-bar-fill"
+        v-if="!isMaxed" class="o-pelle-rift-bar-fill"
         :style="{
           width: `${Math.clampMax(percentage * 100, 100)}%`,
+        }"
+      />
+      <div
+        v-else class="o-pelle-rift-bar-fill"
+        :style="{
+          width: `100%`,
         }"
       />
       <!-- This bar overlay adds the shadow within the bar so the ugly edges don't show -->
       <div class="o-pelle-rift-bar-overlay" />
       <div v-if="isActive && !isMaxed" class="o-pelle-rift-bar-active-fill" />
     </div>
-    <div class="o-pelle-rift-bar-percentage">
+    <div v-if="!isMaxed" class="o-pelle-rift-bar-percentage">
       {{ formatPercents(percentage, 3) }}
-      <span v-if="!isMaxed">({{ isActive ? "Filling" : "Idle" }})</span>
+      <span>({{ isActive ? "Filling" : "Idle" }})</span>
+    </div>
+    <div v-else class="o-pelle-rift-bar-percentage">
+      {{ formatPercents(1, 3) }}
     </div>
   </div>
 </template>
@@ -293,6 +302,11 @@ export default {
 
 .c-pelle-rift-bar--idle .l-overflow-hidden,
 .c-pelle-rift-bar--idle .o-pelle-rift-bar-percentage {
+  opacity: 0.6;
+}
+
+.c-pelle-rift-bar--maxed .l-overflow-hidden,
+.c-pelle-rift-bar--maxed .o-pelle-rift-bar-percentage {
   opacity: 0.6;
 }
 /* #endregion PERCENTAGE STYLES */

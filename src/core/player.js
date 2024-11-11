@@ -895,6 +895,7 @@ window.player = {
   tutorialState: 0,
   tutorialActive: true,
   options: {
+    testServer: false,//***
     news: {
       enabled: true,
       repeatBuffer: 40,
@@ -1122,7 +1123,7 @@ export const Player = {
   },
 
   get automatorUnlocked() {
-    return AutomatorPoints.totalPoints >= AutomatorPoints.pointsForAutomator || player.reality.automator.forceUnlock;
+    return AutomatorPoints.totalPoints >= AutomatorPoints.pointsForAutomator || player.reality.automator.forceUnlock || isSCRunningOnTier(6, 1) || isSCTierCompleted(6, 1);
   },
 
   resetRequirements(key) {

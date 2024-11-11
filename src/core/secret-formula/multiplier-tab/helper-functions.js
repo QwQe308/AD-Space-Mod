@@ -64,7 +64,7 @@ export const MultiplierTabHelper = {
       effectiveCount = effectiveCount.sub(2);
       effectiveCount = effectiveCount.mul(effects);
       effectiveCount = effectiveCount.mul(getAdjustedGlyphEffect("realitygalaxies")
-        .mul(ImaginaryUpgrade(9).effectOrDefault(0).add(1)));
+        .mul(ImaginaryUpgrade(9).effectOrDefault(0) + 1));
       effectiveCount = effectiveCount.mul(Pelle.specialGlyphEffect.power);
 
       // These all need to be framed as INCREASING x/sec tick rate (ie. all multipliers > 1, all logs > 0)

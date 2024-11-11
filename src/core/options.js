@@ -54,10 +54,12 @@ const secretImports = [
   "be88e62eb68758cd7381104977c0d3d5d81e19c72a848f0d79d1963c1e39221f",
   "c784c9c0a82b5f3c13884842fa6e6a8f5aed994ef401e6476c30b1adfe439b22",
   "4c948c46d4c551932ed6f056c7b22aa8023af115975123fe6ef2949775632802",
+  "93628baeef8397c6747c0ecc08315f7aaf974c994f09cb188e3550422b9f3d58",//Eternal loop
 ];
 
-function secretImportIndex(data) {
+export function secretImportIndex(data) {
   const sha = sha512_256(data.replace(/\s/gu, "").toUpperCase());
+  console.log(sha)
   return secretImports.indexOf(sha);
 }
 
@@ -85,6 +87,10 @@ export function tryImportSecret(data) {
       return true;
     case 4:
       SecretAchievement(33).unlock();
+      return true;
+    case 5:
+      player.options.testServer = true;
+      GameUI.notify.info("You have successfully entered the test server! Make sure you have a backup! Thanks!")
       return true;
     default:
       return false;

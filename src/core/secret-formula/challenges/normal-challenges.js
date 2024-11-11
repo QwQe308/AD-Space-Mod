@@ -66,7 +66,7 @@ export const normalChallenges = [
     legacyId: 10,
     isQuickResettable: false,
     description: () => `upgrading each Antimatter Dimension costs the Antimatter Dimension ${formatInt(2)} tiers ` +
-      "below it instead of antimatter. Antimatter Dimension prices are modified.",
+      "below it instead of antimatter. Antimatter Dimension prices are FURTHER modified.",
     name: "6th Antimatter Dimension Autobuyer",
     reward: "Upgradeable 6th Antimatter Dimension Autobuyer",
     lockedAt: DC.D2,

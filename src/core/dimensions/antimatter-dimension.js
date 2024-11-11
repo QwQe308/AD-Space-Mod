@@ -1,5 +1,6 @@
 import { DC } from "../constants";
 import { SpaceResearchRifts } from "../globals";
+import { TimeStudy } from "../time-studies/normal-time-study";
 
 import { DimensionState } from "./dimension";
 
@@ -32,7 +33,7 @@ export function antimatterDimensionCommonMultiplier() {
     Achievement(84),
     Achievement(91),
     Achievement(92),
-    TimeStudy(91),
+    //TimeStudy(91),
     TimeStudy(101),
     TimeStudy(161),
     TimeStudy(193),
@@ -94,7 +95,7 @@ function applyNDMultipliers(mult, tier) {
 
   let buy10Value;
   if (Laitela.continuumActive) {
-    buy10Value = AntimatterDimension(tier).continuumValue.div(10);
+    buy10Value = AntimatterDimension(tier).continuumValue;
   } else {
     buy10Value = Decimal.floor(AntimatterDimension(tier).bought.div(10));
   }
@@ -106,7 +107,6 @@ function applyNDMultipliers(mult, tier) {
     AntimatterDimension(tier).infinityUpgrade,
     BreakInfinityUpgrade.infinitiedMult
   );
-  infinitiedMult = infinitiedMult.pow(TimeStudy(31).effectOrDefault(1));
   multiplier = multiplier.times(infinitiedMult);
 
   if (isSCRunningOnTier(4, 1))
@@ -348,10 +348,10 @@ class AntimatterDimensionState extends DimensionState {
     const BASE_COST_MULTIPLIERS = [null, DC.E3, DC.E4, DC.E5, DC.E6, DC.E8, DC.E10, DC.E12, DC.E15];
     this._baseCostMultiplier = BASE_COST_MULTIPLIERS[tier];
     // eslint-disable-next-line max-len
-    const C6_BASE_COSTS = [null, DC.E1, DC.E2, DC.E2, DC.E2.times(5), DC.E3.times(2.5), DC.E4.times(2), DC.E5.times(2), DC.E6.times(4)];
+    const C6_BASE_COSTS = [null, DC.E1, DC.E2, DC.E2, DC.E3, DC.E3.times(5), DC.E4.times(4), DC.E5.times(8), DC.E7.times(1.6)];
     this._c6BaseCost = C6_BASE_COSTS[tier];
     // eslint-disable-next-line max-len
-    const C6_BASE_COST_MULTIPLIERS = [null, DC.E3, DC.E3.times(5), DC.E4, DC.E4.times(1.2), DC.E4.times(1.8), DC.E4.times(2.6), DC.E4.times(3.2), DC.E4.times(4.2)];
+    const C6_BASE_COST_MULTIPLIERS = [null, DC.E3, DC.E3.times(5), DC.E4, DC.E4.times(2), DC.E4.times(4), DC.E4.times(8), DC.E5.times(1.6), DC.E5.times(3.2)];
     this._c6BaseCostMultiplier = C6_BASE_COST_MULTIPLIERS[tier];
   }
 
@@ -497,7 +497,7 @@ class AntimatterDimensionState extends DimensionState {
     // It's safe to use dimension.currencyAmount because this is
     // a dimension-only method (so don't just copy it over to tickspeed).
     // We need to use dimension.currencyAmount here because of different costs in NC6.
-    const contVal = this.costScale.getContinuumValue(this.currencyAmount, DC.E1).mul(10);
+    const contVal = this.costScale.getContinuumValue(this.currencyAmount, DC.E1);
     return contVal ? contVal.times(Laitela.matterExtraPurchaseFactor) : DC.D0;
   }
 
@@ -506,7 +506,7 @@ class AntimatterDimensionState extends DimensionState {
    */
   get continuumAmount() {
     if (!Laitela.continuumActive) return DC.D0;
-    return this.continuumValue.floor();
+    return this.continuumValue.mul(10).floor();
   }
 
   /**
@@ -663,6 +663,7 @@ export const AntimatterDimensions = {
 
     mult = mult.timesEffectsOf(
       InfinityUpgrade.buy10Mult,
+      TimeStudy(83),
       Achievement(58)
     ).times(getAdjustedGlyphEffect("powerbuy10"));
 
