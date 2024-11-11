@@ -106,6 +106,10 @@ export default {
       ];
       return { color: `rgb(${rgb.join(",")})` };
     },
+    eternityRequest() {
+      if (isSCRunningOnTierOrHigher(6, 1)) return GameUI.notify.error("Manually eternity is disabled in SC6");
+      eternityResetRequest();
+    },
   },
   methods: {
     update() {
@@ -171,10 +175,6 @@ export default {
       this.failedRestriction = status.failedRestriction;
       this.hasMoreCompletions = status.hasMoreCompletions;
       this.nextGoalAt.copyFrom(status.nextGoalAt);
-    },
-    eternityRequest() {//this has its upload failed idk why
-      if (isSCRunningOnTierOrHigher(6, 1)) return GameUI.notify.error("Manually eternity is disabled in SC6");
-      eternityResetRequest();
     },
   },
 };
