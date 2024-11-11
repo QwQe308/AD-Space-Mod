@@ -172,7 +172,7 @@ export default {
       this.hasMoreCompletions = status.hasMoreCompletions;
       this.nextGoalAt.copyFrom(status.nextGoalAt);
     },
-    eternityRequest() {
+    eternityRequest() {//this has its upload failed idk why
       if (isSCRunningOnTierOrHigher(6, 1)) return GameUI.notify.error("Manually eternity is disabled in SC6");
       eternityResetRequest();
     },
