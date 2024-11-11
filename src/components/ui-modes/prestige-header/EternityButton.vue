@@ -172,7 +172,7 @@ export default {
       this.hasMoreCompletions = status.hasMoreCompletions;
       this.nextGoalAt.copyFrom(status.nextGoalAt);
     },
-    eternity() {
+    eternityReq() {
       if (isSCRunningOnTierOrHigher(6, 1)) return GameUI.notify.error("Manually eternity is disabled in SC6");
       eternityResetRequest();
     },
@@ -196,7 +196,7 @@ const EP_BUTTON_DISPLAY_TYPE = {
     v-if="isVisible"
     :class="buttonClassObject"
     class="o-prestige-button"
-    onclick="eternity()"
+    onclick="eternityReq()"
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
