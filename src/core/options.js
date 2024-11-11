@@ -59,7 +59,6 @@ const secretImports = [
 
 export function secretImportIndex(data) {
   const sha = sha512_256(data.replace(/\s/gu, "").toUpperCase());
-  console.log(sha)
   return secretImports.indexOf(sha);
 }
 
