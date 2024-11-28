@@ -1100,7 +1100,7 @@ export const Player = {
 
   get tickSpeedMultDecrease() {
     return GameCache.tickSpeedMultDecrease.value;
-  },
+  },//test
 
   get dimensionMultDecrease() {
     return GameCache.dimensionMultDecrease.value;
