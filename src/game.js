@@ -146,7 +146,7 @@ function totalEPMult() {
     EternityUpgrade.epMult,
     TimeStudy(61),
     TimeStudy(93),
-    TimeStudy(103),
+    //TimeStudy(103),
     TimeStudy(122),
     TimeStudy(121),
     TimeStudy(123),
