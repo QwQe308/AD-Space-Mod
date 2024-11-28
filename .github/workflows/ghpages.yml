@@ -1,9 +1,9 @@
 name: Build with Vite and Deploy on Github Pages
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "testBranch" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "testBranch" ]
 jobs:
   build:
     runs-on: ubuntu-latest
