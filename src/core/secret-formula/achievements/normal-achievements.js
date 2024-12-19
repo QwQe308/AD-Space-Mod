@@ -1062,7 +1062,7 @@ export const normalAchievements = [
     checkRequirement: () => Replicanti.amount.gt("1.8e308"),
     checkEvent: GAME_EVENT.REPLICANTI_TICK_AFTER,
     get reward() {
-      return `Replicanti Galaxies divide your Replicanti by ${format(1e60, 1, 0)} 
+      return `Replicanti Galaxies divide your Replicanti by ${format(1e120, 1, 0)} 
       instead of resetting them to ${formatInt(1)}.`;
     },
   },

@@ -699,7 +699,7 @@ export const Replicanti = {
       return new Decimal(player.replicanti.galaxies);
     },
     get divisor() {
-      if (Achievement(126).isUnlocked) return new Decimal(1e60);
+      if (Achievement(126).isUnlocked) return new Decimal(1e120);
       return false;
     },
     get extra() {
