@@ -147,8 +147,8 @@ export const normalTimeStudies = [
     cost: DC.D3,
     requirement: [51],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `You gain ${formatX(6)} more Eternity Points`,
-    effect: 6,
+    description: () => `You gain ${formatX(10)} more Eternity Points`,
+    effect: 10,
   },
   {
     id: 71,
