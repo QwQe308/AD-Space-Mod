@@ -37,7 +37,7 @@ export const DC = deepFreeze({
   D0_95:                new Decimal("0.95"),
   D0_965:               new Decimal("0.965"),
   D1:                   new Decimal("1"),
-  D1_00001:            new Decimal("1.00001"),
+  D1_000012:            new Decimal("1.000012"),
   D1_00038:             new Decimal("1.00038"),
   D1_0005:              new Decimal("1.0005"),
   D1_0025:              new Decimal("1.0025"),

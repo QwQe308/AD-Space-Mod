@@ -9,7 +9,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Eternities",
       current: () => Currency.eternities.value,
-      required: completions => new Decimal(2000 + Math.min(completions, Enslaved.isRunning ? 999 : 4) * 2000),
+      required: completions => new Decimal(10000 + Math.min(completions, Enslaved.isRunning ? 999 : 4) * 10000),
       formatValue: formatInt
     }
   },
@@ -45,7 +45,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Infinities",
       current: () => Currency.infinitiesTotal.value,
-      required: completions => new Decimal(1e20 * 1e3 ** Math.min(completions, 4)),
+      required: completions => new Decimal(1e14 * 1e2 ** Math.min(completions, 4)),
       formatValue: value => formatInt(Math.floor(value.toNumber()))
     }
   },

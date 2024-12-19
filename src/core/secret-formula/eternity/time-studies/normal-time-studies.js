@@ -196,7 +196,7 @@ export const normalTimeStudies = [
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boosts affect Infinity Dimensions",
-    effect: () => DC.D1_00001.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
+    effect: () => DC.D1_000012.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
     cap: DC.E1E7,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -284,12 +284,14 @@ export const normalTimeStudies = [
         else {
           const n = text[i].charCodeAt();
           // Essentially seeded randomness so that the static parts of the randomized text are deterministic
-          garbled += String.fromCharCode( n + Math.floor(Math.random()*4) - 2 );
+          garbled += String.fromCharCode( n + Math.floor(Math.random()*3) - 1 );
         }
       }
 
       randomDelay = 30
       randomStr = garbled
+
+      if(player.options.breakPlaceHolder) garbled += `(IP formula improves to ^1/285)`
       return garbled;
     }
   },
