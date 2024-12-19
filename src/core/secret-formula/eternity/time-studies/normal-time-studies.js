@@ -124,7 +124,7 @@ export const normalTimeStudies = [
     requirement: [32],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => `Infinty Dimensions can be bought after cap, with cost multplied by 1e256`,
-    effect: 1e308,
+    effect: 1e256,
   },
   {
     id: 51,
@@ -147,8 +147,8 @@ export const normalTimeStudies = [
     cost: DC.D3,
     requirement: [51],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `You gain ${formatX(15)} more Eternity Points`,
-    effect: 15,
+    description: () => `You gain ${formatX(6)} more Eternity Points`,
+    effect: 6,
   },
   {
     id: 71,
@@ -162,7 +162,7 @@ export const normalTimeStudies = [
   },
   {
     id: 72,
-    cost: new Decimal(6),
+    cost: new Decimal(5),
     requirement: [
       61, () => Perk.studyECRequirement.isBought || (!EternityChallenge(11).isUnlocked && !EternityChallenge(12).isUnlocked),
     ],
@@ -174,7 +174,7 @@ export const normalTimeStudies = [
   },
   {
     id: 73,
-    cost: DC.D8,
+    cost: DC.D6,
     requirement: [61, () => Perk.studyECRequirement.isBought || !EternityChallenge(11).isUnlocked],
     reqType: TS_REQUIREMENT_TYPE.DIMENSION_PATH,
     description: "Dimensional Sacrifice affects 3rd Time Dimension with greatly reduced effect",
@@ -192,7 +192,7 @@ export const normalTimeStudies = [
   },
   {
     id: 82,
-    cost: new Decimal(6),
+    cost: new Decimal(5),
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boosts affect Infinity Dimensions",
@@ -202,11 +202,11 @@ export const normalTimeStudies = [
   },
   {
     id: 83,
-    cost: DC.D8,
+    cost: DC.D6,
     requirement: [73],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boost & Buy-10 multiplier based on tick upgrades gained from TDs",
-    effect: () => DC.D1_0006.pow(player.totalTickGained).mul(player.totalTickGained.div(250).add(1)),
+    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(player.totalTickGained.div(250).add(1)),
     cap: DC.E10,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -216,13 +216,13 @@ export const normalTimeStudies = [
     requirement: [81],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Research speed multiplier based on time spent in this Eternity",
-    effect: () => Decimal.pow10(Time.thisEternity.totalMinutes.mul(4).pow(0.8)),
+    effect: () => Decimal.pow10(Time.thisEternity.totalMinutes.mul(4).pow(0.75)),
     cap: DC.E25,
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
     id: 92,
-    cost: DC.D6,
+    cost: DC.D5,
     requirement: [82],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Infinity Dimension multiplier & Research speed multplier based on fastest Eternity time",
@@ -232,7 +232,7 @@ export const normalTimeStudies = [
   },
   {
     id: 93,
-    cost: new Decimal(8),
+    cost: new Decimal(6),
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Time Dimension multiplier & EP multplier based on tick upgrades gained",
@@ -250,7 +250,7 @@ export const normalTimeStudies = [
   },
   {
     id: 102,
-    cost: new Decimal(6),
+    cost: new Decimal(5),
     requirement: [92],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Replicanti Galaxies boost Research speed",
@@ -259,10 +259,10 @@ export const normalTimeStudies = [
   },
   {
     id: 103,
-    cost: new Decimal(8),
+    cost: new Decimal(6),
     requirement: [93],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: "Time Dimension equal to Replicanti Galaxy amount",
+    description: "Time Dimension Multplier equal to Replicanti Galaxy amount",
     effect: () => Decimal.max(player.replicanti.galaxies, 1),
     formatEffect: (value) => formatX(value, 2, 0),
   },
@@ -277,7 +277,7 @@ export const normalTimeStudies = [
         return randomStr
       }
       // Input might be either text or number
-      const text = `Doom is predestined; End is unescapable.`;
+      const text = `A Memorial for Memories`;
       let garbled = "";
       for (let i = 0; i < text.length; i++) {
         if (text[i] === " ") garbled += " ";

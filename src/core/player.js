@@ -19,6 +19,7 @@ function getGlyphTypes() {
 window.player = {
   version: 102,
   //MOD
+  imaginaryInfluence: new Set(),
   light: {
     inMirror: false,
     prisms: 0,

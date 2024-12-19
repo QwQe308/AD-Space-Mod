@@ -4,24 +4,24 @@ export const eternityUpgrades = {
   idMultEP: {
     id: 1,
     cost: 5,
-    description: () => `Infinity Dimension multiplier based on unspent Eternity Points (x+${formatInt(1)})`,
-    effect: () => Currency.eternityPoints.value.plus(1),
+    description: () => `Infinity Dimension multiplier based on unspent Eternity Points (x+${formatInt(3)})`,
+    effect: () => Currency.eternityPoints.value.plus(3),
     formatEffect: value => formatX(value, 2, 1)
   },
   idMultEternities: {
     id: 2,
     cost: 10,
     description: () => `Infinity Dimension multiplier based on Eternities
-      ((x/${formatInt(25)})^log4(${formatInt(5)}x), softcap at ${format(1e4)} Eternities)`,
+      ((x/${formatInt(40)})^log4(${formatInt(3)}x), softcap at ${format(1e4)} Eternities)`,
     effect() {
       const log4 = Math.log(4);
       const eterPreCap = Currency.eternities.value.min(1e4);
-      const base = eterPreCap.div(25).add(1);
-      const pow = Decimal.ln(eterPreCap.mul(5).add(1)).div(log4);
+      const base = eterPreCap.div(40).add(1);
+      const pow = Decimal.ln(eterPreCap.mul(3).add(1)).div(log4);
       const multPreCap = Decimal.pow(base, pow);
       const eterPostCap = Currency.eternities.value.sub(1e4).max(1);
-      const mult1 = eterPostCap.divide(25).plus(1);
-      const mult2 = eterPostCap.times(5).plus(1).ln().div(log4);
+      const mult1 = eterPostCap.divide(40).plus(1);
+      const mult2 = eterPostCap.times(3).plus(1).ln().div(log4);
       const multPostCap = mult1.times(mult2).clampMin(1);
       return multPostCap.times(multPreCap);
     },
@@ -34,7 +34,7 @@ export const eternityUpgrades = {
     // The cap limits this at a lower value, but we also need an explicit cap here because very old versions have
     // allowed EC12 to make all the challenge records sum to zero (causing a division by zero here)
     effect: () => DC.D2.pow(DC.E1.div(Decimal.clampMin(Time.infinityChallengeSum.totalSeconds, 0.1))),
-    cap: DC.D2P15D0_61,
+    cap: DC.D2P12D0_61,
     formatEffect: value => formatX(value, 2, 1)
   },
   tdMultAchs: {

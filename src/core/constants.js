@@ -39,7 +39,7 @@ export const DC = deepFreeze({
   D1:                   new Decimal("1"),
   D1_000013:            new Decimal("1.000013"),
   D1_00038:             new Decimal("1.00038"),
-  D1_0006:              new Decimal("1.0006"),
+  D1_0005:              new Decimal("1.0005"),
   D1_0025:              new Decimal("1.0025"),
   D1_005:               new Decimal("1.005"),
   D1_007:               new Decimal("1.007"),
@@ -85,7 +85,7 @@ export const DC = deepFreeze({
 
   // Calculations for precise numbers.
   C1D1_1245:                Decimal.div(1, 1.1245),
-  D2P15D0_61:               Decimal.pow(2, 15 / 0.61),
+  D2P12D0_61:               Decimal.pow(2, 12 / 0.61),
   C2P30:                    Decimal.pow(2, 30),
   C2P1024:                  Decimal.pow(2, 1024),
   C10P16000D3:              Decimal.pow(10, 16000 / 3),
