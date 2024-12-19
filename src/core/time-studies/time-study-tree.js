@@ -229,6 +229,9 @@ export class TimeStudyTree {
       case TS_REQUIREMENT_TYPE.DIMENSION_PATH:
         reqSatisfied = config.requirement.every(r => check(r)) && this.currDimPathCount < this.allowedDimPathCount;
         break;
+      case TS_REQUIREMENT_TYPE.PLACE_HOLDER:
+        reqSatisfied = player.options.breakPlaceHolder && config.requirement.some(r => check(r))
+        break;
       default:
         throw Error(`Unrecognized TS requirement type: ${this.reqType}`);
     }

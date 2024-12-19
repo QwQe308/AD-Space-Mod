@@ -10,7 +10,7 @@ export const ReplicantiGrowth = {
   get scaleFactor() {
     if (PelleStrikes.eternity.hasStrike && Replicanti.amount.gte(DC.E2000)) return 10;
     if (Pelle.isDoomed) return 2;
-    if (!TimeStudy(192).isBought) return 3;
+    if (!TimeStudy(192).isBought) return 3.2;
     return AlchemyResource.cardinality.effectValue;
   },
 };

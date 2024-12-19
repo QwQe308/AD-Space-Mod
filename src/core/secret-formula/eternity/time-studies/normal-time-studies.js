@@ -114,8 +114,8 @@ export const normalTimeStudies = [
     cost: DC.D4,
     requirement: [31],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `All Galaxies give a ${formatX(DC.D1_4, 1, 1)} multiplier to Infinity Points gained`,
-    effect: () => DC.D1_4.pow(player.dilation.totalTachyonGalaxies.add(Replicanti.galaxies.total).add(player.galaxies)),
+    description: () => `All Galaxies give a ${formatX(DC.D1_36, 1, 1)} multiplier to Infinity Points gained`,
+    effect: () => DC.D1_36.pow(player.dilation.totalTachyonGalaxies.add(Replicanti.galaxies.total).add(player.galaxies)),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -156,7 +156,7 @@ export const normalTimeStudies = [
     requirement: [61, () => Perk.studyECRequirement.isBought || !EternityChallenge(12).isUnlocked],
     reqType: TS_REQUIREMENT_TYPE.DIMENSION_PATH,
     description: "Dimensional Sacrifice affects all other Antimatter Dimensions & AM with reduced effect",
-    effect: () => Sacrifice.totalBoost.pow(0.35).clampMin(1),
+    effect: () => Sacrifice.totalBoost.pow(0.33).clampMin(1),
     cap: DC.E210000,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -168,7 +168,7 @@ export const normalTimeStudies = [
     ],
     reqType: TS_REQUIREMENT_TYPE.DIMENSION_PATH,
     description: "Dimensional Sacrifice affects 4th Infinity Dimension with greatly reduced effect",
-    effect: () => Sacrifice.totalBoost.pow(0.05).clampMin(1),
+    effect: () => Sacrifice.totalBoost.pow(0.04).clampMin(1),
     cap: DC.E30000,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -178,7 +178,7 @@ export const normalTimeStudies = [
     requirement: [61, () => Perk.studyECRequirement.isBought || !EternityChallenge(11).isUnlocked],
     reqType: TS_REQUIREMENT_TYPE.DIMENSION_PATH,
     description: "Dimensional Sacrifice affects 3rd Time Dimension with greatly reduced effect",
-    effect: () => Sacrifice.totalBoost.pow(0.006).clampMin(1),
+    effect: () => Sacrifice.totalBoost.pow(0.005).clampMin(1),
     cap: DC.E1300,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -196,7 +196,7 @@ export const normalTimeStudies = [
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boosts affect Infinity Dimensions",
-    effect: () => DC.D1_000013.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
+    effect: () => DC.D1_00001.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
     cap: DC.E1E7,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -206,7 +206,7 @@ export const normalTimeStudies = [
     requirement: [73],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boost & Buy-10 multiplier based on tick upgrades gained from TDs",
-    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(player.totalTickGained.div(250).add(1)),
+    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(player.totalTickGained.div(325).add(1)),
     cap: DC.E10,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -236,7 +236,7 @@ export const normalTimeStudies = [
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Time Dimension multiplier & EP multplier based on tick upgrades gained",
-    effect: () => Decimal.pow(player.totalTickGained, 0.4).clampMin(1),
+    effect: () => Decimal.pow(player.totalTickGained, 0.33).clampMin(1),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -254,7 +254,7 @@ export const normalTimeStudies = [
     requirement: [92],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Replicanti Galaxies boost Research speed",
-    effect: () => DC.E1.pow(player.replicanti.galaxies),
+    effect: () => DC.D5.pow(player.replicanti.galaxies),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -491,7 +491,7 @@ export const normalTimeStudies = [
     description: () =>
       Enslaved.isRunning
         ? "There is not enough space in this Reality"
-        : `Uncap replicanti, and Replicanti's post-cap growth slowdown is much slower.(3x -> 1.2x)`,
+        : `Uncap replicanti, and Replicanti's post-cap growth slowdown is much slower.(3.2x -> 1.2x)`,
   },
   {
     id: 193,
