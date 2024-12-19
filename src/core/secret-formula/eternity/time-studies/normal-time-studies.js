@@ -293,7 +293,8 @@ export const normalTimeStudies = [
 
       if(player.options.breakPlaceHolder) garbled += `(IP formula improves to ^1/285)`
       return garbled;
-    }
+    },
+    effect: 285,//if breaks
   },
   {
     id: 121,
