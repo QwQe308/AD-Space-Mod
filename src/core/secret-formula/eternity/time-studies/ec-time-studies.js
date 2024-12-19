@@ -45,7 +45,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Infinities",
       current: () => Currency.infinitiesTotal.value,
-      required: completions => new Decimal(1e11 * 10 ** Math.min(completions, 4)),
+      required: completions => new Decimal(1e20 * 1e3 ** Math.min(completions, 4)),
       formatValue: value => formatInt(Math.floor(value.toNumber()))
     }
   },

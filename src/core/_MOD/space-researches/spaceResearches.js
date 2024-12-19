@@ -337,13 +337,13 @@ export const spaceResearch = {
     costScale() {
       return new ExponentialCostScaling({
         baseCost: new Decimal(1e150),
-        baseIncrease: new Decimal(1e25),
-        costScale: new Decimal(10),
+        baseIncrease: new Decimal(1e20),
+        costScale: new Decimal(1e5),
         purchasesBeforeScaling: new Decimal(0),
       });
     },
     effectValue: (level) => {
-      return level.add(1).mul(level.pow_base(1.1));
+      return level.add(1).mul(level.pow_base(1.06));
     },
     effect: (value) => {
       return `x ${format(value)} Eternities`;
