@@ -114,8 +114,8 @@ export const normalTimeStudies = [
     cost: DC.D4,
     requirement: [31],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `All Galaxies give a ${formatX(DC.D1_36, 1, 1)} multiplier to Infinity Points gained`,
-    effect: () => DC.D1_36.pow(player.dilation.totalTachyonGalaxies.add(Replicanti.galaxies.total).add(player.galaxies)),
+    description: () => `All Galaxies give a ${formatX(DC.D1_4, 1, 1)} multiplier to Infinity Points gained`,
+    effect: () => DC.D1_4.pow(player.dilation.totalTachyonGalaxies.add(Replicanti.galaxies.total).add(player.galaxies)),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
