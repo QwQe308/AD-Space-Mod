@@ -12,7 +12,7 @@ export const eternityUpgrades = {
     id: 2,
     cost: 10,
     description: () => `Infinity Dimension multiplier based on Eternities
-      ((x/${formatInt(25)})^log5(${formatInt(5)}x), softcap at ${format(2500)} Eternities)`,
+      ((x/${formatInt(25)})^log5(${formatInt(5)}x), softcap at ${format(2500,1)} Eternities)`,
     effect() {
       const log5 = Math.log(5);
       const eterPreCap = Currency.eternities.value.min(2500);
