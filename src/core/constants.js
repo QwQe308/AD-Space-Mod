@@ -85,7 +85,7 @@ export const DC = deepFreeze({
 
   // Calculations for precise numbers.
   C1D1_1245:                Decimal.div(1, 1.1245),
-  D2P12D0_61:               Decimal.pow(2, 12 / 0.61),
+  D2P15D0_61:               Decimal.pow(2, 15 / 0.61),
   C2P30:                    Decimal.pow(2, 30),
   C2P1024:                  Decimal.pow(2, 1024),
   C10P16000D3:              Decimal.pow(10, 16000 / 3),
@@ -333,6 +333,7 @@ window.TS_REQUIREMENT_TYPE = {
   AT_LEAST_ONE: 0,
   ALL: 1,
   DIMENSION_PATH: 2,
+  PLACE_HOLDER: 3,
 };
 
 window.ALCHEMY_RESOURCE = {

@@ -54,8 +54,13 @@ const secretImports = [
   "be88e62eb68758cd7381104977c0d3d5d81e19c72a848f0d79d1963c1e39221f",
   "c784c9c0a82b5f3c13884842fa6e6a8f5aed994ef401e6476c30b1adfe439b22",
   "4c948c46d4c551932ed6f056c7b22aa8023af115975123fe6ef2949775632802",
-  "93628baeef8397c6747c0ecc08315f7aaf974c994f09cb188e3550422b9f3d58",
+  "93628baeef8397c6747c0ecc08315f7aaf974c994f09cb188e3550422b9f3d58",//test server
+  "eff3ada4db637b706fc092aaabdaa4af27f6c0b48bef146fcf8fec8bb86433dd",//placeholder breaking
 ];
+
+export function getSecretCode(data){
+  return sha512_256(data.replace(/\s/gu, "").toUpperCase())
+}
 
 export function secretImportIndex(data) {
   const sha = sha512_256(data.replace(/\s/gu, "").toUpperCase());
@@ -90,6 +95,10 @@ export function tryImportSecret(data) {
     case 5:
       player.options.testServer = true;
       GameUI.notify.info("You have successfully entered the test server! Make sure you have a backup! Thanks!")
+      return true;
+    case 6:
+      player.options.breakPlaceHolder = true;
+      GameUI.notify.info("Something has happened... You have gained access to further unbalanced contents. These may not exist in further versions.")
       return true;
     default:
       return false;

@@ -56,6 +56,8 @@ export class NormalTimeStudyState extends TimeStudyState {
         // exact situations seem unclear, but it may be an interaction between the automator and offline progress
         return this.config.requirement.every(r => check(r)) && currTree &&
           currTree.currDimPathCount < currTree.allowedDimPathCount;
+      case TS_REQUIREMENT_TYPE.PLACE_HOLDER:
+        return player.options.breakPlaceHolder && this.config.requirement.some(r => check(r))
       default:
         throw Error(`Unrecognized TS requirement type: ${this.reqType}`);
     }

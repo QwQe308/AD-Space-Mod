@@ -254,7 +254,7 @@ export const normalTimeStudies = [
     requirement: [92],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Replicanti Galaxies boost Research speed",
-    effect: () => DC.E2.pow(player.replicanti.galaxies),
+    effect: () => DC.E1.pow(player.replicanti.galaxies),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -268,16 +268,16 @@ export const normalTimeStudies = [
   },
   {
     id: 111,
-    cost: new Decimal(36),
-    requirement: [111]/* [101, 102, 103] */,//placeholder
-    reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
+    cost: new Decimal(30),
+    requirement: [101, 102, 103],//placeholder
+    reqType: TS_REQUIREMENT_TYPE.PLACE_HOLDER,
     description: () => {
       if(randomDelay){
         randomDelay --
         return randomStr
       }
       // Input might be either text or number
-      const text = `A Memorial for Memories`;
+      const text = `Memorial for Memories`;
       let garbled = "";
       for (let i = 0; i < text.length; i++) {
         if (text[i] === " ") garbled += " ";
@@ -456,7 +456,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => `Time Shard requirement for the next Tickspeed upgrade goes up slower
       ${formatX(1.25, 0, 2)} ➜ ${formatX(1.2, 0, 2)}`,
-    effect: () => 1.25,
+    effect: () => 1.2,
   },
   {
     id: 181,
@@ -479,9 +479,9 @@ export const normalTimeStudies = [
     cost: new Decimal(400),
     requirement: [181, () => EternityChallenge(10).completions > 0],
     reqType: TS_REQUIREMENT_TYPE.ALL,
-    description: () => `After Eternity you permanently keep ${formatPercents(0.05)}
+    description: () => `After Eternity you permanently keep ${formatPercents(0.1)}
     of your Infinities as Banked Infinities`,
-    effect: () => Currency.infinities.value.times(0.05).floor(),
+    effect: () => Currency.infinities.value.times(0.1).floor(),
   },
   {
     id: 192,
@@ -491,7 +491,7 @@ export const normalTimeStudies = [
     description: () =>
       Enslaved.isRunning
         ? "There is not enough space in this Reality"
-        : `Uncap replicanti, and Replicanti's post-cap growth slowdown is much slower.`,
+        : `Uncap replicanti, and Replicanti's post-cap growth slowdown is much slower.(3x -> 1.2x)`,
   },
   {
     id: 193,
@@ -499,7 +499,7 @@ export const normalTimeStudies = [
     requirement: [181, () => EternityChallenge(10).completions > 0],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     description: "Antimatter Dimension multiplier based on Eternities",
-    effect: () => DC.E13000.pow(Currency.eternities.value.div(1e6).clampMax(1)),
+    effect: () => DC.E13000.pow(Currency.eternities.value.div(1e5).clampMax(1)),
     cap: DC.E13000,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -533,8 +533,8 @@ export const normalTimeStudies = [
     cost: new Decimal(200),
     requirement: [193],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `You gain Replicanti ${formatInt(20)} times faster`,
-    effect: 20,
+    description: () => `You gain Replicanti ${formatInt(40)} times faster`,
+    effect: 40,
   },
   {
     id: 214,
@@ -544,8 +544,8 @@ export const normalTimeStudies = [
     description: "Dimensional Sacrifice boosts the 8th Antimatter Dimension even more",
     effect: () => {
       const totalBoost = Sacrifice.totalBoost;
-      const firstPart = totalBoost.pow(7.6).clampMaxExponent(44000);
-      const secondPart = totalBoost.pow(1.05).clampMaxExponent(120000);
+      const firstPart = totalBoost.pow(15).clampMaxExponent(44000);
+      const secondPart = totalBoost.pow(1.15).clampMaxExponent(120000);
       return firstPart.times(secondPart);
     },
     cap: DC.E164000,
@@ -579,8 +579,8 @@ export const normalTimeStudies = [
     requirement: [212],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [224],
-    description: () => `Distant Galaxy cost scaling starts ${formatInt(7)} Galaxies later`,
-    effect: 7,
+    description: () => `Distant Galaxy cost scaling starts ${formatInt(8)} Galaxies later`,
+    effect: 8,
   },
   {
     id: 224,
@@ -592,9 +592,9 @@ export const normalTimeStudies = [
     description() {
       const effect = TimeStudy(224).effectValue;
       return `Distant Galaxy cost scaling starts ${quantifyInt("Galaxy", effect)} later
-        (${formatInt(1)} per ${formatInt(2000)} Dim Boosts)`;
+        (${formatInt(1)} per ${formatInt(2500)} Dim Boosts)`;
     },
-    effect: () => Decimal.floor(DimBoost.totalBoosts.div(2000)),
+    effect: () => Decimal.floor(DimBoost.totalBoosts.div(2500)),
   },
   {
     id: 225,
@@ -604,7 +604,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [226],
     description: "You gain extra Replicanti Galaxies based on Replicanti amount",
-    effect: () => Decimal.floor(Replicanti.amount.clampMin(1).log10().div(1000)),
+    effect: () => Decimal.floor(Replicanti.amount.clampMin(1).log10().div(1200)),
     formatEffect: (value) => `+${formatInt(value)} RG`,
   },
   {
@@ -615,7 +615,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [225],
     description: "You gain extra Replicanti Galaxies based on their max",
-    effect: () => Decimal.floor(player.replicanti.boughtGalaxyCap.div(15)),
+    effect: () => Decimal.floor(player.replicanti.boughtGalaxyCap.div(14)),
     formatEffect: (value) => `+${formatInt(value)} RG`,
   },
   {
@@ -639,7 +639,7 @@ export const normalTimeStudies = [
     description: () => `Dimensional Sacrifice formula scales better
       ${Sacrifice.getSacrificeDescription({ TimeStudy228: false })} ➜
       ${Sacrifice.getSacrificeDescription({ TimeStudy228: true })}`,
-    effect: 0.2,
+    effect: 0.24,
   },
   {
     id: 231,
@@ -660,7 +660,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [231],
     description: "All Galaxies are stronger based on Antimatter Galaxies",
-    effect: () => Decimal.pow(player.galaxies.div(1000).add(1), 0.2),
+    effect: () => Decimal.pow(player.galaxies.div(1125).add(1), 0.2),
     formatEffect: (value) => `+${formatPercents(value.sub(1), 3)}`,
   },
   {
@@ -671,7 +671,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     requiresST: [234],
     description: "Max Replicanti Galaxy upgrade is cheaper based on current Replicanti",
-    effect: () => Replicanti.amount.pow(0.3),
+    effect: () => Replicanti.amount.pow(0.33),
     formatEffect: (value) => `/ ${format(value, 1, 2)}`,
   },
   {

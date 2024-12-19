@@ -9,7 +9,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Eternities",
       current: () => Currency.eternities.value,
-      required: completions => new Decimal(20000 + Math.min(completions, Enslaved.isRunning ? 999 : 4) * 20000),
+      required: completions => new Decimal(2000 + Math.min(completions, Enslaved.isRunning ? 999 : 4) * 2000),
       formatValue: formatInt
     }
   },
@@ -21,7 +21,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Tickspeed upgrades from Time Dimensions",
       current: () => player.totalTickGained,
-      required: completions => new Decimal(1300 + Math.min(completions, 4) * 150),
+      required: completions => new Decimal(1600 + Math.min(completions, 4) * 240),
       formatValue: formatInt
     }
   },
@@ -33,7 +33,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "8th Antimatter Dimensions",
       current: () => AntimatterDimension(8).totalAmount,
-      required: completions => new Decimal(17300 + Math.min(completions, 4) * 1250),
+      required: completions => new Decimal(20000 + Math.min(completions, 4) * 1500),
       formatValue: value => formatInt(Math.floor(value.toNumber()))
     }
   },
@@ -45,7 +45,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Infinities",
       current: () => Currency.infinitiesTotal.value,
-      required: completions => new Decimal(1e8 + Math.min(completions, 4) * 2.5e7),
+      required: completions => new Decimal(1e11 * 10 ** Math.min(completions, 4)),
       formatValue: value => formatInt(Math.floor(value.toNumber()))
     }
   },
@@ -57,7 +57,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Antimatter Galaxies",
       current: () => player.galaxies,
-      required: completions => Decimal.min(completions, 4).times(14).add(160),
+      required: completions => Decimal.min(completions, 4).times(15).add(175),
       formatValue: formatInt
     }
   },

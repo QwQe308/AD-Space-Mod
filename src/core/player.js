@@ -897,6 +897,7 @@ window.player = {
   tutorialActive: true,
   options: {
     testServer: false,//***
+    breakPlaceHolder: false,//***
     news: {
       enabled: true,
       repeatBuffer: 40,
