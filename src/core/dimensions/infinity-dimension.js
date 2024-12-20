@@ -295,7 +295,7 @@ class InfinityDimensionState extends DimensionState {
     let purchasesUntilSoftcap = this.purchaseCap.sub(this.purchases);
     let purchasesUntilHardcap = DC.BEMAX;
     if (EternityChallenge(8).isRunning) {
-      purchasesUntilHardcap = Decimal.clampMin(purchasesUntilHardcap, player.eterc8ids);
+      purchasesUntilHardcap = Decimal.clampMax(purchasesUntilHardcap, player.eterc8ids);
     }
 
     let costScaling;

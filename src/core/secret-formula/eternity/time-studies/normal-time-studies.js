@@ -206,7 +206,7 @@ export const normalTimeStudies = [
     requirement: [73],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boost & Buy-10 multiplier based on tick upgrades gained from TDs",
-    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(5).sub(4).mul(player.totalTickGained.div(325).add(1)),
+    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(4).sub(3).mul(player.totalTickGained.div(325).add(1)),
     cap: DC.E10,
     formatEffect: (value) => formatX(value, 2, 1),
   },
