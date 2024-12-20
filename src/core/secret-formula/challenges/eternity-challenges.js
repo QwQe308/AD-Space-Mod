@@ -146,7 +146,7 @@ export const eternityChallenges = [
     id: 10,
     description: () => {
       let description = `Time Dimensions and Infinity Dimensions are disabled. You gain an immense boost from
-        Infinities to Antimatter Dimensions (Infinities${formatPow(2500)}). ${specialInfinityGlyphDisabledEffectText()}`;
+        Infinities to Antimatter Dimensions (Infinities${formatPow(2000)}). ${specialInfinityGlyphDisabledEffectText()}`;
       EternityChallenge(10).applyEffect(v => description += ` Currently: ${formatX(v, 2, 1)}`);
       return description;
     },
