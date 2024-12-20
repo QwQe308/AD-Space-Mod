@@ -196,7 +196,7 @@ export const normalTimeStudies = [
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boosts affect Infinity Dimensions",
-    effect: () => DC.D1_00002.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
+    effect: () => DC.D1_000016.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
     cap: DC.E1E7,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -236,7 +236,7 @@ export const normalTimeStudies = [
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Time Dimension multiplier & EP multplier based on tick upgrades gained",
-    effect: () => Decimal.pow(player.totalTickGained, 0.4).clampMin(1),
+    effect: () => Decimal.pow(player.totalTickGained, 0.4).mul(Decimal.pow(1.004, player.totalTickGained.pow(0.66))).clampMin(1),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -256,7 +256,7 @@ export const normalTimeStudies = [
     description: "Replicanti Galaxies boost Research speed",
     effect: () => DC.E1.pow(player.replicanti.galaxies),
     formatEffect: (value) => formatX(value, 2, 1),
-    cap: DC.E40,
+    cap: DC.E36,
   },
   {
     id: 103,
