@@ -256,6 +256,7 @@ export const normalTimeStudies = [
     description: "Replicanti Galaxies boost Research speed",
     effect: () => DC.E1.pow(player.replicanti.galaxies),
     formatEffect: (value) => formatX(value, 2, 1),
+    cap: DC.E40,
   },
   {
     id: 103,
@@ -458,8 +459,8 @@ export const normalTimeStudies = [
     requirement: [161, 162],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: () => `Time Shard requirement for the next Tickspeed upgrade goes up slower
-      ${formatX(1.25, 0, 2)} ➜ ${formatX(1.2, 0, 2)}`,
-    effect: () => 1.2,
+      ${formatX(1.25, 0, 2)} ➜ ${formatX(1.21, 0, 2)}`,
+    effect: () => 1.21,
   },
   {
     id: 181,

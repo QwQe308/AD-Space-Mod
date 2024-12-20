@@ -21,7 +21,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Tickspeed upgrades from Time Dimensions",
       current: () => player.totalTickGained,
-      required: completions => new Decimal(1600 + Math.min(completions, 4) * 240),
+      required: completions => new Decimal(2100 + Math.min(completions, 4) * 300),
       formatValue: formatInt
     }
   },
@@ -45,7 +45,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Infinities",
       current: () => Currency.infinitiesTotal.value,
-      required: completions => new Decimal(1e11 * 10 ** Math.min(completions, 4)),
+      required: completions => new Decimal(1e12 * 10 ** Math.min(completions, 4)),
       formatValue: value => formatInt(Math.floor(value.toNumber()))
     }
   },
@@ -57,7 +57,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Antimatter Galaxies",
       current: () => player.galaxies,
-      required: completions => Decimal.min(completions, 4).times(15).add(175),
+      required: completions => Decimal.min(completions, 4).times(15).add(180),
       formatValue: formatInt
     }
   },
@@ -69,7 +69,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Replicanti Galaxies",
       current: () => player.replicanti.galaxies,
-      required: completions => Decimal.min(completions, 4).times(5).add(40),
+      required: completions => Decimal.min(completions, 4).times(5).add(50),
       formatValue: formatInt
     }
   },
