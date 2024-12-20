@@ -146,14 +146,14 @@ export const eternityChallenges = [
     id: 10,
     description: () => {
       let description = `Time Dimensions and Infinity Dimensions are disabled. You gain an immense boost from
-        Infinities to Antimatter Dimensions (Infinities${formatPow(950)}). ${specialInfinityGlyphDisabledEffectText()}`;
+        Infinities to Antimatter Dimensions (Infinities${formatPow(2500)}). ${specialInfinityGlyphDisabledEffectText()}`;
       EternityChallenge(10).applyEffect(v => description += ` Currently: ${formatX(v, 2, 1)}`);
       return description;
     },
     goal: DC.E3000,
     pelleGoal: DC.E3200,
     goalIncrease: DC.E300,
-    effect: () => Decimal.pow(Currency.infinitiesTotal.value, 1500).clampMin(1).pow(TimeStudy(31).effectOrDefault(1)),
+    effect: () => Decimal.pow(Currency.infinitiesTotal.value, 2500).clampMin(1).pow(TimeStudy(31).effectOrDefault(1)),
     reward: {
       description: "Time Dimension multiplier based on Infinities",
       effect: completions => {
