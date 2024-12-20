@@ -196,7 +196,7 @@ export const normalTimeStudies = [
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boosts affect Infinity Dimensions",
-    effect: () => DC.D1_000016.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
+    effect: () => DC.D1_00002.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
     cap: DC.E1E7,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -206,7 +206,7 @@ export const normalTimeStudies = [
     requirement: [73],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boost & Buy-10 multiplier based on tick upgrades gained from TDs",
-    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(5).sub(4).mul(player.totalTickGained.div(250).add(1)),
+    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(5).sub(4).mul(player.totalTickGained.div(325).add(1)),
     cap: DC.E10,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -236,7 +236,7 @@ export const normalTimeStudies = [
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Time Dimension multiplier & EP multplier based on tick upgrades gained",
-    effect: () => Decimal.pow(player.totalTickGained, 0.4).mul(Decimal.pow(1.004, player.totalTickGained.pow(0.66))).clampMin(1),
+    effect: () => Decimal.pow(player.totalTickGained, 0.4).mul(Decimal.pow(1.003, player.totalTickGained.pow(0.7))).clampMin(1),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -340,7 +340,7 @@ export const normalTimeStudies = [
     effect: () => {
       const perkEffect = TimeSpan.fromMinutes(Perk.studyIdleEP.effectOrDefault(0));
       const totalSeconds = Time.thisEternity.plus(perkEffect).totalSeconds;
-      return Decimal.pow(totalSeconds.times(1.39), 0.5);
+      return Decimal.pow(totalSeconds.times(1.4), 0.5);
     },
     formatEffect: (value) => formatX(value, 1, 1),
   },
@@ -394,12 +394,12 @@ export const normalTimeStudies = [
     requiresST: [142, 143],
     description: () =>
       Perk.studyActiveEP.isBought
-        ? `You gain ${formatX(DC.E45)} more Infinity Points`
+        ? `You gain ${formatX(DC.E40)} more Infinity Points`
         : "Multiplier to Infinity Points, which decays over this Infinity",
     effect: () =>
       Perk.studyActiveEP.isBought
-        ? DC.E45
-        : DC.E45.divide(thisInfinityMult(Time.thisInfinity.totalSeconds)).clampMin(1),
+        ? DC.E40
+        : DC.E40.divide(thisInfinityMult(Time.thisInfinity.totalSeconds)).clampMin(1),
     formatEffect: (value) => (Perk.studyActiveEP.isBought ? undefined : formatX(value, 2, 1)),
   },
   {
