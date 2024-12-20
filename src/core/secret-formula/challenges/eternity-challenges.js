@@ -153,7 +153,7 @@ export const eternityChallenges = [
     goal: DC.E3000,
     pelleGoal: DC.E3200,
     goalIncrease: DC.E300,
-    effect: () => Decimal.pow(Currency.infinitiesTotal.value, 950).clampMin(1).pow(TimeStudy(31).effectOrDefault(1)),
+    effect: () => Decimal.pow(Currency.infinitiesTotal.value, 1500).clampMin(1).pow(TimeStudy(31).effectOrDefault(1)),
     reward: {
       description: "Time Dimension multiplier based on Infinities",
       effect: completions => {
