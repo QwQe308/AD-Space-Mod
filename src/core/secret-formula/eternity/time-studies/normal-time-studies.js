@@ -114,8 +114,8 @@ export const normalTimeStudies = [
     cost: DC.D4,
     requirement: [31],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `All Galaxies give a ${formatX(DC.D1_4, 1, 1)} multiplier to Infinity Points gained`,
-    effect: () => DC.D1_4.pow(player.dilation.totalTachyonGalaxies.add(Replicanti.galaxies.total).add(player.galaxies)),
+    description: () => `All Galaxies give a ${formatX(DC.D1_5, 1, 1)} multiplier to Infinity Points gained`,
+    effect: () => DC.D1_5.pow(player.dilation.totalTachyonGalaxies.add(Replicanti.galaxies.total).add(player.galaxies)),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -156,7 +156,7 @@ export const normalTimeStudies = [
     requirement: [61, () => Perk.studyECRequirement.isBought || !EternityChallenge(12).isUnlocked],
     reqType: TS_REQUIREMENT_TYPE.DIMENSION_PATH,
     description: "Dimensional Sacrifice affects all other Antimatter Dimensions & AM with reduced effect",
-    effect: () => Sacrifice.totalBoost.pow(0.33).clampMin(1),
+    effect: () => Sacrifice.totalBoost.pow(0.36).clampMin(1),
     cap: DC.E210000,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -168,7 +168,7 @@ export const normalTimeStudies = [
     ],
     reqType: TS_REQUIREMENT_TYPE.DIMENSION_PATH,
     description: "Dimensional Sacrifice affects 4th Infinity Dimension with greatly reduced effect",
-    effect: () => Sacrifice.totalBoost.pow(0.04).clampMin(1),
+    effect: () => Sacrifice.totalBoost.pow(0.05).clampMin(1),
     cap: DC.E30000,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -187,8 +187,8 @@ export const normalTimeStudies = [
     cost: DC.D4,
     requirement: [71],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `Base Dimension Boost power becomes ${formatX(20)}`,
-    effect: 20,
+    description: () => `Base Dimension Boost power becomes ${formatX(40)}`,
+    effect: 40,
   },
   {
     id: 82,
@@ -196,7 +196,7 @@ export const normalTimeStudies = [
     requirement: [72],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boosts affect Infinity Dimensions",
-    effect: () => DC.D1_000012.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
+    effect: () => DC.D1_00002.pow(Decimal.pow(DimBoost.totalBoosts, 2)),
     cap: DC.E1E7,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -206,7 +206,7 @@ export const normalTimeStudies = [
     requirement: [73],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Dimension Boost & Buy-10 multiplier based on tick upgrades gained from TDs",
-    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(player.totalTickGained.div(325).add(1)),
+    effect: () => DC.D1_0005.pow(player.totalTickGained).mul(5).sub(4).mul(player.totalTickGained.div(250).add(1)),
     cap: DC.E10,
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -216,8 +216,8 @@ export const normalTimeStudies = [
     requirement: [81],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Research speed multiplier based on time spent in this Eternity",
-    effect: () => Decimal.pow10(Time.thisEternity.totalMinutes.mul(4).pow(0.75)),
-    cap: DC.E25,
+    effect: () => Decimal.pow10(Time.thisEternity.totalMinutes.mul(5).pow(0.75)),
+    cap: DC.E40,
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -236,7 +236,7 @@ export const normalTimeStudies = [
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Time Dimension multiplier & EP multplier based on tick upgrades gained",
-    effect: () => Decimal.pow(player.totalTickGained, 0.33).clampMin(1),
+    effect: () => Decimal.pow(player.totalTickGained, 0.4).clampMin(1),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -254,7 +254,7 @@ export const normalTimeStudies = [
     requirement: [92],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     description: "Replicanti Galaxies boost Research speed",
-    effect: () => DC.D5.pow(player.replicanti.galaxies),
+    effect: () => DC.E1.pow(player.replicanti.galaxies),
     formatEffect: (value) => formatX(value, 2, 1),
   },
   {
@@ -289,12 +289,12 @@ export const normalTimeStudies = [
       }
 
       randomDelay = 30
+      if(player.options.breakPlaceHolder) garbled += `(IP formula improves to ^1/280 & uncaps T3 Research "Continuous Dimensions" "Powered Power")`
       randomStr = garbled
 
-      if(player.options.breakPlaceHolder) garbled += `(IP formula improves to ^1/285)`
       return garbled;
     },
-    effect: 285,//if breaks
+    effect: 280,//if breaks
   },
   {
     id: 121,
@@ -494,7 +494,7 @@ export const normalTimeStudies = [
     description: () =>
       Enslaved.isRunning
         ? "There is not enough space in this Reality"
-        : `Uncap replicanti, and Replicanti's post-cap growth slowdown is much slower.(3.2x -> 1.2x)`,
+        : `Uncap replicanti, and Replicanti's post-cap growth slowdown is much slower.(3x -> 1.2x)`,
   },
   {
     id: 193,

@@ -50,12 +50,12 @@ class SpaceResearchRift extends GameMechanicState {
     if (this.config.costScale) {
       let max = this.costScale.getMaxBought(DC.D0, this.progress, DC.D1);
       if (max === null) return DC.D0;
-      max = this.config.maxLevel ? max.quantity.min(this.maxLevel) : max.quantity;
+      max = this.maxLevel ? max.quantity.min(this.maxLevel) : max.quantity;
       return max.floor();
     }
 
     let level = this.config.level(this.progress);
-    level = this.config.maxLevel ? level.min(this.maxLevel) : level;
+    level = this.maxLevel ? level.min(this.maxLevel) : level;
     return level;
   }
 
@@ -63,12 +63,12 @@ class SpaceResearchRift extends GameMechanicState {
     if (this.config.costScale) {
       let max = this.costScale.getMaxBought(DC.D0, this.pendingProgress, DC.D1);
       if (max === null) return DC.D0;
-      max = this.config.maxLevel ? max.quantity.min(this.maxLevel) : max.quantity;
+      max = this.maxLevel ? max.quantity.min(this.maxLevel) : max.quantity;
       return max.floor();
     }
 
     let level = this.config.level(this.pendingProgress);
-    level = this.config.maxLevel ? level.min(this.maxLevel) : level;
+    level = this.maxLevel ? level.min(this.maxLevel) : level;
     return level;
   }
 
@@ -128,11 +128,11 @@ class SpaceResearchRift extends GameMechanicState {
   }
 
   get maxLevel() {
-    if (!this.config.maxLevel) return false;
+    if (!this.config.maxLevel || !this.config.maxLevel()) return false;
     return this.config.maxLevel();
   }
   get isMaxed() {
-    return this.config.maxLevel ? this.level.gte(this.maxLevel) : false;
+    return (this.config.maxLevel && this.config.maxLevel()) ? this.level.gte(this.maxLevel) : false;
   }
 
   get resetsNothing() {

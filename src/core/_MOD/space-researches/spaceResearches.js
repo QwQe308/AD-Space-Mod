@@ -240,7 +240,7 @@ export const spaceResearch = {
       return level.pow_base(1.33).mul(level.div(2).add(1).pow(2));
     },
     effect: (value) => {
-      return `x ${format(value, 2, 2)} Infinities`;
+      return `x ${format(value, 2, 0)} Infinities`;
     },
   },
 
@@ -257,13 +257,14 @@ export const spaceResearch = {
     },
     effectValue: (level) => {
       if (isSCRunningOnTier(3, 2)) return DC.D0;
+      //if (level.gte(15)) level = level.sub(15).pow(0.75).add(15)
       return level.mul(0.01);
     },
     effect: (value) => {
       return `+ ${format(value.mul(100), 2)}% Continuum`;
     },
     unlocked: () => isSCTierCompleted(1, 2),
-    maxLevel: () => new Decimal(15),
+    maxLevel: () => TimeStudy(111).isBought? false : new Decimal(15),
   },
 
   r45: {
@@ -280,13 +281,14 @@ export const spaceResearch = {
     },
     effectValue: (level) => {
       if (isSCRunningOnTier(3, 2)) return DC.D0;
+      //if (level.gte(15)) level = level.sub(15).pow(0.75).add(15)
       return level.pow(0.75).mul(0.4);
     },
     effect: (value) => {
       return `+ ${format(value, 2, 2)} IPow conversion rate`;
     },
     unlocked: () => PlayerProgress.IDUnlocked(1),
-    maxLevel: () => new Decimal(15),
+    maxLevel: () => TimeStudy(111).isBought? false : new Decimal(15),
   },
 
   //Eternity - Tier 4
@@ -306,7 +308,7 @@ export const spaceResearch = {
       return level.pow_base(2);
     },
     effect: (value) => {
-      return `x ${format(value)} EP`;
+      return `x ${format(value, 2)} EP`;
     },
   },
 
@@ -323,7 +325,7 @@ export const spaceResearch = {
       });
     },
     effectValue: (level) => {
-      return level.mul(0.25).add(1);
+      return level.mul(0.25).add(1).mul(level.pow_base(1.1));
     },
     effect: (value) => {
       return `x ${format(value, 2, 2)} Rep Speed`;
@@ -337,16 +339,16 @@ export const spaceResearch = {
     costScale() {
       return new ExponentialCostScaling({
         baseCost: new Decimal(1e150),
-        baseIncrease: new Decimal(1e20),
-        costScale: new Decimal(1e5),
+        baseIncrease: new Decimal(1e22),
+        costScale: new Decimal(1e3),
         purchasesBeforeScaling: new Decimal(0),
       });
     },
     effectValue: (level) => {
-      return level.add(1).mul(level.pow_base(1.06));
+      return level.add(1).mul(level.pow_base(1.1));
     },
     effect: (value) => {
-      return `x ${format(value)} Eternities`;
+      return `x ${format(value, 2, 0)} Eternities`;
     },
   },
 };
