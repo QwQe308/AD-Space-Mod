@@ -1,6 +1,7 @@
 import { DC } from "./constants";
 import { EternityChallenge } from "./eternity-challenge";
 import { isSCRunningOnTier } from "./globals";
+import { TimeStudy } from "./time-studies/normal-time-study";
 
 class DimBoostRequirement {
   constructor(tier, amount) {
@@ -36,7 +37,10 @@ export class DimBoost {
         PelleRifts.recursion.milestones[0]
       )
       .mul(light.green.effectValue())//green light
-      .powEffectsOf(InfinityUpgrade.dimboostMult.chargedEffect);
+      .powEffectsOf(
+        InfinityUpgrade.dimboostMult.chargedEffect,
+        TimeStudy(211)
+        );
     if (GlyphAlteration.isAdded("effarig")) boost = boost.pow(getSecondaryGlyphEffect("effarigforgotten"));
     return boost;
   }
@@ -108,17 +112,17 @@ export class DimBoost {
     const targetResets = DimBoost.purchasedBoosts.add(bulk);
     const tier = Decimal.min(targetResets.add(3), this.maxDimensionsUnlockable).toNumber();
     let amount = DC.D20;
-    const discount = Effects.sum(
+    /* const discount = Effects.sum(
       TimeStudy(211),
       TimeStudy(222)
-    );
+    ); */
     if (tier === 4 && (isSCRunningOnTier(2, 1) || isSCRunningOnTier(2, 2))){
-      amount = amount.add(targetResets.sub(5).mul(DC.D15.sub(discount)).round());
+      amount = amount.add(targetResets.sub(5).mul(DC.D15/* .sub(discount) */).round());
     }
     if (tier === 6 && NormalChallenge(10).isRunning) {
-      amount = amount.add(targetResets.sub(3).mul(DC.D20.sub(discount)).round());
+      amount = amount.add(targetResets.sub(3).mul(DC.D20/* .sub(discount) */).round());
     } else if (tier === 8) {
-      amount = amount.add(targetResets.sub(5).mul(DC.D15.sub(discount)).round());
+      amount = amount.add(targetResets.sub(5).mul(DC.D15/* .sub(discount) */).round());
     }
     if (EternityChallenge(5).isRunning) {
       amount = Decimal.pow(targetResets.sub(1), 3).add(targetResets).add(amount).sub(1);
@@ -266,15 +270,15 @@ function maxBuyDimBoosts() {
 
   const tier = DimBoost.maxDimensionsUnlockable;
   let amount = DC.D20;
-  const discount = Effects.sum(
+  /* const discount = Effects.sum(
     TimeStudy(211),
     TimeStudy(222)
-  );
+  ); */
   let multiplierPerDB;
   if (tier === 6) {
-    multiplierPerDB = DC.D20.sub(discount);
+    multiplierPerDB = DC.D20/*.sub(discount)*/;
   } else {
-    multiplierPerDB = DC.D15.sub(discount);
+    multiplierPerDB = DC.D15/*.sub(discount)*/;
   }
 
   amount = amount.sub(Effects.sum(InfinityUpgrade.resetBoost));
