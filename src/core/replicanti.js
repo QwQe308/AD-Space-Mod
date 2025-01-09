@@ -387,8 +387,7 @@ export const ReplicantiUpgrade = {
 
     get cost() {
       return player.replicanti.chanceCost
-        .dividedByEffectOf(PelleRifts.vacuum.milestones[1])
-        .dividedByEffectOf(TimeStudy(22));
+        .dividedByEffectsOf(TimeStudy(22), PelleRifts.vacuum.milestones[1]);
     }
 
     get baseCost() {
@@ -459,8 +458,7 @@ export const ReplicantiUpgrade = {
 
     get cost() {
       return player.replicanti.intervalCost
-        .dividedByEffectOf(PelleRifts.vacuum.milestones[1])
-        .dividedByEffectOf(TimeStudy(22));
+        .dividedByEffectsOf(TimeStudy(22), PelleRifts.vacuum.milestones[1]);
     }
 
     get baseCost() {
@@ -509,8 +507,7 @@ export const ReplicantiUpgrade = {
 
     get cost() {
       return this.baseCost
-        .dividedByEffectsOf(TimeStudy(233), PelleRifts.vacuum.milestones[1])
-        .dividedByEffectOf(TimeStudy(22));
+        .dividedByEffectsOf(TimeStudy(22), TimeStudy(233), PelleRifts.vacuum.milestones[1]);
     }
 
     get baseCost() {
@@ -560,7 +557,7 @@ export const ReplicantiUpgrade = {
       const logDistantScaling = new Decimal(50);
       const logRemoteScaling = DC.D5;
 
-      const cur = Currency.infinityPoints.value.times(TimeStudy(233).effectOrDefault(1)).max(1).log10();
+      const cur = Currency.infinityPoints.value.timesEffectsOf(TimeStudy(233), TimeStudy(22)).max(1).log10();
 
       if (logBase.gt(cur)) return;
       let a = logCostScaling.div(2);
@@ -611,7 +608,7 @@ export const ReplicantiUpgrade = {
         .sub(remoteReplicatedGalaxyStart.mul(logRemoteScaling).div(6));
 
       // eslint-disable-next-line consistent-return
-      return decimalCubicSolution(a, b, c, d, false).floor().add(1);
+      return decimalCubicSolution(a, b, c, d, false).floor();
     }
 
     autobuyerTick() {
@@ -674,7 +671,7 @@ export const Replicanti = {
     };
   },
   unlock(freeUnlock = false) {
-    const cost = DC.E140.dividedByEffectOf(PelleRifts.vacuum.milestones[1]).dividedByEffectOf(TimeStudy(22));
+    const cost = DC.E140.dividedByEffectsOf(TimeStudy(22), PelleRifts.vacuum.milestones[1]);
     if (player.replicanti.unl) return;
     if (freeUnlock || Currency.infinityPoints.gte(cost)) {
       Achievement(95).unlock();
