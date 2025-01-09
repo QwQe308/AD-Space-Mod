@@ -319,8 +319,8 @@ export const spaceResearch = {
     costScale() {
       return new ExponentialCostScaling({
         baseCost: new Decimal(1e125),
-        baseIncrease: new Decimal(1e25),
-        costScale: new Decimal(1e5),
+        baseIncrease: new Decimal(1e23),
+        costScale: new Decimal(1e2),
         purchasesBeforeScaling: DC.D0,
       });
     },
@@ -339,8 +339,8 @@ export const spaceResearch = {
     costScale() {
       return new ExponentialCostScaling({
         baseCost: new Decimal(1e150),
-        baseIncrease: new Decimal(1e22),
-        costScale: new Decimal(1e3),
+        baseIncrease: new Decimal(1e24),
+        costScale: new Decimal(10),
         purchasesBeforeScaling: new Decimal(0),
       });
     },

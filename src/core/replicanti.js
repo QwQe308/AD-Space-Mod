@@ -581,7 +581,7 @@ export const ReplicantiUpgrade = {
         .sub(distantReplicatedGalaxyStart.times(4.5).times(logDistantScaling));
       if (decimalQuadraticSolution(a, b, c).floor().lte(remoteReplicatedGalaxyStart)) {
         // eslint-disable-next-line consistent-return
-        return decimalQuadraticSolution(a, b, c).floor().add(1);
+        return decimalQuadraticSolution(a, b, c).floor();
       }
       a = logRemoteScaling.div(3);
 

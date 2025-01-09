@@ -24,10 +24,10 @@ export const eternityChallenges = [
     description: "Infinity Dimensions are disabled.",
     goal: DC.E1300,
     pelleGoal: DC.E1750,
-    goalIncrease: DC.E250,
+    goalIncrease: DC.E200,
     reward: {
       description: "1st Infinity Dimension multiplier based on Infinity Power",
-      effect: completions => Currency.infinityPower.value.pow(1.5 / (700 - completions * 100)).clampMin(1),
+      effect: completions => Currency.infinityPower.value.pow(1.6 / (700 - completions * 100)).clampMin(1),
       cap: DC.E100,
       formatEffect: value => formatX(value, 2, 1)
     }
@@ -40,7 +40,7 @@ export const eternityChallenges = [
     goalIncrease: DC.E100,
     reward: {
       description: () => `Increase the multiplier for buying ${formatInt(10)} Antimatter Dimensions`,
-      effect: completions => completions * 0.75,
+      effect: completions => completions * 0.78,
       formatEffect: value => `+${format(value, 2, 2)}`
     }
   },

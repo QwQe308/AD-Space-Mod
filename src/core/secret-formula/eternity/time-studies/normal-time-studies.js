@@ -464,7 +464,7 @@ export const normalTimeStudies = [
   },
   {
     id: 181,
-    cost: new Decimal(200),
+    cost: new Decimal(80),
     requirement: [
       171,
       () => EternityChallenge(1).completions > 0 || Perk.bypassEC1Lock.isBought,
@@ -499,7 +499,7 @@ export const normalTimeStudies = [
   },
   {
     id: 193,
-    cost: new Decimal(300),
+    cost: new Decimal(400),
     requirement: [181, () => EternityChallenge(10).completions > 0],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     description: "Antimatter Dimension multiplier based on Eternities",
