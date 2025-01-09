@@ -13,7 +13,7 @@ export const eternityChallenges = [
     reward: {
       description: "Time Dimension multiplier based on time spent this Eternity",
       effect: completions =>
-        Decimal.pow(Decimal.max(player.records.thisEternity.time.div(10), 0.9), 0.3 + (completions * 0.05)),
+        Decimal.pow(Decimal.max(player.records.thisEternity.time.div(60), 1), 0.5 + (completions * 0.25)),
       formatEffect: value => formatX(value, 2, 1)
     },
     // These will get notation-formatted and scrambled between for the final goal
@@ -40,7 +40,7 @@ export const eternityChallenges = [
     goalIncrease: DC.E100,
     reward: {
       description: () => `Increase the multiplier for buying ${formatInt(10)} Antimatter Dimensions`,
-      effect: completions => completions * 0.5,
+      effect: completions => completions * 0.75,
       formatEffect: value => `+${format(value, 2, 2)}`
     }
   },
@@ -72,7 +72,7 @@ export const eternityChallenges = [
     goalIncrease: DC.E400,
     reward: {
       description: "Distant Galaxy cost scaling starts later",
-      effect: completions => completions * 5,
+      effect: completions => completions * 6,
       formatEffect: value => `${formatInt(value)} AG later`
     }
   },

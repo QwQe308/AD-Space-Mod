@@ -22,7 +22,7 @@ export default {
   computed: {
     resetActionDisplay() {
       return this.isDivideUnlocked && !Pelle.isDoomed
-        ? `Divide Replicanti by ${format(1e50, 1, 1)}`
+        ? `Divide Replicanti by ${format(Replicanti.galaxies.divisor)}`
         : "Reset Replicanti amount";
     },
     galaxyCountDisplay() {
