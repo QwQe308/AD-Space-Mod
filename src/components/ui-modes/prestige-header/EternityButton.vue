@@ -208,7 +208,7 @@ const EP_BUTTON_DISPLAY_TYPE = {
     </template>
 
     <!-- First time -->
-    <template v-else-if="type === 0"> Other times await... I need to become Eternal [Place Holder] </template>
+    <template v-else-if="type === 0"> Other times await... I need to become Eternal </template>
 
     <!-- Normal -->
     <template v-else-if="type === 1">

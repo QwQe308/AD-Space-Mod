@@ -290,7 +290,8 @@ export const normalTimeStudies = [
       }
 
       randomDelay = 30
-      if(player.options.breakPlaceHolder) garbled += `(IP formula improves to ^1/280 & uncaps T3 Research "Continuous Dimensions" "Powered Power")`
+      if(!player.options.breakPlaceHolder) garbled += `[PLACE HOLDER]`//placeholder
+      else garbled += `(IP formula improves to ^1/280 & uncaps T3 Research "Continuous Dimensions" "Powered Power")`
       randomStr = garbled
 
       return garbled;

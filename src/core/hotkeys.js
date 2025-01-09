@@ -100,7 +100,7 @@ export const shortcuts = [
     name: "Eternity",
     keys: ["e"],
     type: "bindRepeatableHotkey",
-    function: () => {if(DEV || player.options.testServer) eternityResetRequest()},//dev lock
+    function: () => {eternityResetRequest()},
     visible: () => PlayerProgress.eternityUnlocked() || Player.canEternity
   }, {
     name: "Toggle Time Study respec",
