@@ -9,6 +9,21 @@ export const changelog = [
    * }
    */
    {
+    date: [2025, 1, 9],
+    name: "v0.5 Eternity - Part 1",
+    info: `
+Changes:
+The long-waited update! Bonus part coming soon!
+<ul>
+<li>Added lots of contents!</li>
+<li>Rebalanced a bit.</li>
+<li>Fixed various bugs.</li>
+</ul>
+Content up to TS111.
+<br>
+`,
+  },
+   {
     date: [2024, 9, 8],
     name: "v0.41 Bug Fixing",
     info: `
