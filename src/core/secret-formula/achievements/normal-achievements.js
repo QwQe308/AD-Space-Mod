@@ -1205,15 +1205,16 @@ export const normalAchievements = [
     description: "Unlock the automator.",
     checkRequirement: () => Player.automatorUnlocked,
     checkEvent: [
+      GAME_EVENT.ETERNITY_RESET_AFTER,
       GAME_EVENT.REALITY_RESET_AFTER,
       GAME_EVENT.REALITY_UPGRADE_BOUGHT,
       GAME_EVENT.PERK_BOUGHT,
       GAME_EVENT.BLACK_HOLE_UNLOCKED,
     ],
     get reward() {
-      return `Dimension Boosts are ${formatPercents(new Decimal(0.5))} stronger.`;
+      return `Dimension Boosts are ${formatPercents(new Decimal(0.2))} stronger.`;
     },
-    effect: 1.5,
+    effect: 1.2,
   },
   {
     id: 143,
