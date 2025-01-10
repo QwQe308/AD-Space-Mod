@@ -109,6 +109,11 @@ window.player = {
       pendingProgress: DC.D0,
       active: false,
     },
+    r54: {
+      progress: DC.D0,
+      pendingProgress: DC.D0,
+      active: false,
+    },
   },
 
   //original

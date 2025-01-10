@@ -8,6 +8,7 @@ export function getSpaceDivisor() {
   //space amount divisor
   let divisor = new Decimal(1);
   divisor = divisor.mul(SpaceResearchRifts.r22.effectValue);
+  divisor = divisor.timesEffectsOf(DilationUpgrade.spaceDivisorDT)
   if (isSCRunningOnTier(3, 2)) {
     let sc3Nerf = DC.D1;
     SpaceResearchTierDetail[0].forEach((x) => (sc3Nerf = sc3Nerf.add(SpaceResearchRifts[x].level.mul(0.1))));

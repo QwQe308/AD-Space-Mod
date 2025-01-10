@@ -16,12 +16,12 @@ export default {
     };
   },
   computed: {
-    autobuyer: () => Autobuyer.T3AutoResearcher,
+    autobuyer: () => Autobuyer.T4AutoResearcher,
     name: () => `T4 Auto Researcher`,
   },
   methods: {
     update() {
-      this.extraInfo = `Auto Researches T4 at ${formatPercents(Autobuyer.T3AutoResearcher.efficiency)} rate`;
+      this.extraInfo = `Auto Researches T4 at ${formatPercents(Autobuyer.T4AutoResearcher.efficiency)} rate`;
     },
   },
 };

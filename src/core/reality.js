@@ -171,7 +171,7 @@ export function processManualReality(sacrifice, glyphID) {
     // If this is our first Reality, lock in the initial seed and then give the companion and starting glyphs
     player.reality.seed = player.reality.initialSeed;
     Glyphs.addToInventory(GlyphGenerator.startingGlyph(gainedGlyphLevel()));
-    Glyphs.addToInventory(GlyphGenerator.companionGlyph(Currency.eternityPoints.value));
+    //Glyphs.addToInventory(GlyphGenerator.companionGlyph(Currency.eternityPoints.value));  //It's causing some bugs
   } else if (Perk.firstPerk.isEffectActive) {
     // If we have firstPerk, we pick from 4+ glyphs, and glyph generation functions as normal.
     GlyphSelection.generate(GlyphSelection.choiceCount);
@@ -756,6 +756,22 @@ export function finishProcessReality(realityProps) {
 
   if (Pelle.isDoomed && PelleUpgrade.keepAutobuyers.canBeApplied && Autobuyer.bigCrunch.hasMaxedInterval) {
     player.break = true;
+  }
+
+  //MOD
+  SpaceResearchTierDetail[1].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[2].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[3].forEach((x) => SpaceResearchRifts[x].reset());
+  SpaceResearchTierDetail[4].forEach((x) => SpaceResearchRifts[x].reset());
+
+  player.space = new Decimal(0);
+  Currency.antimatter.reset();
+
+  if (!EternityMilestone.autobuyerEternity.isReached) {
+    player.light.prisms = 0;
+    player.light.redPercent = 0;
+    player.light.greenPercent = 0;
+    player.light.bluePercent = 0;
   }
 }
 

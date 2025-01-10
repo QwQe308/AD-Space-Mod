@@ -50,7 +50,7 @@ export const dilationUpgrades = {
   galaxyThreshold: rebuyable({
     id: 2,
     initialCost: 1e6,
-    increment: 100,
+    increment: 80,
     description: () =>
       (Perk.bypassTGReset.isBought && !Pelle.isDoomed
         ? "Reset Tachyon Galaxies, but lower their threshold"
@@ -116,16 +116,15 @@ export const dilationUpgrades = {
     id: 6,
     cost: 5e7,
     description: "Antimatter Dimension multiplier based on Dilated Time, unaffected by Time Dilation",
-    effect: () => Currency.dilatedTime.value.pow(308).clampMin(1),
+    effect: () => Currency.dilatedTime.value.pow(616).clampMin(1),
     formatEffect: value => formatX(value, 2, 1)
   },
-  ipMultDT: {
+  spaceDivisorDT: {
     id: 7,
     cost: 2e12,
-    description: "Gain a multiplier to Infinity Points based on Dilated Time",
-    effect: () => Currency.dilatedTime.value.pow(1000).clampMin(1),
-    formatEffect: value => formatX(value, 2, 1),
-    cap: () => Effarig.eternityCap
+    description: "Divides Space based on Dilated Time",
+    effect: () => Currency.dilatedTime.value.pow(0.016).clampMin(1),
+    formatEffect: value => `/${format(value, 2, 1)}`,
   },
   timeStudySplit: {
     id: 8,
@@ -142,7 +141,7 @@ export const dilationUpgrades = {
     id: 10,
     cost: 1e15,
     description: "Generate Time Theorems based on Tachyon Particles",
-    effect: () => Currency.tachyonParticles.value.div(20000),
+    effect: () => Currency.tachyonParticles.value.div(10000),
     formatEffect: value => `${format(value, 2, 1)}/sec`
   },
   dtGainPelle: rebuyable({

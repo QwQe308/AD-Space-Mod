@@ -80,11 +80,11 @@ export class TimeStudyTreeLayout {
       normalRow(                      TS(81),  TS(82),  TS(83)                        ),
       normalRow(                      TS(91),  TS(92),  TS(93)                        ),
       normalRow(                      TS(101), TS(102), TS(103)                       ),
-      normalRow(                       EC(7),  TS(111),  null                         ),
+      normalRow(                       EC(7),  TS(111), TS(112)                       ),
       normalRow(                      TS(121), TS(122), TS(123)                       ),
       normalRow(               EC(6), TS(131), TS(132), TS(133), EC(8)                ),
       normalRow(                      TS(141), TS(142), TS(143)                       ),
-      normalRow(               null,   EC(9), TS(151),   null,   EC(4)                ),
+      normalRow(               EC(9),   null, TS(151),   null,   EC(4)                ),
       normalRow(                          TS(161), TS(162)                            )
     );
 

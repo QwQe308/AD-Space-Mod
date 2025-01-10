@@ -13,7 +13,8 @@ export function globalResearchSpeed() {
     InfinityUpgrade.totalTimeMult,
     TimeStudy(91),
     TimeStudy(92),
-    TimeStudy(102)
+    TimeStudy(102),
+    TimeStudy(222)
   );
   if (isSCRunningOnTier(5, 1)) otherFactors = otherFactors.div(SpaceChallenge(5).effectValue);
   return spaceFactor.mul(dbFactor).mul(researchFactor).mul(achievementFactor).mul(otherFactors);
@@ -62,7 +63,7 @@ export const spaceResearch = {
   //AM - Tier 0
   r11: {
     key: "r11",
-    name: "Antimatter Research",
+    name: "Antiparticle Analyzation",
     tier: 0,
     costScale() {
       return new ExponentialCostScaling({
@@ -81,7 +82,7 @@ export const spaceResearch = {
   },
   r12: {
     key: "r12",
-    name: "Cheaper AD",
+    name: "Dimensional Crushing",
     tier: 0,
     costScale() {
       return new ExponentialCostScaling({
@@ -100,7 +101,7 @@ export const spaceResearch = {
   },
   r13: {
     key: "r13",
-    name: "Time Amplifier",
+    name: "Additive Temporality",
     tier: 0,
     costScale() {
       return new ExponentialCostScaling({
@@ -140,7 +141,7 @@ export const spaceResearch = {
   },
   r22: {
     key: "r22",
-    name: "Space Reduction",
+    name: "Spacial Deformity",
     tier: 1,
     costScale() {
       return new ExponentialCostScaling({
@@ -163,7 +164,7 @@ export const spaceResearch = {
   //AG - Tier 2
   r31: {
     key: "r31",
-    name: "Efficiency Improvement",
+    name: "Efficiency Expediency",
     tier: 2,
     costScale() {
       return new ExponentialCostScaling({
@@ -184,7 +185,7 @@ export const spaceResearch = {
   //Inf - Tier 3
   r41: {
     key: "r41",
-    name: "Infinity IP",
+    name: "Infinity Amplifier",
     tier: 3,
     costScale() {
       return new ExponentialCostScaling({
@@ -204,7 +205,7 @@ export const spaceResearch = {
 
   r42: {
     key: "r42",
-    name: "Efficiency Research",
+    name: "Efficiency Ephemerality",
     tier: 3,
     costScale() {
       return new ExponentialCostScaling({
@@ -226,7 +227,7 @@ export const spaceResearch = {
 
   r43: {
     key: "r43",
-    name: "Infinity Infinities",
+    name: "Infinite Intensifier",
     tier: 3,
     costScale() {
       return new ExponentialCostScaling({
@@ -246,7 +247,7 @@ export const spaceResearch = {
 
   r44: {
     key: "r44",
-    name: "Continuous Dimensions",
+    name: "Continuous Perfection",
     tier: 3,
     level(progress) {
       if (progress.lte(1e24)) return DC.D0;
@@ -269,7 +270,7 @@ export const spaceResearch = {
 
   r45: {
     key: "r45",
-    name: "Powered Power",
+    name: "Raised Power",
     tier: 3,
     costScale() {
       return new ExponentialCostScaling({
@@ -294,7 +295,7 @@ export const spaceResearch = {
   //Eternity - Tier 4
   r51: {
     key: "r51",
-    name: "Eternal Being",
+    name: "Endless Amplifier",
     tier: 4,
     costScale() {
       return new ExponentialCostScaling({
@@ -314,7 +315,7 @@ export const spaceResearch = {
 
   r52: {
     key: "r52",
-    name: "Time Flow",
+    name: "Replicated Flux",
     tier: 4,
     costScale() {
       return new ExponentialCostScaling({
@@ -334,7 +335,7 @@ export const spaceResearch = {
 
   r53: {
     key: "r53",
-    name: "Eternal Loop",
+    name: "Endless Intensifier",
     tier: 4,
     costScale() {
       return new ExponentialCostScaling({
@@ -350,6 +351,27 @@ export const spaceResearch = {
     effect: (value) => {
       return `x ${format(value, 2, 0)} Eternities`;
     },
+  },
+
+  r54: {
+    key: "r54",
+    name: "Particle Accelerator",
+    tier: 4,
+    costScale() {
+      return new ExponentialCostScaling({
+        baseCost: new Decimal("1e800"),
+        baseIncrease: new Decimal(1e100),
+        costScale: new Decimal(100),
+        purchasesBeforeScaling: new Decimal(0),
+      });
+    },
+    effectValue: (level) => {
+      return level.mul(0.4).add(1).mul(level.pow(0.8).pow_base(1.75));
+    },
+    effect: (value) => {
+      return `x ${format(value, 2, 1)} DT`;
+    },
+    unlocked: () => PlayerProgress.dilationUnlocked(),
   },
 };
 /*  */

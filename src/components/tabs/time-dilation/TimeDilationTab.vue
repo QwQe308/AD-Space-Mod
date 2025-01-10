@@ -40,7 +40,7 @@ export default {
           DilationUpgrade.ndMultDT
         ],
         [
-          DilationUpgrade.ipMultDT,
+          DilationUpgrade.spaceDivisorDT,
           DilationUpgrade.timeStudySplit,
           DilationUpgrade.dilationPenalty
         ],

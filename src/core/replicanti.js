@@ -424,6 +424,7 @@ export const ReplicantiUpgrade = {
         .plus(1)
         .log(this.costIncrease);
       N = Decimal.round(Decimal.min(N.floor().div(100).add(this.value), this.cap).sub(this.value).mul(100));
+      if(EternityChallenge(8).isRunning) N = N.min(player.eterc8repl)
       if (N.lte(0)) return;
       const totalCost = this.cost.times(
         Decimal.pow(this.costIncrease, N)
@@ -431,6 +432,7 @@ export const ReplicantiUpgrade = {
           .dividedBy(this.costIncrease - 1)
       );
       Currency.infinityPoints.subtract(totalCost);
+      if (EternityChallenge(8).isRunning) player.eterc8repl -= N.toNumber();
       this.baseCost = this.baseCost.times(Decimal.pow(this.costIncrease, N));
       this.value = this.nearestPercent(N.div(100).add(this.value));
     }
@@ -565,7 +567,7 @@ export const ReplicantiUpgrade = {
       let c = logBase.sub(cur);
       if (decimalQuadraticSolution(a, b, c).floor().lte(distantReplicatedGalaxyStart)) {
         // eslint-disable-next-line consistent-return
-        return decimalQuadraticSolution(a, b, c).floor().add(2);
+        return decimalQuadraticSolution(a, b, c).floor().add(1);
       }
       a = logCostScaling.add(logDistantScaling).div(2);
       // eslint-disable-next-line max-len
@@ -581,7 +583,7 @@ export const ReplicantiUpgrade = {
         .sub(distantReplicatedGalaxyStart.times(4.5).times(logDistantScaling));
       if (decimalQuadraticSolution(a, b, c).floor().lte(remoteReplicatedGalaxyStart)) {
         // eslint-disable-next-line consistent-return
-        return decimalQuadraticSolution(a, b, c).floor();
+        return decimalQuadraticSolution(a, b, c).add(1).floor();
       }
       a = logRemoteScaling.div(3);
 
@@ -608,13 +610,15 @@ export const ReplicantiUpgrade = {
         .sub(remoteReplicatedGalaxyStart.mul(logRemoteScaling).div(6));
 
       // eslint-disable-next-line consistent-return
-      return decimalCubicSolution(a, b, c, d, false).floor();
+      return decimalCubicSolution(a, b, c, d, false).add(1).floor();
     }
 
     autobuyerTick() {
       // This isn't a hot enough autobuyer to worry about doing an actual inverse.
-      const bulk = this.bulkPurchaseCalc();
+      let bulk = this.bulkPurchaseCalc();
+      if(EternityChallenge(8).isRunning) bulk = bulk.min(player.eterc8repl)
       if (!bulk || bulk.floor().sub(this.value).lte(0)) return;
+      if(EternityChallenge(8).isRunning) player.eterc8repl -= bulk.toNumber()
       Currency.infinityPoints.subtract(this.baseCostAfterCount(this.value).sub(1));
       this.value = this.value.add(bulk.sub(this.value));
       this.baseCost = this.baseCostAfterCount(this.value);

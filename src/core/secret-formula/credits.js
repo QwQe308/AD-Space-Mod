@@ -549,6 +549,16 @@ export const credits = {
       name2: "Who gave much support during development",
       roles: 17
     },
+    {
+      name: "小蝌蚪",
+      name2: "The main tester of the mod - and gave me much support",
+      roles: 17
+    },
+    {
+      name: "Frog",
+      name2: "Improved most Space Researches' names",
+      roles: 17
+    },
   ]
 };
 

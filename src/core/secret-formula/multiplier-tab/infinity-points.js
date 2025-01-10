@@ -76,12 +76,6 @@ export const IP = {
     isActive: () => player.break && !Pelle.isDoomed,
     icon: MultiplierTabIcons.TIME_STUDY,
   },
-  dilationUpgrade: {
-    name: "Dilation Upgrade - IP multiplier based on DT",
-    multValue: () => DilationUpgrade.ipMultDT.effectOrDefault(1),
-    isActive: () => DilationUpgrade.ipMultDT.canBeApplied,
-    icon: MultiplierTabIcons.UPGRADE("dilation"),
-  },
   glyph: {
     name: "Equipped Glyphs",
     multValue: () => Pelle.specialGlyphEffect.infinity.times(Pelle.isDoomed ? 1 : getAdjustedGlyphEffect("infinityIP")),

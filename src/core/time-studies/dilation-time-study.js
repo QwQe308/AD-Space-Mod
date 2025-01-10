@@ -23,7 +23,7 @@ export class DilationTimeStudyState extends TimeStudyState {
   }
 
   get totalTimeTheoremRequirement() {
-    return this.id === 1 ? 12900 : 0;
+    return this.id === 1 ? 9250 : 0;
   }
 
   purchase(quiet = false) {

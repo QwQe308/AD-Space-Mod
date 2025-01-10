@@ -45,7 +45,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Infinities",
       current: () => Currency.infinitiesTotal.value,
-      required: completions => new Decimal(1e12 * 10 ** Math.min(completions, 4)),
+      required: completions => new Decimal(1e12 * 3 ** Math.min(completions, 4)),
       formatValue: value => formatInt(Math.floor(value.toNumber()))
     }
   },
@@ -100,7 +100,7 @@ export const ecTimeStudies = [
   {
     id: 9,
     cost: new Decimal(415),
-    requirement: [151],
+    requirement: [141],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
     secondary: {
       resource: "Infinity Power",
@@ -117,7 +117,7 @@ export const ecTimeStudies = [
     secondary: {
       resource: "Eternity Points",
       current: () => Currency.eternityPoints.value,
-      required: completions => DC.E20.pow(Math.min(completions, 4)).times(DC.E100),
+      required: completions => DC.E100.pow(Math.min(completions, 4)).times(DC.E100),
       formatValue: value => format(value)
     }
   },
