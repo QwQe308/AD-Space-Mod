@@ -945,7 +945,7 @@ export const normalAchievements = [
   },
   {
     id: 115,
-    name: "I wish I had gotten 7 eternities",
+    name: "I wish I had gotten 8 eternities",
     description: "Start an Infinity Challenge inside an Eternity Challenge.",
     checkEvent: GAME_EVENT.ACHIEVEMENT_EVENT_OTHER,
   },

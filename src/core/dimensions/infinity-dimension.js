@@ -273,6 +273,7 @@ class InfinityDimensionState extends DimensionState {
       this.bought.add(1).round().eq(this.purchaseCap.round()) ? 1e256 : 1
     );
     // Because each ID purchase gives 10 IDs
+    this.bought = this.bought.plus(1);
     this.amount = this.amount.plus(10);
     this.baseAmount = this.baseAmount.add(10);
 
