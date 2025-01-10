@@ -165,7 +165,7 @@ export default {
         clickFn = () => {
           const oldChall = Player.anyChallenge;
           Player.anyChallenge.exit(false);
-          if (player.options.retryChallenge) oldChall.requestStart();
+          if (player.options.retryChallenge && !isSC) oldChall.requestStart();
         };
       } else {
         names = { chall: this.activeChallengeNames[0], normal: "Reality" };
@@ -211,6 +211,7 @@ export default {
     exitDisplay() {
       if (Player.isInAntimatterChallenge) return player.options.retryChallenge ? "Retry Challenge" : "Exit Challenge";
       if (player.light.inMirror) return canBreakMirror() ? "Break The Mirror" : "Escape The Mirror";
+      if (Player.anyChallenge instanceof SpaceChallengeState) return "Exit Challenge"
       if (Player.isInAnyChallenge) return player.options.retryChallenge ? "Retry Challenge" : "Exit Challenge";
       if (player.dilation.active) return "Exit Dilation";
       if (this.resetCelestial) return "Restart Reality";
