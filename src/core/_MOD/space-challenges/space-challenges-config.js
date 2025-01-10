@@ -163,6 +163,7 @@ export const spaceChallenges = [
         },
         exit() {
           eternity(true, true);
+          player.break = true;
         },
         resetDescription: `Calls a Eternity Reset on entering.`,
         isUnlocked() {
