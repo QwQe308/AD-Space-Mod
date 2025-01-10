@@ -323,7 +323,7 @@ export function addRealityTime(trueTime, time, realTime, rm, level, realities, a
 export function gainedInfinities() {
   if (isSCRunningOnTier(5, 1) || EternityChallenge(4).isRunning || Pelle.isDisabled("InfinitiedMults")) return DC.D1;
   let infGain = DC.D1;
-  if(player.records.thisInfinity.time.gte(5000)) infGain = infGain.mul(Achievement(87).effectValue)
+  if(player.records.thisInfinity.time.gte(5000) && Achievement(87).isUnlocked) infGain = infGain.mul(Achievement(87).effectValue)
 
   infGain = infGain.timesEffectsOf(
     RealityUpgrade(5),
