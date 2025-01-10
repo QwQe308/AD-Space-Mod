@@ -9,6 +9,19 @@ export const changelog = [
    * }
    */
    {
+    date: [2025, 1, 10],
+    name: "Eternity Bonus Update",
+    info: `
+Changes:
+Allows to go beyond the placeholder!
+<ul>
+<li>Rebalanced a lot.</li>
+<li>Fixed various bugs.</li>
+</ul>
+Content up to TS111, but if you want, you can go reality and beyond.
+<br>
+`,
+  },{
     date: [2025, 1, 9],
     name: "v0.5 Eternity - Part 1",
     info: `
