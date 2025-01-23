@@ -123,7 +123,7 @@ export const normalTimeStudies = [
     cost: new Decimal(6),
     requirement: [32],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `Infinty Dimensions can be bought after 16, with cost multplied by 1e256 (Max 2M except ID8)`,
+    description: () => `Infinity Dimension caps are moved to 2,000,000. Past 16, costs are multiplied by 1e256`,
     effect: 1e256,
   },
   {
