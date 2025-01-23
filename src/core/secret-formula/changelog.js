@@ -23,6 +23,7 @@ Fixed various bugs.
 <li>NA138 has its requirement lowered.</li>
 <li>NA137's description is corrected.</li>
 <li>Infinity Amplifier & Endless Amplifier now are counted in "Dynamic Amount".</li>
+<li>Lowered V's Realities req.</li>
 </ul>
 Currently unknown bug:
 <ul>
