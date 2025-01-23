@@ -718,6 +718,7 @@ export const AutomatorBackend = {
 
   update(diff) {
     if (!this.isOn) return;
+    if (!Player.automatorUnlocked) return this.stop();//blocks players who didn't completed SC6
     let stack;
     switch (this.mode) {
       case AUTOMATOR_MODE.PAUSE:

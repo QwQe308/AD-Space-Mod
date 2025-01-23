@@ -27,7 +27,7 @@ export const light = {
       let eff = amount.mul(4).pow(0.9).pow_base(1e6);
       return player.light.inMirror ? eff.recip() : eff;
     },
-    effect: (eff) => `AM multplier ${formatMultplier(eff, 2)}`,
+    effect: (eff) => `AM multiplier ${formatMultplier(eff, 2)}`,
   },
   green: {
     amount: () => calcBaseLight(player.light.greenPercent),

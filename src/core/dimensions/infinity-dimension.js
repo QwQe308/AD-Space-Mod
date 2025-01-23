@@ -222,14 +222,23 @@ class InfinityDimensionState extends DimensionState {
     if (Enslaved.isRunning) {
       return DC.D1;
     }
-    return InfinityDimensions.capIncrease.add(this.tier === 8 ? DC.BEMAX : InfinityDimensions.HARDCAP_PURCHASES);
+    return InfinityDimensions.capIncrease.add(this.tier === 8 ? DC.BEMAX : InfinityDimensions.totalDimCap);
+  }
+
+  get purchaseSoftcap() {
+    return InfinityDimensions.capIncrease.add(this.tier === 8 ? DC.BEMAX : InfinityDimensions.SOFTCAP_PURCHASES);
   }
 
   get isCapped() {
-    return this.purchases.gte(this.purchaseCap) && !TimeStudy(42).isBought;
+    return this.purchases.gte(this.purchaseCap) || (this.purchases.gte(this.purchaseSoftcap) && !this.unSoftCapped);
+  }
+
+  get unSoftCapped() {//All unsoftcappers works here
+    return TimeStudy(42).isBought
   }
 
   get hardcapIPAmount() {
+    if(!this.unSoftCapped && this.purchaseSoftcap.lt(this.purchaseCap)) return this._baseCost.times(Decimal.pow(this.costMultiplier, this.purchaseCap));
     return this._baseCost.times(Decimal.pow(this.costMultiplier, this.purchaseCap));
   }
 
@@ -270,7 +279,7 @@ class InfinityDimensionState extends DimensionState {
 
     Currency.infinityPoints.purchase(this.cost);
     this.cost = Decimal.round(this.cost.times(this.costMultiplier)).mul(
-      this.bought.add(1).round().eq(this.purchaseCap.round()) ? 1e256 : 1
+      this.bought.add(1).round().eq(this.purchaseSoftcap.round()) ? 1e256 : 1
     );
     // Because each ID purchase gives 10 IDs
     this.bought = this.bought.plus(1);
@@ -293,16 +302,16 @@ class InfinityDimensionState extends DimensionState {
       return false;
     }
 
-    let purchasesUntilSoftcap = this.purchaseCap.sub(this.purchases);
-    let purchasesUntilHardcap = DC.BEMAX;
+    let purchasesUntilSoftcap = this.purchaseSoftcap.sub(this.purchases);
+    let purchasesUntilHardcap = this.purchaseCap;
     if (EternityChallenge(8).isRunning) {
       purchasesUntilHardcap = Decimal.clampMax(purchasesUntilHardcap, player.eterc8ids);
     }
 
     let costScaling;
     if (
-      this.purchases.lt(this.purchaseCap) &&
-      Currency.infinityPoints.value.lte(this.costMultiplier.pow(this.purchaseCap).mul(this.baseCost).mul(1e256))
+      this.purchases.lt(this.purchaseSoftcap) &&
+      Currency.infinityPoints.value.lte(this.costMultiplier.pow(this.purchaseSoftcap).mul(this.baseCost).mul(1e256))
     ) {
       //cannot afford the first after cost jump
       costScaling = new LinearCostScaling(
@@ -327,7 +336,7 @@ class InfinityDimensionState extends DimensionState {
     this.bought = this.bought.plus(costScaling.purchases);
     this.amount = this.amount.plus(costScaling.purchases.times(10));
     this.baseAmount = DC.E1.times(costScaling.purchases).add(this.baseAmount);
-    if (this.purchases.eq(this.purchaseCap)) this.cost = this.cost.mul(1e256);
+    if (this.purchases.eq(this.purchaseSoftcap)) this.cost = this.cost.mul(1e256);
 
     if (EternityChallenge(8).isRunning) {
       player.eterc8ids -= costScaling.purchases.toNumber();
@@ -348,7 +357,8 @@ export const InfinityDimensions = {
    * @type {InfinityDimensionState[]}
    */
   all: InfinityDimension.index.compact(),
-  HARDCAP_PURCHASES: new Decimal(16),
+  SOFTCAP_PURCHASES: new Decimal(16),
+  HARDCAP_PURCHASES: new Decimal(2e6),
 
   unlockNext() {
     if (InfinityDimension(8).isUnlocked) return;
@@ -378,6 +388,7 @@ export const InfinityDimensions = {
   },
 
   get totalDimCap() {
+    if(!this.unSoftCapped) return this.HARDCAP_PURCHASES.add(this.capIncrease).max(this.SOFTCAP_PURCHASES);
     return this.HARDCAP_PURCHASES.add(this.capIncrease);
   },
 

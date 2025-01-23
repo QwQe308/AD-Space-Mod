@@ -13,7 +13,7 @@ export const GlyphSelection = {
 
   get choiceCount() {
     return Effects.nMax(1, Perk.firstPerk) *
-      Ra.unlocks.extraGlyphChoicesAndRelicShardRarityAlwaysMax.effectOrDefault(1);
+      Ra.unlocks.extraGlyphChoicesAndRelicShardRarityAlwaysMax.effectOrDefault(1) + Perk.extraGlyphChoice.isBought;
   },
 
   glyphUncommonGuarantee(glyphList, rng) {

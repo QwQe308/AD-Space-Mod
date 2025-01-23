@@ -109,9 +109,9 @@ export function getReplicantiInterval(overCapOverride, intervalIn) {
   let interval = new Decimal(intervalIn || player.replicanti.interval);
   const amount = Replicanti.amount;
   const overCap = overCapOverride === undefined ? amount.gt(replicantiCap()) : overCapOverride;
-  /* if ((TimeStudy(133).isBought && !Achievement(138).isUnlocked) || overCap) {
+  if (TimeStudy(133).isBought && !Achievement(138).isUnlocked) {
     interval = interval.times(10);
-  }  this is just way too slow*/
+  }
 
   if (overCap) {
     let increases = amount.max(1).log10().sub(replicantiCap().max(1).log10()).div(ReplicantiGrowth.scaleLog10);

@@ -123,7 +123,7 @@ export const dilationUpgrades = {
     id: 7,
     cost: 2e12,
     description: "Divides Space based on Dilated Time",
-    effect: () => Currency.dilatedTime.value.pow(0.016).clampMin(1),
+    effect: () => Currency.dilatedTime.value.max(1e10).log10().div(10).clampMin(1),
     formatEffect: value => `/${format(value, 2, 1)}`,
   },
   timeStudySplit: {

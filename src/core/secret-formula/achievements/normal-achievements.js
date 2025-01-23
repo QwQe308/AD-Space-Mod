@@ -1162,7 +1162,7 @@ export const normalAchievements = [
     id: 137,
     name: "Now you're thinking with dilation!",
     get description() {
-      return `Get ${formatPostBreak("1e260000")} antimatter
+      return `Get ${formatPostBreak("1e26000")} antimatter
       in ${formatInt(1)} minute or less while Dilated.`;
     },
     checkRequirement: () =>
@@ -1177,10 +1177,10 @@ export const normalAchievements = [
     id: 138,
     name: "This is what I have to do to get rid of you.",
     get description() {
-      return `Reach ${formatPostBreak("1e26000")} Infinity Points without any Time Studies while Dilated.`;
+      return `Reach ${formatPostBreak(Number.MAX_VALUE, 2, 2)} Infinity Points without any Time Studies while Dilated.`;
     },
     checkRequirement: () =>
-      player.timestudy.studies.length === 0 && player.dilation.active && Currency.infinityPoints.gte("1e26000"),
+      player.timestudy.studies.length === 0 && player.dilation.active && Currency.infinityPoints.gte(Number.MAX_VALUE),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Removes the downsides from Time Study 131 and 133 in the Active and Idle Time Study paths.",
   },

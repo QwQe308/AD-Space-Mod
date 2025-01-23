@@ -248,11 +248,11 @@ export const perks = {
     description: "Remove the Eternity Challenge 3 requirement from Time Study 181.",
     layoutPosList: [75475, 79001, 81400, 80203, 78997, 47822],
   },
-  bypassEC5Lock: {
+  extraGlyphChoice: {
     id: 57,
-    label: "EC5R",
+    label: "GC+",
     family: PERK_FAMILY.ETERNITY,
-    description: "Remove the Eternity Challenge 5 requirement from Time Study 62.",
+    description: "Adds an extra glyph selection slot.",
     layoutPosList: [70626, 79800, 81000, 80201, 78591, 62607],
   },
   autocompleteEC1: {
@@ -260,13 +260,13 @@ export const perks = {
     label: "PEC1",
     family: PERK_FAMILY.AUTOMATION,
     get description() {
-      return `Auto-complete one Eternity Challenge every ${formatInt(60)} minutes (real-time).
+      return `Auto-complete one Eternity Challenge every ${formatInt(40)} minutes (real-time).
               ECs will be completed sequentially, requiring all previous
               ECs to be fully completed before progressing to the next EC.`;
     },
-    effect: 60,
+    effect: 40,
     automatorPoints: 5,
-    shortDescription: () => `Auto-complete ECs every ${formatInt(60)} minutes`,
+    shortDescription: () => `Auto-complete ECs every ${formatInt(40)} minutes`,
     layoutPosList: [90660, 79402, 81002, 79803, 79397, 46664],
   },
   autocompleteEC2: {
@@ -274,10 +274,10 @@ export const perks = {
     label: "PEC2",
     family: PERK_FAMILY.AUTOMATION,
     get description() {
-      return `Auto-complete one Eternity Challenge every ${formatInt(40)} minutes (real-time).
-        (${formatInt(20)} minute decrease)`;
+      return `Auto-complete one Eternity Challenge every ${formatInt(25)} minutes (real-time).
+        (${formatInt(15)} minute decrease)`;
     },
-    effect: 40,
+    effect: 25,
     layoutPosList: [95485, 79002, 81402, 79804, 79400, 53486],
   },
   autocompleteEC3: {
@@ -285,10 +285,10 @@ export const perks = {
     label: "PEC3",
     family: PERK_FAMILY.AUTOMATION,
     get description() {
-      return `Auto-complete one Eternity Challenge every ${formatInt(20)} minutes (real-time).
-        (${formatInt(20)} minute decrease)`;
+      return `Auto-complete one Eternity Challenge every ${formatInt(15)} minutes (real-time).
+        (${formatInt(10)} minute decrease)`;
     },
-    effect: 20,
+    effect: 15,
     automatorPoints: 10,
     shortDescription: () => `Auto-complete ECs every ${formatInt(20)} minutes`,
     layoutPosList: [96311, 78602, 81401, 80204, 79403, 61903],
@@ -526,7 +526,7 @@ export const perkConnections = (function() {
   const p = perks;
   // First item is the start, other items are the ends
   const groups = [
-    [p.firstPerk, p.achievementGroup1, p.startAM, p.autounlockEU1, p.bypassEC5Lock],
+    [p.firstPerk, p.achievementGroup1, p.startAM, p.autounlockEU1, p.extraGlyphChoice],
     [p.startAM, p.antimatterNoReset, p.startIP1],
     [p.antimatterNoReset, p.startEP1],
     [p.startIP1, p.startIP2, p.startEP1, p.autobuyerFasterID],
@@ -544,7 +544,7 @@ export const perkConnections = (function() {
     [p.bypassEC1Lock, p.bypassEC2Lock, p.bypassEC3Lock, p.studyECRequirement],
     [p.bypassEC2Lock, p.studyActiveEP, p.bypassEC1Lock],
     [p.bypassEC3Lock, p.studyIdleEP, p.bypassEC1Lock],
-    [p.bypassEC5Lock, p.studyActiveEP, p.studyIdleEP, p.studyPassive],
+    [p.extraGlyphChoice, p.studyActiveEP, p.studyIdleEP, p.studyPassive],
     [p.studyPassive, p.bypassEC1Lock],
     [p.autocompleteEC1, p.autocompleteEC2],
     [p.autocompleteEC2, p.autocompleteEC3],

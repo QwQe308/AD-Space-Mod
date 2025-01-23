@@ -9,6 +9,29 @@ export const changelog = [
    * }
    */
    {
+    date: [2025, 1, 23],
+    name: "Patch #1",
+    info: `
+Changes:
+Fixed various bugs.
+<ul>
+<li>Exiting SC6 cannot keep your Automator on.</li>
+<li>Changed EC5R's effect.</li>
+<li>Nerfed "Particle Accelerator" and DU31.</li>
+<li>Fixed EC1R ~ EC3R breaking the time studies setup.</li>
+<li>TS42 now caps ID at 2M purchases.</li>
+<li>NA138 has its requirement lowered.</li>
+<li>NA137's description is corrected.</li>
+<li>Infinity Amplifier & Endless Amplifier now are counted in "Dynamic Amount".</li>
+</ul>
+Currently unknown bug:
+<ul>
+<li>EP multiplier buy max button does not work sometimes. Cannot reproduce and reporter gave no enough clues.</li>
+</ul>
+Content up to TS111, but if you want, you can go reality and beyond.(Balanced to first reality)
+<br>
+`,
+  },{
     date: [2025, 1, 10],
     name: "Eternity Bonus Update",
     info: `
@@ -18,7 +41,7 @@ Allows to go beyond the placeholder!
 <li>Rebalanced a lot.</li>
 <li>Fixed various bugs.</li>
 </ul>
-Content up to TS111, but if you want, you can go reality and beyond.
+Content up to TS111, but if you want, you can go reality and beyond.(Balanced to first reality)
 <br>
 `,
   },{

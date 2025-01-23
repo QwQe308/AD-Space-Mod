@@ -201,6 +201,9 @@ export const spaceResearch = {
     effect: (value) => {
       return `x ${format(value, 2)} Infinity Points`;
     },
+    levelUP: (lastLevel, newLevel) => {
+      if(!TimeStudy(181).isBought) Autobuyer.bigCrunch.bumpAmount(newLevel.sub(lastLevel).pow_base(2))
+    }
   },
 
   r42: {
@@ -311,6 +314,9 @@ export const spaceResearch = {
     effect: (value) => {
       return `x ${format(value, 2)} EP`;
     },
+    levelUP: (lastLevel, newLevel) => {
+      Autobuyer.eternity.bumpAmount(newLevel.sub(lastLevel).pow_base(2))
+    }
   },
 
   r52: {
@@ -366,7 +372,7 @@ export const spaceResearch = {
       });
     },
     effectValue: (level) => {
-      return level.mul(0.4).add(1).mul(level.pow(0.8).pow_base(1.75));
+      return level.mul(0.3).add(1).mul(level.pow(0.65).pow_base(2.25));
     },
     effect: (value) => {
       return `x ${format(value, 2, 1)} DT`;

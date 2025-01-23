@@ -29,6 +29,8 @@ export default {
       extraTesseracts: new Decimal(0),
       creditsClosed: false,
       showLockedDimCostNote: true,
+
+      unSoftCapped: false,
     };
   },
   computed: {
@@ -64,6 +66,9 @@ export default {
       this.boughtTesseracts.copyFrom(Tesseracts.bought);
       this.extraTesseracts.copyFrom(Tesseracts.extra);
       this.creditsClosed = GameEnd.creditsEverClosed;
+
+      this.unSoftCapped = InfinityDimension(1).unSoftCapped
+      //hmmmm may cause some bugs with different stats but not exist in my mod xd
     },
     maxAll() {
       InfinityDimensions.buyMax();
@@ -137,6 +142,10 @@ export default {
     </div>
     <div v-if="isEnslavedRunning">
       All Infinity Dimensions are limited to a single purchase.
+    </div>
+    <div v-else-if="unSoftCapped">
+      All Infinity Dimensions except for the 8th are limited to a maximum of {{ format(totalDimCap, 2) }}
+      purchases each.
     </div>
     <div v-else>
       All Infinity Dimensions except for the 8th are limited to a maximum of {{ format(totalDimCap, 2) }}
