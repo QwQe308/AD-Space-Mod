@@ -74,7 +74,7 @@ export function produceAM(proc, diff) {
   player.space = getSpaceAmount(pendingAM);
 
   let pendingTrueAM = pendingAM.root(getSpaceNerf()).mul(amMult)
-  if (player.light.inMirror) pendingTrueAM = pendingTrueAM.max(getMirrorRequirement())
+  //if (player.light.inMirror) pendingTrueAM = pendingTrueAM.max(getMirrorRequirement())
   Currency.antimatter.value = pendingTrueAM;
   player.records.totalAntimatter = player.records.totalAntimatter.max(player.antimatter);
 
