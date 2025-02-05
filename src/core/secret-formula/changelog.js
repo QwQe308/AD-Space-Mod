@@ -15,7 +15,7 @@ export const changelog = [
 Changes:
 Fixed various bugs.
 <ul>
-<li>Exiting SC6 cannot keep your Automator on.</li>
+<li>Exiting SC6 cannot keep your Automator on now.</li>
 <li>Changed EC5R's effect.</li>
 <li>Nerfed "Particle Accelerator" and DU31.</li>
 <li>Fixed EC1R ~ EC3R breaking the time studies setup.</li>
