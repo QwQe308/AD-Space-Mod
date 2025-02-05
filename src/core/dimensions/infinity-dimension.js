@@ -388,7 +388,7 @@ export const InfinityDimensions = {
   },
 
   get totalDimCap() {
-    if(!this.unSoftCapped) return this.HARDCAP_PURCHASES.add(this.capIncrease).max(this.SOFTCAP_PURCHASES);
+    if(!this.unSoftCapped) return this.HARDCAP_PURCHASES.add(this.capIncrease).min(this.SOFTCAP_PURCHASES);
     return this.HARDCAP_PURCHASES.add(this.capIncrease);
   },
 
