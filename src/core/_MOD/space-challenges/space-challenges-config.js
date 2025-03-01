@@ -185,7 +185,7 @@ export const spaceChallenges = [
     data: [
       {
         description: `Temporarily unlocks Automator, and you can only use the automator to control anything except cancelling challenges.
-        Some extra codes are provided to simulate real runs. *You may want to keep your code for future eternity runs*`,
+        Some extra codes are provided to simulate real runs. Auto retry challenges is disabled. *You may want to keep your code for future eternity runs*`,
         goal: `Eternity`,
         reward: `Unlocks Automator.`,
         rewardDisplayOrder: 10,
