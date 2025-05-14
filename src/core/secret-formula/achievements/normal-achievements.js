@@ -115,7 +115,7 @@ export const normalAchievements = [
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.GALAXY_RESET_BEFORE,
     get reward() {
-      return `Achievement multplier is ${formatPercents(0.2)} stronger.`;
+      return `Achievement multiplier is ${formatPercents(0.2)} stronger.`;
     },
     effect: 1.2,
   },

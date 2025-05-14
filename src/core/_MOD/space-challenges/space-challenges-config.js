@@ -150,7 +150,7 @@ export const spaceChallenges = [
     id: 5,
     data: [
       {
-        description: `Infinity cannot be broken and disable IP & IS multplier. All NC and Infinity / Break Upgrades are reseted. /1e6 Research Speed. Completing any NC will x1.6 Research Speed. Also start with 2 IP.`,
+        description: `Infinity cannot be broken and disable IP & IS multiplier. All NC and Infinity / Break Upgrades are reseted. /1e6 Research Speed. Completing any NC will x1.6 Research Speed. Also start with 2 IP.`,
         goal: `Complete all NC`,
         reward: `Unlocks T4 Auto Researcher.`,
         rewardDisplayOrder: 9,

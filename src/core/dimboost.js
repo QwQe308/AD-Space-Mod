@@ -174,10 +174,10 @@ export class DimBoost {
   static get imaginaryBoosts() {
     let imaginaryBoosts = ImaginaryUpgrade(12).effectOrDefault(DC.D0)
     imaginaryBoosts = imaginaryBoosts.add(SpaceResearchRifts.r21.effectValue[0])
-    let multplier = ImaginaryUpgrade(23).effectOrDefault(DC.D1)
+    let multiplier = ImaginaryUpgrade(23).effectOrDefault(DC.D1)
     return Ra.isRunning
       ? DC.D0
-      : imaginaryBoosts.mul(multplier);
+      : imaginaryBoosts.mul(multiplier);
   }
 
   static get totalBoosts() {

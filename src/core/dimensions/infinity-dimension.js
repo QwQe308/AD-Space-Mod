@@ -450,7 +450,7 @@ export const InfinityDimensions = {
   get powerConversionRate() {
     let base = getAdjustedGlyphEffect("infinityrate").add(7).add(PelleUpgrade.infConversion.effectOrDefault(0));
     base = base.add(SpaceResearchRifts.r45.effectValue);
-    let multplier = PelleRifts.paradox.milestones[2].effectOrDefault(1);
-    return base.mul(multplier);
+    let multiplier = PelleRifts.paradox.milestones[2].effectOrDefault(1);
+    return base.mul(multiplier);
   },
 };

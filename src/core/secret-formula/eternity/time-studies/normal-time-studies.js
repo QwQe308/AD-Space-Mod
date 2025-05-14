@@ -54,7 +54,7 @@ export const normalTimeStudies = [
     cost: DC.D3,
     requirement: [11],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `Improve Replicanti multiplier formula lg(x)${formatPow(2)} to
+    description: () => `Improve Replicanti multiplier formula log10(x)${formatPow(2)} to
       (log2(x)${formatPow(2)})+x${formatPow(0.032, 3, 3)} while its growth /${formatInt(3)}`,
     effect: () => Replicanti.amount.pow(0.032),
     // This is a special case because the study itself is *added* to the existing formula, but it makes more sense
@@ -225,7 +225,7 @@ export const normalTimeStudies = [
     cost: DC.D5,
     requirement: [82],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: "Infinity Dimension multiplier & Research speed multplier based on fastest Eternity time",
+    description: "Infinity Dimension multiplier & Research speed multiplier based on fastest Eternity time",
     effect: () => DC.D2.pow(new Decimal(180).div(Decimal.max(Time.bestEternity.totalSeconds, 2))),
     cap: DC.C2P30,
     formatEffect: (value) => formatX(value, 2, 1),
@@ -235,7 +235,7 @@ export const normalTimeStudies = [
     cost: new Decimal(6),
     requirement: [83],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: "Time Dimension multiplier & EP multplier based on tick upgrades gained",
+    description: "Time Dimension multiplier & EP multiplier based on tick upgrades gained",
     effect: () => Decimal.pow(player.totalTickGained, 0.4).mul(Decimal.pow(1.003, player.totalTickGained.pow(0.7))).clampMin(1),
     formatEffect: (value) => formatX(value, 2, 1),
   },
@@ -263,7 +263,7 @@ export const normalTimeStudies = [
     cost: new Decimal(6),
     requirement: [93],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: "Time Dimension Multplier equal to Replicanti Galaxy amount",
+    description: "Time Dimension Multiplier equal to Replicanti Galaxy amount",
     effect: () => Decimal.max(player.replicanti.galaxies, 1),
     formatEffect: (value) => formatX(value, 2, 0),
   },
@@ -529,7 +529,7 @@ export const normalTimeStudies = [
     cost: new Decimal(120),
     requirement: [191],
     reqType: TS_REQUIREMENT_TYPE.AT_LEAST_ONE,
-    description: () => `Dimension Boost multplier to AD is cubied (^3)`,
+    description: () => `Dimension Boost multiplier to AD is cubed (^3)`,
     effect: 3,
   },
   {

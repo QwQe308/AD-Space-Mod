@@ -41,7 +41,7 @@ visible tab and subtab, if such an entry exists.
       name: "*About Space",
       info: () => `
   Space gives an exponential nerf to the Antimatter, but at the same time, accelerating the Space Researches.
-  Direct Antimatter Multplier applies after the nerf.
+  Direct Antimatter Multiplier applies after the nerf.
   <br>
   <br>
   If you progress further, you may see "Effective Space" (also ES).
@@ -92,7 +92,7 @@ visible tab and subtab, if such an entry exists.
   Green: *1.01^x Dimension Boost Base (note that DB base do not affect Research Speed)<br>
   Blue: *1.3^x Pre-Infinity Research Speed<br>
   <br>
-  Yellow: *1.05^x Infinity Dimensions' Multplier<br>
+  Yellow: *1.05^x Infinity Dimensions' Multiplier<br>
   Purple: +x/3 Free Tickspeed Upgrades<br>
   Cyan: *1.006^x Effective Space<br>
   <br>
